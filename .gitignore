@@ -1,4 +1,5 @@
 venv/
 comuniqg/development.py
+comuniqg/wsgi.py
 desktop.ini
 *.pyc
