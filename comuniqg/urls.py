@@ -19,6 +19,7 @@ from django.urls import path, include
 from account import urls as account_urls
 from clientes import urls as clientes_urls
 from core import urls as core_urls
+from dashboard import urls as dashboard_urls
 from faturamento import urls as faturamento_urls
 from produtos import urls as produtos_urls
 from servicos import urls as servicos_urls
@@ -28,6 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
  #   path('account/', include(account_urls)),
  #   path('clientes/', include(clientes_urls)),
+    path('dashboard/', include(dashboard_urls)),
  #   path('faturamento/', include(faturamento_urls)),
  #   path('produtos/', include(produtos_urls)),
  #   path('servicos/', include(servicos_urls)),
