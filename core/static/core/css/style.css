@@ -1,0 +1,24 @@
+:root {
+    --cor_um: #353535;
+    --cor_dois: #454545;
+    --cor_tres: #656565;
+
+}
+
+.cor-um {
+    background-color: var(--cor_um);
+    width: 100%;
+    height: 100%;
+}
+
+.cor-dois {
+    background-color: var(--cor_dois);
+    width: 100%;
+    height: 100%;
+}
+
+.cor-tres {
+    background-color: var(--cor_tres);
+    width: 100%;
+    height: 100%;
+}
