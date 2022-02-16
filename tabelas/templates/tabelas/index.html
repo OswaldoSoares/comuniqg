@@ -1,19 +1,24 @@
 {% extends 'core/base_restrito.html' %}
+{% load static %}
 
 {% block main %}
-<main>
-    <h1>MÓDULO TABELAS</h1>
-    <h2>Clientes</h2>
-    {% for clientes in clientes %}
-    <span>{{ clientes.apelido }}</span>
-    {% endfor %}
-    <h2>Clientes com tabela</h2>
-    <div class="tabela_propria">
-        <div class="tp_lista_cliente">
+<main class="main_tabela">
+    <div class="card tabela_propria">
+        <div class="card-title tp_titulo">
+            <span>TABELA PRÓPRIA</span>
+        </div>
+        <div class="card-body">
             {% for clientes in clientes_tabela %}
-            <span>{{ clientes.apelido }}</span>
+            <div class="tp-lista-cliente">
+                <i class="bi bi-building i-button"> <span>{{ clientes.apelido }}</span></i>
+                <i class="bi bi-trash i-button tp-delete" data-idcadastro="{{ clientes.idcadastro }}"></i>
+            </div>
             {% endfor %}
         </div>
+        <div class="card-footer"></div>
     </div>
 </main>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'core/js/tabelas.js' %}"></script>
 {% endblock %}
