@@ -33,6 +33,6 @@ urlpatterns = [
  #   path('faturamento/', include(faturamento_urls)),
  #   path('produtos/', include(produtos_urls)),
  #   path('servicos/', include(servicos_urls)),
- #   path('tabelas/', include(tabelas_urls)),
+    path('tabelas/', include(tabelas_urls)),
     path('', include(core_urls)),
 ]

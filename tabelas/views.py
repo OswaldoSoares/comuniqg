@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+def index_tabela(request):
+    contexto = {}
+    return render(request, 'tabelas/index.html', contexto)
