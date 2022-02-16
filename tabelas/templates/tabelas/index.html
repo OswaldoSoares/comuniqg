@@ -3,5 +3,17 @@
 {% block main %}
 <main>
     <h1>MÓDULO TABELAS</h1>
+    <h2>Clientes</h2>
+    {% for clientes in clientes %}
+    <span>{{ clientes.apelido }}</span>
+    {% endfor %}
+    <h2>Clientes com tabela</h2>
+    <div class="tabela_propria">
+        <div class="tp_lista_cliente">
+            {% for clientes in clientes_tabela %}
+            <span>{{ clientes.apelido }}</span>
+            {% endfor %}
+        </div>
+    </div>
 </main>
 {% endblock %}
