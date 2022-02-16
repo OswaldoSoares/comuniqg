@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'clientes',
     'core',
     'dashboard',
+    'databaseold',
     'faturamento',
     'produtos',
     'servicos',
