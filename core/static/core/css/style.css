@@ -22,6 +22,54 @@ body {
     max-height: 93vh;
 }
 
+    #menu-dots {
+        display: none;
+    }
+
+    .menu {
+        background-color: var(--cor_dois);
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 9000;
+    }
+
+    .menu .menu-nav-icons {
+        width: 100%;
+        font-size: 0;
+        text-align: center;
+    }
+
+    .menu .menu-nav-icons a {
+        background-color: var(--cor_sete);
+        display: inline-block;
+        font-size: 25px;
+        font-weight: bold;
+        text-decoration: none;
+        border-top: none;
+        width: 100px;
+        margin: 0 auto;
+        padding: 10px 0;
+        box-sizing: border-box;
+    }
+
+    .menu .menu-nav-icons a span {
+        display: block;
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 2;
+    }
+
+    .container {
+        margin-top: 79px;
+        padding: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        overflow: visible;
+    }
+
     .footer {
         background-color: var(--cor_sete);
         width: 100%;
@@ -44,7 +92,7 @@ body {
 .card {
     background-color: var(--cor_um);
     color: var(--cor_seis);
-    margin: 20px;
+    margin: 10px;
     width: 300px;
     border-radius: 25px;
 }
