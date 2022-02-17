@@ -1,4 +1,6 @@
+from django.http import JsonResponse
 from databaseold.models import Tabela, Pessoa
+from django.template.loader import render_to_string
 
 
 def context():
@@ -39,3 +41,13 @@ def delete_cliente_tabela(id_cadastro):
         return True
     else:
         return False
+
+
+def html_tabela_propria(request, data):
+    contexto = context()
+    data['html_tabela_propria'] = render_to_string('tabelas/tabela_propria.html', contexto, request=request)
+    return data
+
+
+def return_json(data):
+    return JsonResponse(data)

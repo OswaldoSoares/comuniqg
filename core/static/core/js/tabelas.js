@@ -11,7 +11,6 @@ $(document).ready(function(){
                 $('.tabela-propria').fadeOut(500)
             },
             success:function(data) {
-                $('.tabela-propria').html('')
                 $('.tabela-propria').html(data['html_tabela_propria'])
                 $('.tabela-propria').fadeIn(500)
             }
