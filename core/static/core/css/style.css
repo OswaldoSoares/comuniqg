@@ -78,6 +78,10 @@ body {
         overflow: visible;
     }
 
+    .container section {
+        width: 100%;
+    }
+
     .footer {
         background-color: var(--cor_sete);
         width: 100%;
@@ -99,10 +103,8 @@ body {
 }
 
 .card {
-    background-color: var(--cor_um);
     color: var(--cor_seis);
     margin: 10px;
-    width: 300px;
     border-radius: 25px;
 }
 
@@ -119,6 +121,7 @@ body {
     }
 
     .card-body {
+        background-color: var(--cor_um);
         width: 100%;
         padding: 5px 0;
         display: flex;
@@ -136,6 +139,20 @@ body {
     }
 
 /* Módulo Tabelas */
+.main-tabela {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+    .tabela-propria {
+        width: 30%;
+    }
+
+    .tabela-selecionada {
+        width: 70%;
+    }
+
 .tp-lista-cliente {
     width: 100%;
     display: flex;
@@ -146,4 +163,37 @@ body {
 
 .tp-lista-cliente i {
     padding: 0 10px;
+}
+
+.tc-lista-produtos {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.tc-lista-produtos:hover {
+    color: var(--cor_cinco)
+}
+
+.p-codigo {
+    width: 10%;
+    text-align: center;
+}
+
+.p-descricao {
+    width: 50%;
+    padding-left: 5px;
+}
+
+.p-categoria {
+    width: 35%;
+    padding-left: 5px;
+}
+
+.p-valor {
+    width: 10%;
+    text-align: right;
+    padding-right: 5px;
 }

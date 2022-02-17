@@ -2,7 +2,10 @@
 {% load static %}
 
 {% block main %}
-<main class="main_tabela">
+<main class="main-tabela">
+    <div class="card tabela-selecionada">
+        {% include 'tabelas/tabela_selecionada.html' %}
+    </div>
     <div class="card tabela-propria">
         {% include 'tabelas/tabela_propria.html' %}
     </div>

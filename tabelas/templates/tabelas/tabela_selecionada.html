@@ -1,0 +1,14 @@
+<div class="card-title tp_titulo">
+    <span>TABELA - COMUNIQG</span>
+</div>
+<div class="card-body">
+    {% for produtos in produtos_tabela %}
+    <div class="tc-lista-produtos">
+        <div class="tc-produtos p-codigo"> <span>{{ produtos.codigo }}</span></div>
+        <div class="tc-produtos p-descricao"> <span>{{ produtos.descricao }}</span></div>
+        <div class="tc-produtos p-categoria"> <span>{{ produtos.categoria }}</span></div>
+        <div class="tc-produtos p-valor"> <span>R$ {{ produtos.valor }}</span></div>
+    </div>
+    {% endfor %}
+</div>
+<div class="card-footer"></div>
