@@ -7,13 +7,30 @@ $(document).ready(function(){
             data: {
                 idcadastro: idcadastro,
             },
-            beforeSend: function(){
+            beforeSend: function() {
                 $('.tabela-propria').fadeOut(500)
             },
             success:function(data) {
                 $('.tabela-propria').html(data['html_tabela_propria'])
                 $('.tabela-propria').fadeIn(500)
-            }
+            },
+        });
+    });
+
+    $(document).on('click', '.tc-lista-produtos', function() {
+        var idproduto = $(this).attr('data-idproduto')
+        $.ajax({
+            type: 'GET',
+            url: 'seleciona_produto',
+            data: {
+                idproduto: idproduto,
+            },
+            beforeSend: function() {
+
+            },
+            success: function(ddta) {
+
+            },
         });
     });
 })

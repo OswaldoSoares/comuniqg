@@ -3,12 +3,12 @@
 </div>
 <div class="card-body">
     {% for produtos in produtos_tabela %}
-    <div class="tc-lista-produtos">
+    <i class="i-button tc-lista-produtos" data-idproduto="{{ produtos.idproduto }}">
         <div class="tc-produtos p-codigo"> <span>{{ produtos.codigo }}</span></div>
         <div class="tc-produtos p-descricao"> <span>{{ produtos.descricao }}</span></div>
         <div class="tc-produtos p-categoria"> <span>{{ produtos.categoria }}</span></div>
         <div class="tc-produtos p-valor"> <span>R$ {{ produtos.valor }}</span></div>
-    </div>
+    </i>
     {% endfor %}
 </div>
 <div class="card-footer"></div>
