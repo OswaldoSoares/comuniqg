@@ -62,6 +62,12 @@ def html_tabela_propria(request, data):
     return data
 
 
+def html_tabela_selecionada(request, data):
+    contexto = context()
+    data['html_tabela_selecionada'] = render_to_string('tabelas/tabela_selecionada.html', contexto, request=request)
+    return data
+
+
 def return_json(data):
     return JsonResponse(data)
 
@@ -82,4 +88,5 @@ def form_tabela(request, v_form, v_idobj, v_url, v_view):
         form = v_form(instance=v_instance)
     contexto = {'form': form, 'v_idobj': v_idobj, 'v_url': v_url, 'v_view': v_view}
     data['html_form'] = render_to_string('tabelas/form_tabelas.html', contexto, request=request)
+    data = html_tabela_selecionada(request, data)
     return data

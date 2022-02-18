@@ -61,6 +61,11 @@ function formAjaxSubmit(modal, action, cbAfterLoad, cbAfterSuccess) {
                     formAjaxSubmit(modal, url, cbAfterLoad, cbAfterSuccess);
                 } else {
                     $(modal).modal('hide');
+                    console.log(xhr['html_tabela_selecionada'])
+                    $('.tabela-selecionada').fadeOut(500)
+                    $('.tabela-selecionada').html()
+                    $('.tabela-selecionada').html(xhr['html_tabela_selecionada'])
+                    $('.tabela-selecionada').fadeIn(500)
                     if (cbAfterSuccess) { 
                         cbAfterSuccess(modal);
                     }
