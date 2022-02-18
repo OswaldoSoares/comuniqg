@@ -75,6 +75,7 @@ def return_json(data):
 def form_tabela(request, v_form, v_idobj, v_url, v_view):
     data = dict()
     v_instance = None
+    v_descricao = None
     if request.method == 'POST':
         if v_view == 'altera_valor_produto':
             v_idobj = request.POST.get('idproduto')
@@ -85,8 +86,9 @@ def form_tabela(request, v_form, v_idobj, v_url, v_view):
     else:
         if v_view == 'altera_valor_produto':
             v_instance = qs_get_produto(v_idobj)
+            v_descricao = v_instance.descricao
         form = v_form(instance=v_instance)
-    contexto = {'form': form, 'v_idobj': v_idobj, 'v_url': v_url, 'v_view': v_view}
+    contexto = {'form': form, 'v_idobj': v_idobj, 'v_url': v_url, 'v_view': v_view, 'v_descricao': v_descricao}
     data['html_form'] = render_to_string('tabelas/form_tabelas.html', contexto, request=request)
     data = html_tabela_selecionada(request, data)
     return data

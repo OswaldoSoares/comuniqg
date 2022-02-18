@@ -2,6 +2,9 @@
     {% csrf_token %}
     {% if v_view == 'altera_valor_produto' %}
     <div class="col-md-12">
+        <label>DESCRIÇÃO: {{ v_descricao }}</label>
+    </div>
+    <div class="col-md-12">
         <label for="id_valor" class="form-label">ENTRE COM O NOVO VALOR</label>
         {{ form.valor }}
         {{ form.valor.errors }}
