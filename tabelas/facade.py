@@ -42,6 +42,11 @@ def get_produto_tabela():
     return lista
 
 
+def qs_get_produto(id_produto):
+    produto = Produto.objects.get(idproduto=id_produto)
+    return produto
+
+
 def delete_cliente_tabela(id_cadastro):
     tabela = Tabela.objects.filter(idcadastro=id_cadastro)
     if tabela:
@@ -59,3 +64,22 @@ def html_tabela_propria(request, data):
 
 def return_json(data):
     return JsonResponse(data)
+
+
+def form_tabela(request, v_form, v_idobj, v_url, v_view):
+    data = dict()
+    v_instance = None
+    if request.method == 'POST':
+        if v_view == 'altera_valor_produto':
+            v_idobj = request.POST.get('idproduto')
+            v_instance = qs_get_produto(v_idobj)
+            form = v_form(request.POST, instance=v_instance)
+            if form.is_valid():
+                form.save()
+    else:
+        if v_view == 'altera_valor_produto':
+            v_instance = qs_get_produto(v_idobj)
+        form = v_form(instance=v_instance)
+    contexto = {'form': form, 'v_idobj': v_idobj, 'v_url': v_url, 'v_view': v_view}
+    data['html_form'] = render_to_string('tabelas/form_tabelas.html', contexto, request=request)
+    return data

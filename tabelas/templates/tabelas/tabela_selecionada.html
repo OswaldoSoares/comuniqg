@@ -3,12 +3,17 @@
 </div>
 <div class="card-body">
     {% for produtos in produtos_tabela %}
-    <i class="i-button tc-lista-produtos" data-idproduto="{{ produtos.idproduto }}">
+    <div class="tc-lista-produtos">
         <div class="tc-produtos p-codigo"> <span>{{ produtos.codigo }}</span></div>
         <div class="tc-produtos p-descricao"> <span>{{ produtos.descricao }}</span></div>
         <div class="tc-produtos p-categoria"> <span>{{ produtos.categoria }}</span></div>
         <div class="tc-produtos p-valor"> <span>R$ {{ produtos.valor }}</span></div>
-    </i>
+        <div class="tc-produtos p-button">
+            <i class="bi bi-pencil-square i-button" onclick="openMyModal(event); return false;"
+                data-title="ALTERA VALOR PRODUTO" data-action="{% url 'altera_valor_produto' %}"
+                data-button-save-label="EDITAR" data-idobj="{{ produtos.idproduto }}"></i>
+        </div>
+    </div>
     {% endfor %}
 </div>
 <div class="card-footer"></div>

@@ -17,20 +17,20 @@ $(document).ready(function(){
         });
     });
 
-    $(document).on('click', '.tc-lista-produtos', function() {
+    /*$(document).on('click', '.tc-lista-produtos', function() {
         var idproduto = $(this).attr('data-idproduto')
         $.ajax({
             type: 'GET',
-            url: 'seleciona_produto',
+            url: 'altera_valor_produto',
             data: {
                 idproduto: idproduto,
             },
             beforeSend: function() {
 
             },
-            success: function(ddta) {
+            success: function(data) {
 
             },
         });
-    });
+    });*/
 })

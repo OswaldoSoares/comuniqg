@@ -1,0 +1,11 @@
+<form class="row g-3" method="post" action="{{ v_url }}" id="{{ v_idobj }}">
+    {% csrf_token %}
+    {% if v_view == 'altera_valor_produto' %}
+    <div class="col-md-12">
+        <label for="id_valor" class="form-label">ENTRE COM O NOVO VALOR</label>
+        {{ form.valor }}
+        {{ form.valor.errors }}
+    </div>
+    <input type="hidden" name="idproduto" value="{{ v_idobj }}">
+    {% endif %}
+</form>
