@@ -103,6 +103,32 @@ body {
     cursor: pointer;
 }
 
+.extra-button {
+    background-color: var(--color1);
+    width: 170px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.extra-button span {
+    padding-left: 5px;
+    font-size: 14px;
+}
+
+.menu-extra {
+    width: 100%;
+    margin: 17px 0 0 0;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .close-button {
     background-color: var(--color2)
 }
@@ -113,7 +139,7 @@ body {
 
 .card {
     color: var(--color7);
-    margin: 17px 10px 10px 10px;
+    margin: 10px;
     border-radius: 25px;
 }
 
@@ -155,13 +181,13 @@ body {
     flex-direction: row;
 }
 
-    .tabela-propria {
-        width: 30%;
-    }
-
     .tabela-selecionada {
         width: 70%;
     }
+
+    .tabela-propria {
+        width: 30%;
+}
 
 .tp-lista-cliente {
     width: 100%;

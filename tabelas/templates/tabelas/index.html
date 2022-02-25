@@ -2,6 +2,11 @@
 {% load static %}
 
 {% block main %}
+<nav class="menu-extra">
+    <i class="bi bi-plus-circle i-button extra-button new-tb-propria"><span>TABELA PRÓPRIA</span></i>
+    <i class="bi bi-plus-circle i-button extra-button new-tb-item"><span>ITEM TABELA</span></i>
+    <i class="bi bi-x-circle i-button extra-button clean-tb-zero"><span>ITEM ZERADO</span></i>
+</nav>
 <main class="main-tabela">
     <div class="card tabela-selecionada">
         {% include 'tabelas/tabela_selecionada.html' %}
