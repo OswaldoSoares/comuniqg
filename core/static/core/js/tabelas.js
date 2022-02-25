@@ -17,20 +17,24 @@ $(document).ready(function(){
         });
     });
 
-    /*$(document).on('click', '.tc-lista-produtos', function() {
-        var idproduto = $(this).attr('data-idproduto')
+    $(document).on('click', '.tp-select', function() {
+        var idcadastro = $(this).attr('data-idcadastro')
         $.ajax({
             type: 'GET',
-            url: 'altera_valor_produto',
+            url: 'carrega_tabela',
             data: {
-                idproduto: idproduto,
+                idcadastro: idcadastro,
             },
             beforeSend: function() {
-
+                $('.tabela-selecionada').fadeOut(500)
+                $('.tabela-propria').fadeOut(500)
             },
-            success: function(data) {
-
+            success:function(data) {
+                $('.tabela-selecionada').html(data['html_tabela_selecionada'])
+                $('.tabela-selecionada').fadeIn(500)
+                $('.tabela-propria').fadeIn(500)
             },
         });
-    });*/
+    });
+
 })

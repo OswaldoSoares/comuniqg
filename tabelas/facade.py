@@ -7,7 +7,6 @@ def context():
     clientes = get_clientes()
     clientes_tabela = get_cliente_tabela()
     produtos_tabela = get_produto_tabela()
-    tabela = get_tabela(62)
     context = {'clientes': clientes, 'clientes_tabela': clientes_tabela, 'produtos_tabela': produtos_tabela}
     return context
 
@@ -37,7 +36,7 @@ def get_cliente_tabela():
 
 
 def get_produto_tabela():
-    produtos = Produto.objects.all().order_by('categoria', 'descricao')
+    produtos = Produto.objects.all().order_by('descricao')
     lista = [{'idproduto': itens.idproduto, 'codigo': itens.codigo, 'descricao': itens.descricao,
               'categoria': itens.categoria, 'valor': itens.valor} for itens in produtos]
     return lista
@@ -48,12 +47,16 @@ def get_tabela(id_cadastro):
     lista = []
     for x in tabela:
         produto = Produto.objects.get(idproduto=x.idproduto)
-        lista.append({'idproduto': produto.idproduto, 'codigo': produto.codigo, 'descricao': produto.descricao,
-                      'categoria': produto.categoria, 'valor': produto.valor})
-    lista = sorted(lista, key=lambda x: x['categoria'])
+        lista.append({'idtabela': x.idtabela, 'codigo': produto.codigo, 'descricao': produto.descricao,
+                      'categoria': produto.categoria, 'valor': x.valor})
     lista = sorted(lista, key=lambda x: x['descricao'])
     return lista
 
+
+def qs_get_cliente(id_cadastro):
+    pessoa = Pessoa.objects.get(idpessoa=id_cadastro)
+    return pessoa
+    
 
 def qs_get_produto(id_produto):
     produto = Produto.objects.get(idproduto=id_produto)
@@ -61,8 +64,26 @@ def qs_get_produto(id_produto):
 
 
 def qs_get_tabela(id_tabela):
-    tabela = Tabela.objects.get(idtabela=id_produto)
+    tabela = Tabela.objects.get(idtabela=id_tabela)
     return tabela
+
+
+def carrega_cliente_tabela(request, id_cadastro, data):
+    tabela = get_tabela(id_cadastro)
+    apelido = qs_get_cliente(id_cadastro)
+    contexto = context()
+    contexto_tabela_selecionada = {'produtos_tabela': tabela, 'apelido': apelido}
+    contexto.update(contexto_tabela_selecionada)
+    data = html_tabela_selecionada(request, data, contexto)
+    return data
+
+
+def carrega_produto_tabela(request, data):
+    contexto = context()
+    contexto_tipotb = {'tipotb': request.POST.get('tipotb')}
+    contexto.update(contexto_tipotb)
+    data = html_tabela_selecionada(request, data, contexto)
+    return data
 
 
 def delete_cliente_tabela(id_cadastro):
@@ -80,8 +101,7 @@ def html_tabela_propria(request, data):
     return data
 
 
-def html_tabela_selecionada(request, data):
-    contexto = context()
+def html_tabela_selecionada(request, data, contexto):
     data['html_tabela_selecionada'] = render_to_string('tabelas/tabela_selecionada.html', contexto, request=request)
     return data
 
@@ -104,19 +124,24 @@ def form_tabela(request, v_form, v_idobj, v_url, v_view):
                 v_instance = qs_get_tabela(v_idobj)
             form = v_form(request.POST, instance=v_instance)
             if form.is_valid():
-                form.save()
+                if form.save():
+                    if request.POST.get('tipotb') == 'PRODUTO':
+                        data = carrega_produto_tabela(request, data)
+                    else:
+                        data = carrega_cliente_tabela(request, v_instance.idcadastro, data)
     else:
         if v_view == 'altera_valor_produto':
             if request.GET.get('tipotb') == 'PRODUTO':
                 v_instance = qs_get_produto(v_idobj)
                 tipotb = 'PRODUTO'
+                v_descricao = v_instance.descricao
             else:
                 v_instance = qs_get_tabela(v_idobj)
-                tipotb = 'TABELA'
-            v_descricao = v_instance.descricao
+                tipotb = 'CLIENTE'
+                produto = qs_get_produto(v_instance.idproduto)
+                v_descricao = produto.descricao
         form = v_form(instance=v_instance)
     contexto = {'form': form, 'v_idobj': v_idobj, 'v_url': v_url, 'v_view': v_view, 'v_descricao': v_descricao,
                 'tipotb': tipotb}
     data['html_form'] = render_to_string('tabelas/form_tabelas.html', contexto, request=request)
-    data = html_tabela_selecionada(request, data)
     return data

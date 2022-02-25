@@ -1,5 +1,9 @@
 <div class="card-title tp_titulo">
+    {% if tipotb == 'PRODUTO' %}
     <span>TABELA - COMUNIQG</span>
+    {% else %}
+    <span>TABELA - {{ apelido.apelido }} </span>
+    {% endif %}
 </div>
 <div class="card-body">
     {% for produtos in produtos_tabela %}
@@ -8,11 +12,23 @@
         <div class="tc-produtos p-descricao"> <span>{{ produtos.descricao }}</span></div>
         <div class="tc-produtos p-categoria"> <span>{{ produtos.categoria }}</span></div>
         <div class="tc-produtos p-valor"> <span>R$ {{ produtos.valor }}</span></div>
+        {% if tipotb == 'PRODUTO' %}
         <div class="tc-produtos p-button">
             <i class="bi bi-pencil-square i-button" onclick="openMyModal(event); return false;"
                 data-title="ALTERAR VALOR PRODUTO" data-action="{% url 'altera_valor_produto' %}"
-                data-button-save-label="EDITAR" data-idobj="{{ produtos.idproduto }}" data-tipo-tb="{{ tipotb }}"></i>
+                data-button-save-label="EDITAR" data-idobj="{{ produtos.idproduto }}" data-tipo-tb="PRODUTO"></i>
         </div>
+        {% else %}
+        <div class="tc-produtos p-button">
+            <i class="bi bi-pencil-square i-button" onclick="openMyModal(event); return false;"
+                data-title="ALTERAR VALOR PRODUTO" data-action="{% url 'altera_valor_produto' %}"
+                data-button-save-label="EDITAR" data-idobj="{{ produtos.idtabela }}"
+                data-tipo-tb="{{ apelido.idcadastro}}"></i>
+            <i class="bi bi-trash i-button" onclick="openMyModal(event); return false;"
+                data-title="ALTERAR VALOR PRODUTO" data-action="{% url 'altera_valor_produto' %}"
+                data-button-save-label="EDITAR" data-idobj="{{ produtos.idtabela }}" data-tipo-tb="{{ tipotb }}"></i>
+        </div>
+        {% endif %}
     </div>
     {% endfor %}
 </div>
