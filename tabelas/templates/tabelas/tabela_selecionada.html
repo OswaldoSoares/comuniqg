@@ -11,7 +11,7 @@
         <div class="tc-produtos p-button">
             <i class="bi bi-pencil-square i-button" onclick="openMyModal(event); return false;"
                 data-title="ALTERAR VALOR PRODUTO" data-action="{% url 'altera_valor_produto' %}"
-                data-button-save-label="EDITAR" data-idobj="{{ produtos.idproduto }}"></i>
+                data-button-save-label="EDITAR" data-idobj="{{ produtos.idproduto }}" data-tipo-tb="{{ tipotb }}"></i>
         </div>
     </div>
     {% endfor %}

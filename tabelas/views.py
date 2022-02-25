@@ -4,6 +4,8 @@ from tabelas.forms import FormAlteraValorProduto
 
 def index_tabela(request):
     contexto = context()
+    contexto_tipotb = {'tipotb': 'PRODUTO'}
+    contexto.update(contexto_tipotb)
     return render(request, 'tabelas/index.html', contexto)
 
 

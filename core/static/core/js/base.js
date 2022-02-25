@@ -1,11 +1,17 @@
 function openMyModal(event) {
     var modal = initModalDialog(event, '#MyModal');
     var url = $(event.target).data('action');
+    var idobj = $(event.target).data('idobj');
+    /**
+     * tipotb usado no app tabelas
+     */
+    var tipotb = $(event.target).data('tipo-tb');
     $.ajax({
         type: "GET",
         url: url,
         data : { 
-            idobj: $(event.target).data('idobj'),
+            idobj: idobj,
+            tipotb: tipotb,
         }
     }).done(function(data, textStatus, jqXHR) {
         modal.find('.modal-body').html(data.html_form);
