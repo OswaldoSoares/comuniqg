@@ -145,3 +145,23 @@ def form_tabela(request, v_form, v_idobj, v_url, v_view):
                 'tipotb': tipotb}
     data['html_form'] = render_to_string('tabelas/form_tabelas.html', contexto, request=request)
     return data
+
+
+def form_exclui(request, v_idobj, v_view):
+    data = dict()
+    v_queryset = None
+    v_apelido = None
+    v_produto = None
+    if v_view == 'delete_tabela_item':
+        if request.method == 'POST':
+            v_queryset = qs_get_tabela(request.POST.get('idtabela'))
+            if v_queryset.delete():
+                data = carrega_cliente_tabela(request, v_queryset.idcadastro, data)
+        else:
+            v_queryset = qs_get_tabela(v_idobj)
+            v_apelido = qs_get_cliente(v_queryset.idcadastro)
+            v_produto = qs_get_produto(v_queryset.idproduto)
+    contexto = {'v_queryset': v_queryset, 'v_idobj': v_idobj, 'v_view': v_view, 'v_apelido': v_apelido,
+               'v_produto': v_produto}
+    data['html_form'] = render_to_string('tabelas/form_tabelas.html', contexto, request=request)
+    return data

@@ -12,4 +12,16 @@
     <input type="hidden" name="tipotb" value="{{ tipotb }}">
     <input type="hidden" name="idproduto" value="{{ v_idobj }}">
     {% endif %}
+    {% if v_view == 'delete_tabela_item' %}
+    <div class="col-md-12">
+        <span>Confirma a exlusão do item abaixo?</span>
+    </div>
+    <div class="col-md-12">
+        <span>Cliente: {{ v_apelido.apelido }}</span>
+    </div>
+    <div class="col-md-12">
+        <span>Produto: {{ v_produto.descricao }}</span>
+    </div>
+    <input type="hidden" name="idtabela" value="{{ v_idobj }}">
+    {% endif %}
 </form>

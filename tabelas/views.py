@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from tabelas.facade import carrega_cliente_tabela, context, delete_cliente_tabela, html_tabela_propria
+from tabelas.facade import carrega_cliente_tabela, context, delete_cliente_tabela, form_exclui, html_tabela_propria
 from tabelas.facade import return_json, form_tabela
 from tabelas.forms import FormAlteraValorProduto
 
@@ -33,5 +33,13 @@ def altera_valor_produto(request):
     v_url = 'altera_valor_produto'
     v_view = 'altera_valor_produto'
     data = form_tabela(request, v_form, v_idobj, v_url, v_view)
+    data = return_json(data)
+    return data
+
+
+def delete_tabela_item(request):
+    v_idobj = request.GET.get('idobj')
+    v_view = 'delete_tabela_item'
+    data = form_exclui(request, v_idobj, v_view)
     data = return_json(data)
     return data
