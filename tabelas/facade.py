@@ -92,7 +92,7 @@ def carrega_cliente_tabela(request, id_cadastro, data):
 
 def carrega_produto_tabela(request, data):
     contexto = context()
-    contexto_tipotb = {'tipotb': request.POST.get('tipotb')}
+    contexto_tipotb = {'tipotb': 'PRODUTO'}
     contexto.update(contexto_tipotb)
     data = html_tabela_selecionada(request, data, contexto)
     return data

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from tabelas.facade import carrega_cliente_tabela, context, delete_cliente_tabela, form_exclui, html_tabela_propria
+from tabelas.facade import carrega_cliente_tabela, carrega_produto_tabela, context, delete_cliente_tabela, form_exclui, html_tabela_propria
 from tabelas.facade import return_json, form_tabela
 from tabelas.forms import FormAlteraValorProduto, FormNovaTabelaPropria
 
@@ -15,6 +15,7 @@ def delete_tabela(request):
     data = dict()
     if delete_cliente_tabela(v_idcadastro):
         data = html_tabela_propria(request, data)
+    data = carrega_produto_tabela(request, data)
     data = return_json(data)
     return data
 

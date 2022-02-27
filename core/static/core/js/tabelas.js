@@ -8,10 +8,13 @@ $(document).ready(function(){
                 idcadastro: idcadastro,
             },
             beforeSend: function() {
+                $('.tabela-selecionada').fadeOut(500)
                 $('.tabela-propria').fadeOut(500)
             },
             success:function(data) {
                 $('.tabela-propria').html(data['html_tabela_propria'])
+                $('.tabela-selecionada').html(data['html_tabela_selecionada'])
+                $('.tabela-selecionada').fadeIn(500)
                 $('.tabela-propria').fadeIn(500)
             },
         });
