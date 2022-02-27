@@ -70,7 +70,14 @@ function formAjaxSubmit(modal, action, cbAfterLoad, cbAfterSuccess) {
                     formAjaxSubmit(modal, url, cbAfterLoad, cbAfterSuccess);
                 } else {
                     $(modal).modal('hide');
-                    console.log(xhr['html_tabela_selecionada'])
+                    if (xhr['nova_tabela']) {
+                        $('.menu-extra').fadeOut(500)
+                        $('.item-tabela').attr('data-idcadastro', xhr['idcadastro'])
+                        $('.item-zerado').attr('data-idcadastro', xhr['idcadastro'])
+                        $('.item-tabela').show(500)
+                        $('.item-zerado').show(500)
+                        $('.menu-extra').fadeIn(500)
+                    }
                     $('.tabela-selecionada').fadeOut(500)
                     $('.tabela-selecionada').html()
                     $('.tabela-selecionada').html(xhr['html_tabela_selecionada'])

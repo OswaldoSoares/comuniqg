@@ -107,6 +107,10 @@ def delete_cliente_tabela(id_cadastro):
         return False
 
 
+def deleta_itens_zerados(id_cadastro):
+    Tabela.objects.delete(idcadastro=id_cadastro, valor=0.00)
+
+
 def html_tabela_propria(request, data):
     contexto = context()
     data['html_tabela_propria'] = render_to_string('tabelas/tabela_propria.html', contexto, request=request)
