@@ -1,4 +1,5 @@
 from multiprocessing.dummy import connection
+import re
 from django.http import JsonResponse
 from databaseold.models import Tabela, Pessoa, Produto
 from django.template.loader import render_to_string
@@ -107,8 +108,18 @@ def delete_cliente_tabela(id_cadastro):
         return False
 
 
-def deleta_itens_zerados(id_cadastro):
-    Tabela.objects.delete(idcadastro=id_cadastro, valor=0.00)
+def delete_itens_zerados(request, id_cadastro):
+    data = dict()
+    itens_zerados = Tabela.objects.filter(idcadastro=id_cadastro, valor=0.00)
+    itens_zerados.delete()
+    tabela = get_tabela(id_cadastro)
+    if tabela:
+        carrega_cliente_tabela(request, id_cadastro, data)
+    else:
+        carrega_produto_tabela(request, data)
+        data['tabela_padrao'] = True
+    data = html_tabela_propria(request, data)
+    return data
 
 
 def html_tabela_propria(request, data):
@@ -188,7 +199,13 @@ def form_exclui(request, v_idobj, v_view):
         if request.method == 'POST':
             v_queryset = qs_get_tabela(request.POST.get('idtabela'))
             if v_queryset.delete():
-                data = carrega_cliente_tabela(request, v_queryset.idcadastro, data)
+                tabela = get_tabela(v_queryset.idcadastro)
+                if tabela:
+                    carrega_cliente_tabela(request, v_queryset.idcadastro, data)
+                else:
+                    carrega_produto_tabela(request, data)
+                    data['tabela_padrao'] = True
+                data = html_tabela_propria(request, data)
         else:
             v_queryset = qs_get_tabela(v_idobj)
             v_apelido = qs_get_cliente(v_queryset.idcadastro)

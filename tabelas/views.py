@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from tabelas.facade import carrega_cliente_tabela, carrega_produto_tabela, context, delete_cliente_tabela, form_exclui 
-from tabelas.facade import return_json, form_tabela, html_tabela_propria
+from tabelas.facade import return_json, form_tabela, html_tabela_propria, delete_itens_zerados
 from tabelas.forms import FormAlteraValorProduto, FormNovaTabelaPropria
 
 def index_tabela(request):
@@ -54,5 +54,12 @@ def nova_tabela_propria(request):
     data = form_tabela(request, v_form, v_idobj, v_url, v_view)
     data['idcadastro'] = request.POST.get('cliente')
     data['nova_tabela'] = True
+    data = return_json(data)
+    return data
+
+
+def delete_zerado(request):
+    v_idobj = request.GET.get('idcadastro')
+    data = delete_itens_zerados(request, v_idobj)
     data = return_json(data)
     return data
