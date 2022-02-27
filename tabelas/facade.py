@@ -1,3 +1,4 @@
+from multiprocessing.dummy import connection
 from django.http import JsonResponse
 from databaseold.models import Tabela, Pessoa, Produto
 from django.template.loader import render_to_string
@@ -145,14 +146,13 @@ def form_tabela(request, v_form, v_idobj, v_url, v_view):
         if v_view == 'nova_tabela_propria':
             v_idcadastro = request.POST.get('cliente')
             produto = get_produto_tabela()
+            cadastros_tabela = []
             for x in produto:
-                obj = Tabela()
-                obj.idcadastro = v_idcadastro
-                obj.idproduto = x['idproduto']
-                obj.valor = 0.00
-                obj.save()
-                data = html_tabela_propria(request, data)
-                data = carrega_cliente_tabela(request, v_idcadastro, data)
+                obj = Tabela(idcadastro = v_idcadastro, idproduto = x['idproduto'], valor = 0.00)
+                cadastros_tabela.append(obj)
+            Tabela.objects.bulk_create(cadastros_tabela)
+            data = html_tabela_propria(request, data)
+            data = carrega_cliente_tabela(request, v_idcadastro, data)
     else:
         if v_view == 'altera_valor_produto':
             if request.GET.get('tipotb') == 'PRODUTO':
