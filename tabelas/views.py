@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from tabelas.facade import carrega_cliente_tabela, context, delete_cliente_tabela, form_exclui, html_tabela_propria
 from tabelas.facade import return_json, form_tabela
-from tabelas.forms import FormAlteraValorProduto
+from tabelas.forms import FormAlteraValorProduto, FormNovaTabelaPropria
 
 def index_tabela(request):
     contexto = context()
@@ -41,5 +41,15 @@ def delete_tabela_item(request):
     v_idobj = request.GET.get('idobj')
     v_view = 'delete_tabela_item'
     data = form_exclui(request, v_idobj, v_view)
+    data = return_json(data)
+    return data
+
+
+def nova_tabela_propria(request):
+    v_form = FormNovaTabelaPropria
+    v_idobj = ''
+    v_url = 'nova_tabela_propria'
+    v_view = 'nova_tabela_propria'
+    data = form_tabela(request, v_form, v_idobj, v_url, v_view)
     data = return_json(data)
     return data

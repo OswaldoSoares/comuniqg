@@ -9,7 +9,7 @@ function openMyModal(event) {
     $.ajax({
         type: "GET",
         url: url,
-        data : { 
+        data : {
             idobj: idobj,
             tipotb: tipotb,
         }
@@ -72,6 +72,10 @@ function formAjaxSubmit(modal, action, cbAfterLoad, cbAfterSuccess) {
                     $('.tabela-selecionada').html()
                     $('.tabela-selecionada').html(xhr['html_tabela_selecionada'])
                     $('.tabela-selecionada').fadeIn(500)
+                    $('.tabela-propria').fadeOut(500)
+                    $('.tabela-propria').html()
+                    $('.tabela-propria').html(xhr['html_tabela_propria'])
+                    $('.tabela-propria').fadeIn(500)
                     if (cbAfterSuccess) { 
                         cbAfterSuccess(modal);
                     }

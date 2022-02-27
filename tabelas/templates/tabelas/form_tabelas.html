@@ -24,4 +24,14 @@
     </div>
     <input type="hidden" name="idtabela" value="{{ v_idobj }}">
     {% endif %}
+    {% if v_view == 'nova_tabela_propria' %}
+    <div class="col-md-12">
+        <label for='id_idpessoa' class="form-label">Selecione um cliente</label>
+        <select class="form-control" class="id_idpessoa" name="cliente">
+        {% for clientes in clientes_no_tabela %}
+        <option value="{{ clientes.idpessoa }}">{{ clientes.apelido }}</option>
+        {% endfor %}
+        </select>
+    </div>
+    {% endif %}
 </form>

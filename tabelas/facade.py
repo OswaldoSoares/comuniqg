@@ -35,6 +35,17 @@ def get_cliente_tabela():
     return sorted_list
 
 
+def get_cliente_no_tabela():
+    clientes_tabela = get_cliente_tabela()
+    lista_idpessoa = []
+    for x in clientes_tabela:
+        lista_idpessoa.append(x['idcadastro'])
+    clientes_no_tabela = Pessoa.objects.filter(funcao='CLIENTE').exclude(idpessoa__in=lista_idpessoa)
+    lista = [{'idpessoa': itens.idpessoa, 'apelido': itens.apelido} for itens in clientes_no_tabela]
+    sorted_list = sorted(lista, key=lambda x: x['apelido'])
+    return sorted_list
+
+
 def get_produto_tabela():
     produtos = Produto.objects.all().order_by('descricao')
     lista = [{'idproduto': itens.idproduto, 'codigo': itens.codigo, 'descricao': itens.descricao,
@@ -114,8 +125,10 @@ def form_tabela(request, v_form, v_idobj, v_url, v_view):
     data = dict()
     v_instance = None
     v_descricao = None
+    clientes_no_tabela = None
     tipotb = None
     if request.method == 'POST':
+        form = v_form
         if v_view == 'altera_valor_produto':
             v_idobj = request.POST.get('idproduto')
             if request.POST.get('tipotb') == 'PRODUTO':
@@ -129,6 +142,17 @@ def form_tabela(request, v_form, v_idobj, v_url, v_view):
                         data = carrega_produto_tabela(request, data)
                     else:
                         data = carrega_cliente_tabela(request, v_instance.idcadastro, data)
+        if v_view == 'nova_tabela_propria':
+            v_idcadastro = request.POST.get('cliente')
+            produto = get_produto_tabela()
+            for x in produto:
+                obj = Tabela()
+                obj.idcadastro = v_idcadastro
+                obj.idproduto = x['idproduto']
+                obj.valor = 0.00
+                obj.save()
+                data = html_tabela_propria(request, data)
+                data = carrega_cliente_tabela(request, v_idcadastro, data)
     else:
         if v_view == 'altera_valor_produto':
             if request.GET.get('tipotb') == 'PRODUTO':
@@ -140,9 +164,13 @@ def form_tabela(request, v_form, v_idobj, v_url, v_view):
                 tipotb = 'CLIENTE'
                 produto = qs_get_produto(v_instance.idproduto)
                 v_descricao = produto.descricao
+        if v_view == 'nova_tabela_propria':
+            clientes_no_tabela = get_cliente_no_tabela()  
+            
+
         form = v_form(instance=v_instance)
     contexto = {'form': form, 'v_idobj': v_idobj, 'v_url': v_url, 'v_view': v_view, 'v_descricao': v_descricao,
-                'tipotb': tipotb}
+                'tipotb': tipotb, 'clientes_no_tabela': clientes_no_tabela}
     data['html_form'] = render_to_string('tabelas/form_tabelas.html', contexto, request=request)
     return data
 
