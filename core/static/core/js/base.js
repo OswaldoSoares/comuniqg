@@ -15,6 +15,7 @@ function openMyModal(event) {
         }
     }).done(function(data, textStatus, jqXHR) {
         modal.find('.modal-body').html(data.html_form);
+        $('.box-loader').hide()
         modal.modal('show');
         formAjaxSubmit(modal, url, null, null);
     }).fail(function(jqXHR, textStatus, errorThrown) {
@@ -54,6 +55,8 @@ function formAjaxSubmit(modal, action, cbAfterLoad, cbAfterSuccess) {
     if (cbAfterLoad) { cbAfterLoad(modal); }
     modal.find('form input:visible').first().focus();
     $(form).on('submit', function(event) {
+        $('.row').hide()
+        $('.box-loader').show()
         event.preventDefault();
         header.addClass('loading');
         var url = $(this).attr('action') || action;

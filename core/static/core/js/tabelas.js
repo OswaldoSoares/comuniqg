@@ -36,5 +36,7 @@ $(document).ready(function(){
             },
         });
     });
+    
+    $('.box-loader').hide()
 
 })

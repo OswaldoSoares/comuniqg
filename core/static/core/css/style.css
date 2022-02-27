@@ -303,3 +303,35 @@ body {
     border-radius: 0 0 10px 10px;
 }
 /* MODAL END */
+
+
+.loader {
+    margin: auto;
+    border: 10px solid #696969;
+    border-radius: 50%;
+    border-top: 10px solid var(--color1);
+    border-bottom: 10px solid var(--color1);
+    border-left: 10px solid white;
+    border-right: 10px solid white;
+    width: 150px;
+    height: 150px;
+    animation: spinner 0.75s linear infinite;
+}
+
+@keyframes spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.box-loader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.box-loader span {
+    padding-top: 20px;
+    font-size: 14px;
+    color: var(--color2);
+}
