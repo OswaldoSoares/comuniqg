@@ -10,4 +10,16 @@
     </div>
     {% endfor %}
 </div>
-<div class="card-footer"></div>
+<div class="card-footer">
+    {% if clientes_tabela %}
+        {% if clientes_tabela|length > 0 %}
+            {% if clientes_tabela|length == 1 %}
+                <span>{{ clientes_tabela|length }} CLIENTE POSSUI TABELA PRÓPRIA</span>
+                {% else %}
+                <span>{{ clientes_tabela|length }} CLIENTES POSSUEM TABELA PRÓPRIA</span>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        <span>NENHUM CLIENTE POSSUI TABELA PRÓPRIA</span>
+    {% endif %}
+</div>

@@ -132,23 +132,6 @@ def form_tabela(request, v_form, v_idobj, v_url, v_view):
     return data
 
 
-def save_item_tabela(request, id_cadastro, id_produto, all_itens):
-    data = dict()
-    produtos_no_tabela = get_produto_no_tabela(id_cadastro)
-    cadastros_produto = []
-    if all_itens == 'on':
-        for x in produtos_no_tabela:
-            obj = Tabela(idcadastro = id_cadastro, idproduto = x['idproduto'], valor = 0.00)
-            cadastros_produto.append(obj)
-    else:
-        obj = Tabela(idcadastro = id_cadastro, idproduto = id_produto, valor = 0.00)
-        cadastros_produto.append(obj)
-    Tabela.objects.bulk_create(cadastros_produto)
-    data = html_tabela_propria(request, data)
-    data = carrega_cliente_tabela(request, id_cadastro, data)
-    return data
-
-
 def get_cliente_tabela():
     clientes = Tabela.objects.values('idcadastro').distinct()
     lista = []
@@ -226,3 +209,20 @@ def qs_get_tabela(id_tabela):
 
 def return_json(data):
     return JsonResponse(data)
+
+
+def save_item_tabela(request, id_cadastro, id_produto, all_itens):
+    data = dict()
+    produtos_no_tabela = get_produto_no_tabela(id_cadastro)
+    cadastros_produto = []
+    if all_itens == 'on':
+        for x in produtos_no_tabela:
+            obj = Tabela(idcadastro = id_cadastro, idproduto = x['idproduto'], valor = 0.00)
+            cadastros_produto.append(obj)
+    else:
+        obj = Tabela(idcadastro = id_cadastro, idproduto = id_produto, valor = 0.00)
+        cadastros_produto.append(obj)
+    Tabela.objects.bulk_create(cadastros_produto)
+    data = html_tabela_propria(request, data)
+    data = carrega_cliente_tabela(request, id_cadastro, data)
+    return data

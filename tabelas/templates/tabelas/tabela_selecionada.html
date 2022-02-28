@@ -32,4 +32,14 @@
     </div>
     {% endfor %}
 </div>
-<div class="card-footer"></div>
+<div class="card-footer">
+    {% if produtos_tabela %}
+        {% if produtos_tabela|length > 0 %}
+            {% if produtos_tabela|length == 1 %}
+                <span>ESSA TABELA POSSUI {{ produtos_tabela|length }} PRODUTO</span>
+            {% else %}
+                <span>ESSA TABELA POSSUI {{ produtos_tabela|length }} PRODUTOS</span>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+</div>
