@@ -19,8 +19,7 @@ function openMyModal(event) {
         modal.modal('show');
         formAjaxSubmit(modal, url, null, null);
     }).fail(function(jqXHR, textStatus, errorThrown) {
-        $(".mensagem-erro").text(errorThrown);
-        mostraMensagemErro()
+
     });
 }
 
@@ -72,14 +71,14 @@ function formAjaxSubmit(modal, action, cbAfterLoad, cbAfterSuccess) {
                     $(modal).modal('hide');
                     $('.menu-extra').fadeOut(500)
                     if (xhr['nova_tabela']) {
-                        $('.item-tabela').attr('data-idcadastro', xhr['idcadastro'])
-                        $('.item-zerado').attr('data-idcadastro', xhr['idcadastro'])
+                        $('.item-tabela').data('idobj', xhr['idcadastro'])
+                        $('.item-zerado').data('idobj', xhr['idcadastro'])
                         $('.item-tabela').show()
                         $('.item-zerado').show()
                     }
                     if (xhr['tabela_padrao']) {
-                        $('.item-tabela').attr('data-idcadastro', '')
-                        $('.item-zerado').attr('data-idcadastro', '')
+                        $('.item-tabela').data('idobj', '')
+                        $('.item-zerado').data('idobj', '')
                         $('.item-tabela').hide()
                         $('.item-zerado').hide()
                     }
@@ -98,8 +97,8 @@ function formAjaxSubmit(modal, action, cbAfterLoad, cbAfterSuccess) {
                 }
             },
             error: function(xhr, ajaxOptions, thrownError) {s
-                $(".mensagem-erro").text(thrownError);
-                mostraMensagemErro()
+                // $(".mensagem-erro").text(thrownError);
+                // mostraMensagemErro()
             },
             complete: function() {
                 header.removeClass('loading');

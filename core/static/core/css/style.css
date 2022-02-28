@@ -103,23 +103,7 @@ body {
     cursor: pointer;
 }
 
-.extra-button {
-    background-color: var(--color1);
-    width: 170px;
-    height: 35px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 10px;
-    border-radius: 10px;
-    font-size: 20px;
-}
-
-.extra-button span {
-    padding-left: 5px;
-    font-size: 14px;
-}
-
+/* MENU EXTRA START */
 .menu-extra {
     width: 100%;
     margin: 17px 0 0 0;
@@ -128,6 +112,21 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+    .extra-button {
+        background-color: var(--color1);
+        border: 0;
+        width: 170px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 10px;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+/* MENU EXTRA END */
+
 
 .close-button {
     background-color: var(--color2)

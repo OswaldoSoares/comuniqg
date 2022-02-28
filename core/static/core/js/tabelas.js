@@ -1,11 +1,11 @@
 $(document).ready(function(){
     $(document).on('click', '.tp-delete', function() {
-        var idcadastro = $(this).attr('data-idcadastro')
+        var v_idobj = $(this).data('idobj')
         $.ajax({
             type: 'GET',
             url: 'delete_tabela',
             data: {
-                idcadastro: idcadastro,
+                idcadastro: v_idobj,
             },
             beforeSend: function() {
                 $('.tabela-selecionada').fadeOut(500)
@@ -25,14 +25,14 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.tp-select', function() {
-        var idcadastro = $(this).attr('data-idcadastro')
-        $('.item-tabela').attr('data-idcadastro', idcadastro)
-        $('.item-zerado').attr('data-idcadastro', idcadastro)
+        var v_idobj = $(this).data('idobj')
+        $('.item-tabela').data('idobj', v_idobj)
+        $('.item-zerado').data('idobj', v_idobj)
         $.ajax({
             type: 'GET',
             url: 'carrega_tabela',
             data: {
-                idcadastro: idcadastro,
+                idcadastro: v_idobj,
             },
             beforeSend: function() {
                 $('.tabela-selecionada').fadeOut(500)
@@ -51,12 +51,12 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.item-zerado', function() {
-        var idcadastro = $(this).attr('data-idcadastro')
+        var v_idobj = $(this).data('idobj')
         $.ajax({
             type: 'GET',
             url: 'delete_zerado',
             data: {
-                idcadastro: idcadastro,
+                idobj: v_idobj,
             },
             beforeSend: function() {
                 $('.tabela-selecionada').fadeOut(500)
@@ -65,8 +65,8 @@ $(document).ready(function(){
             },
             success:function(data) {
                 if (data['tabela_padrao']) {
-                    $('.item-tabela').attr('data-idcadastro', '')
-                    $('.item-zerado').attr('data-idcadastro', '')
+                    $('.item-tabela').data('idobj', '')
+                    $('.item-zerado').data('idobj', '')
                     $('.item-tabela').hide()
                     $('.item-zerado').hide()
                 }
@@ -78,9 +78,9 @@ $(document).ready(function(){
             },
         });
     });
-    
+
     $('.box-loader').hide()
     $('.item-tabela').hide()
     $('.item-zerado').hide()
-
+    
 })

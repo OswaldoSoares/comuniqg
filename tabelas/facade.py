@@ -46,7 +46,6 @@ def delete_itens_zerados(request, id_cadastro):
         carrega_cliente_tabela(request, id_cadastro, data)
     else:
         carrega_produto_tabela(request, data)
-        data['tabela_padrao'] = True
     data = html_tabela_propria(request, data)
     return data
 
@@ -81,7 +80,9 @@ def form_tabela(request, v_form, v_idobj, v_url, v_view):
     v_instance = None
     v_descricao = None
     clientes_no_tabela = None
+    produtos_no_tabela = None
     tipotb = None
+    form = None
     if request.method == 'POST':
         form = v_form
         if v_view == 'altera_valor_produto':
@@ -97,7 +98,9 @@ def form_tabela(request, v_form, v_idobj, v_url, v_view):
                         data = carrega_produto_tabela(request, data)
                     else:
                         data = carrega_cliente_tabela(request, v_instance.idcadastro, data)
-        if v_view == 'nova_tabela_propria':
+        elif v_view == 'novo_item_tabela':
+            data = save_item_tabela(request, request.POST.get('idobj'), request.POST.get('idproduto'), request.POST.get('all_itens'))
+        elif v_view == 'nova_tabela_propria':
             v_idcadastro = request.POST.get('cliente')
             produto = get_produto_tabela()
             cadastros_tabela = []
@@ -118,11 +121,31 @@ def form_tabela(request, v_form, v_idobj, v_url, v_view):
                 tipotb = 'CLIENTE'
                 produto = qs_get_produto(v_instance.idproduto)
                 v_descricao = produto.descricao
-        if v_view == 'nova_tabela_propria':
-            clientes_no_tabela = get_cliente_no_tabela()  
-        form = v_form(instance=v_instance)
-    contexto = {'form': form, 'v_idobj': v_idobj, 'v_url': v_url, 'v_view': v_view, 'v_descricao': v_descricao, 'tipotb': tipotb, 'clientes_no_tabela': clientes_no_tabela}
+        elif v_view == 'novo_item_tabela':
+            produtos_no_tabela = get_produto_no_tabela(v_idobj)
+        elif v_view == 'nova_tabela_propria':
+            clientes_no_tabela = get_cliente_no_tabela() 
+        if v_form:
+            form = v_form(instance=v_instance)
+    contexto = {'form': form, 'v_idobj': v_idobj, 'v_url': v_url, 'v_view': v_view, 'v_descricao': v_descricao, 'tipotb': tipotb, 'clientes_no_tabela': clientes_no_tabela, 'produtos_no_tabela': produtos_no_tabela}
     data['html_form'] = render_to_string('tabelas/form_tabelas.html', contexto, request=request)
+    return data
+
+
+def save_item_tabela(request, id_cadastro, id_produto, all_itens):
+    data = dict()
+    produtos_no_tabela = get_produto_no_tabela(id_cadastro)
+    cadastros_produto = []
+    if all_itens == 'on':
+        for x in produtos_no_tabela:
+            obj = Tabela(idcadastro = id_cadastro, idproduto = x['idproduto'], valor = 0.00)
+            cadastros_produto.append(obj)
+    else:
+        obj = Tabela(idcadastro = id_cadastro, idproduto = id_produto, valor = 0.00)
+        cadastros_produto.append(obj)
+    Tabela.objects.bulk_create(cadastros_produto)
+    data = html_tabela_propria(request, data)
+    data = carrega_cliente_tabela(request, id_cadastro, data)
     return data
 
 
@@ -154,12 +177,23 @@ def get_produto_tabela():
     return lista
 
 
+def get_produto_no_tabela(id_cadastro):
+    tabela = get_tabela(id_cadastro)
+    lista_idproduto = []
+    for x in tabela:
+        lista_idproduto.append(x['idproduto'])
+    no_produtos = Produto.objects.all().exclude(idproduto__in=lista_idproduto)
+    lista = [{'idproduto': itens.idproduto, 'descricao': itens.descricao} for itens in no_produtos]
+    sorted_list = sorted(lista, key=lambda x: x['descricao'])
+    return sorted_list
+
+
 def get_tabela(id_cadastro):
     tabela = Tabela.objects.filter(idcadastro=id_cadastro)
     lista = []
     for x in tabela:
         produto = Produto.objects.get(idproduto=x.idproduto)
-        lista.append({'idtabela': x.idtabela, 'codigo': produto.codigo, 'descricao': produto.descricao, 'categoria': produto.categoria, 'valor': x.valor})
+        lista.append({'idtabela': x.idtabela, 'idproduto': x.idproduto, 'codigo': produto.codigo, 'descricao': produto.descricao, 'categoria': produto.categoria, 'valor': x.valor})
     lista = sorted(lista, key=lambda x: x['descricao'])
     return lista
 

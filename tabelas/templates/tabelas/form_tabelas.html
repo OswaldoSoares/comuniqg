@@ -1,5 +1,6 @@
 <form class="row g-3" method="post" action="{{ v_url }}" id="{{ v_idobj }}">
     {% csrf_token %}
+
     {% if v_view == 'altera_valor_produto' %}
     <div class="col-md-12">
         <label>DESCRIÇÃO: {{ v_descricao }}</label>
@@ -12,6 +13,7 @@
     <input type="hidden" name="tipotb" value="{{ tipotb }}">
     <input type="hidden" name="idproduto" value="{{ v_idobj }}">
     {% endif %}
+
     {% if v_view == 'delete_tabela_item' %}
     <div class="col-md-12">
         <span>Confirma a exlusão do item abaixo?</span>
@@ -24,6 +26,27 @@
     </div>
     <input type="hidden" name="idtabela" value="{{ v_idobj }}">
     {% endif %}
+
+    {% if v_view == 'novo_item_tabela' %}
+        {% if produtos_no_tabela %}
+        <div class="col-md-12">
+            <input type="checkbox" id="all_itens" name="all_itens">
+            <label for="all_itens">ADICIONAR TODOS</label>
+        </div>
+        <div class="col-md-12">
+            <label for='id_idproduto' class="form-label">Selecione um produto</label>
+            <select class="form-control" class="id_idproduto" name="idproduto">
+            {% for produtos in produtos_no_tabela %}
+            <option value="{{ produtos.idproduto }}">{{ produtos.descricao }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <input type="hidden" name="idobj" value="{{ v_idobj }}">
+        {% else %}
+        <label>Nenhum item a ser adicionado nesta tabela</label>
+        {% endif %}
+    {% endif %}
+
     {% if v_view == 'nova_tabela_propria' %}
     <div class="col-md-12">
         <label for='id_idpessoa' class="form-label">Selecione um cliente</label>
@@ -37,5 +60,5 @@
 </form>
 <div class="box-loader">
     <div class="loader"></div>
-    <span>Aguarde, criando tabela própria...</span>
+    <span>Aguarde...</span>
 </div>

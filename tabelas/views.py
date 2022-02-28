@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from tabelas.facade import carrega_cliente_tabela, carrega_produto_tabela, context, delete_cliente_tabela, form_exclui, return_json, form_tabela, html_tabela_propria, delete_itens_zerados
+from tabelas.facade import carrega_cliente_tabela, carrega_produto_tabela, context, delete_cliente_tabela, form_exclui, return_json, form_tabela, html_tabela_propria, delete_itens_zerados, get_produto_no_tabela
 from tabelas.forms import FormAlteraValorProduto, FormNovaTabelaPropria
 
 
@@ -40,7 +40,7 @@ def delete_tabela_item(request):
 
 
 def delete_zerado(request):
-    v_idobj = request.GET.get('idcadastro')
+    v_idobj = request.GET.get('idobj')
     data = delete_itens_zerados(request, v_idobj)
     data = return_json(data)
     return data
@@ -61,5 +61,16 @@ def nova_tabela_propria(request):
     data = form_tabela(request, v_form, v_idobj, v_url, v_view)
     data['idcadastro'] = request.POST.get('cliente')
     data['nova_tabela'] = True
+    data = return_json(data)
+    return data
+
+
+def novo_item_tabela(request):
+    print(request.POST)
+    v_form = None
+    v_idobj = request.GET.get('idobj')
+    v_url = 'novo_item_tabela/'
+    v_view = 'novo_item_tabela'
+    data = form_tabela(request, v_form, v_idobj, v_url, v_view)
     data = return_json(data)
     return data

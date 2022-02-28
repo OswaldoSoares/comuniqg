@@ -4,9 +4,9 @@
 <div class="card-body">
     {% for clientes in clientes_tabela %}
     <div class="tp-lista-cliente">
-        <i class="bi bi-building i-button tp-select" data-idcadastro="{{ clientes.idcadastro }}">
+        <i class="bi bi-building i-button tp-select" data-idobj="{{ clientes.idcadastro }}">
             <span>{{ clientes.apelido }}</span></i>
-        <i class="bi bi-trash i-button tp-delete" data-idcadastro="{{ clientes.idcadastro }}"></i>
+        <i class="bi bi-trash i-button tp-delete" data-idobj="{{ clientes.idcadastro }}"></i>
     </div>
     {% endfor %}
 </div>
