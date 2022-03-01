@@ -1,7 +1,5 @@
 venv/
-comuniqg/development.py
-comuniqg/wsgi.py
-comuniqg/asgi.py
+comuniqg/.env
 desktop.ini
 manage.py
 *.pyc

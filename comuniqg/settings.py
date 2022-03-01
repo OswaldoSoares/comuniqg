@@ -1,7 +1,14 @@
 import os
 from pathlib import Path
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+SECRET_KEY = config('SECRET_KEY')
+
+DEBUG = config('DEBUG')
+
+ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -34,7 +41,37 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'comuniqg.urls'
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
 WSGI_APPLICATION = 'comuniqg.wsgi.application'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': config('USER'),
+        'PASSWORD': config('PASSWORD'),
+        'SERVER': config('SERVER'),
+        'PORT': config('PORT'),
+        'NAME': config('NAME'),
+        'options': {
+            'init_command': 'SET foreing_key_checks = 0',
+        }
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -58,3 +95,6 @@ TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 
 USE_TZ = True
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = (BASE_DIR, 'static')
