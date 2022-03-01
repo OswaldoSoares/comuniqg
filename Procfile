@@ -1,1 +1,1 @@
-web: gunicorn tecnoline.wsgi
+web: gunicorn comuniqg.wsgi
