@@ -1,6 +1,6 @@
 from unicodedata import name
 from django.urls import path
-from tabelas.views import nova_tabela_propria, delete_zerado, novo_item_tabela, index_tabela, delete_tabela, carrega_tabela, altera_valor_produto, delete_tabela_item
+from tabelas.views import altera_valor_produto, carrega_tabela, delete_tabela, delete_tabela_item, delete_zerado, index_tabela, nova_tabela_propria, novo_item_tabela
 
 urlpatterns = [
     path('', index_tabela, name='index_tabela'),

@@ -1,55 +1,4 @@
 $(document).ready(function(){
-    $(document).on('click', '.tp-delete', function() {
-        var v_idobj = $(this).data('idobj')
-        $.ajax({
-            type: 'GET',
-            url: 'delete_tabela',
-            data: {
-                idcadastro: v_idobj,
-            },
-            beforeSend: function() {
-                $('.tabela-selecionada').fadeOut(500)
-                $('.tabela-propria').fadeOut(500)
-                $('.menu-extra').fadeOut(500)
-            },
-            success:function(data) {
-                $('.item-tabela').hide()
-                $('.item-zerado').hide()
-                $('.menu-extra').fadeIn(500)
-                $('.tabela-selecionada').html(data['html_tabela_selecionada'])
-                $('.tabela-selecionada').fadeIn(500)
-                $('.tabela-propria').html(data['html_tabela_propria'])
-                $('.tabela-propria').fadeIn(500)
-            },
-        });
-    });
-
-    $(document).on('click', '.tp-select', function() {
-        var v_idobj = $(this).data('idobj')
-        $('.item-tabela').data('idobj', v_idobj)
-        $('.item-zerado').data('idobj', v_idobj)
-        $.ajax({
-            type: 'GET',
-            url: 'carrega_tabela',
-            data: {
-                idcadastro: v_idobj,
-            },
-            beforeSend: function() {
-                $('.tabela-selecionada').fadeOut(500)
-                $('.tabela-propria').fadeOut(500)
-                $('.menu-extra').fadeOut(500)
-            },
-            success:function(data) {
-                $('.item-tabela').show()
-                $('.item-zerado').show()
-                $('.menu-extra').fadeIn(500)
-                $('.tabela-selecionada').html(data['html_tabela_selecionada'])
-                $('.tabela-selecionada').fadeIn(500)
-                $('.tabela-propria').fadeIn(500)
-            },
-        });
-    });
-
     $(document).on('click', '.item-zerado', function() {
         var v_idobj = $(this).data('idobj')
         $.ajax({
@@ -79,8 +28,58 @@ $(document).ready(function(){
         });
     });
 
+    $(document).on('click', '.tp-delete', function() {
+        var v_idobj = $(this).data('idobj')
+        $.ajax({
+            type: 'GET',
+            url: 'delete_tabela',
+            data: {
+                idobj: v_idobj,
+            },
+            beforeSend: function() {
+                $('.tabela-selecionada').fadeOut(500)
+                $('.tabela-propria').fadeOut(500)
+                $('.menu-extra').fadeOut(500)
+            },
+            success:function(data) {
+                $('.item-tabela').hide()
+                $('.item-zerado').hide()
+                $('.menu-extra').fadeIn(500)
+                $('.tabela-selecionada').html(data['html_tabela_selecionada'])
+                $('.tabela-selecionada').fadeIn(500)
+                $('.tabela-propria').html(data['html_tabela_propria'])
+                $('.tabela-propria').fadeIn(500)
+            },
+        });
+    });
+
+    $(document).on('click', '.tp-select', function() {
+        var v_idobj = $(this).data('idobj')
+        $('.item-tabela').data('idobj', v_idobj)
+        $('.item-zerado').data('idobj', v_idobj)
+        $.ajax({
+            type: 'GET',
+            url: 'carrega_tabela',
+            data: {
+                idobj: v_idobj,
+            },
+            beforeSend: function() {
+                $('.tabela-selecionada').fadeOut(500)
+                $('.tabela-propria').fadeOut(500)
+                $('.menu-extra').fadeOut(500)
+            },
+            success:function(data) {
+                $('.item-tabela').show()
+                $('.item-zerado').show()
+                $('.menu-extra').fadeIn(500)
+                $('.tabela-selecionada').html(data['html_tabela_selecionada'])
+                $('.tabela-selecionada').fadeIn(500)
+                $('.tabela-propria').fadeIn(500)
+            },
+        });
+    });
+
     $('.box-loader').hide()
     $('.item-tabela').hide()
     $('.item-zerado').hide()
-    
 })

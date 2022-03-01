@@ -30,11 +30,7 @@ def context():
 
 def delete_cliente_tabela(id_cadastro):
     tabela = Tabela.objects.filter(idcadastro=id_cadastro)
-    if tabela:
-        tabela.delete()
-        return True
-    else:
-        return False
+    return True if tabela.delete() else False
 
 
 def delete_itens_zerados(request, id_cadastro):
@@ -99,17 +95,15 @@ def form_tabela(request, v_form, v_idobj, v_url, v_view):
                     else:
                         data = carrega_cliente_tabela(request, v_instance.idcadastro, data)
         elif v_view == 'novo_item_tabela':
-            data = save_item_tabela(request, request.POST.get('idobj'), request.POST.get('idproduto'), request.POST.get('all_itens'))
+            produto = get_produto_no_tabela(request.POST.get('idobj'))
+            v_idobj = request.POST.get('idobj')
+            v_idproduto = request.POST.get('idproduto')
+            v_all_itens = request.POST.get('all_itens')
+            data = save_item_tabela(request, produto, v_idobj, v_idproduto, v_all_itens, data)
         elif v_view == 'nova_tabela_propria':
-            v_idcadastro = request.POST.get('cliente')
             produto = get_produto_tabela()
-            cadastros_tabela = []
-            for x in produto:
-                obj = Tabela(idcadastro = v_idcadastro, idproduto = x['idproduto'], valor = 0.00)
-                cadastros_tabela.append(obj)
-            Tabela.objects.bulk_create(cadastros_tabela)
-            data = html_tabela_propria(request, data)
-            data = carrega_cliente_tabela(request, v_idcadastro, data)
+            v_idobj = request.POST.get('idobj')
+            data = save_item_tabela(request, produto, v_idobj, '', 'on', data)
     else:
         if v_view == 'altera_valor_produto':
             if request.GET.get('tipotb') == 'PRODUTO':
@@ -211,18 +205,17 @@ def return_json(data):
     return JsonResponse(data)
 
 
-def save_item_tabela(request, id_cadastro, id_produto, all_itens):
-    data = dict()
-    produtos_no_tabela = get_produto_no_tabela(id_cadastro)
-    cadastros_produto = []
+def save_item_tabela(request, lista_produtos, id_cadastro, id_produto, all_itens, data):
+    produtos = lista_produtos
+    lista_obj = []
     if all_itens == 'on':
-        for x in produtos_no_tabela:
+        for x in produtos:
             obj = Tabela(idcadastro = id_cadastro, idproduto = x['idproduto'], valor = 0.00)
-            cadastros_produto.append(obj)
+            lista_obj.append(obj)
     else:
         obj = Tabela(idcadastro = id_cadastro, idproduto = id_produto, valor = 0.00)
-        cadastros_produto.append(obj)
-    Tabela.objects.bulk_create(cadastros_produto)
+        lista_obj.append(obj)
+    Tabela.objects.bulk_create(lista_obj)
     data = html_tabela_propria(request, data)
     data = carrega_cliente_tabela(request, id_cadastro, data)
     return data

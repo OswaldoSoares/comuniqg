@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from tabelas.facade import carrega_cliente_tabela, carrega_produto_tabela, context, delete_cliente_tabela, form_exclui, return_json, form_tabela, html_tabela_propria, delete_itens_zerados, get_produto_no_tabela
-from tabelas.forms import FormAlteraValorProduto, FormNovaTabelaPropria
+from tabelas.facade import carrega_cliente_tabela, carrega_produto_tabela, context, delete_cliente_tabela, delete_itens_zerados, form_exclui, form_tabela, html_tabela_propria, return_json 
+from tabelas.forms import FormAlteraValorProduto
 
 
 def altera_valor_produto(request):
@@ -14,7 +14,7 @@ def altera_valor_produto(request):
 
 
 def carrega_tabela(request):
-    v_idobj = request.GET.get('idcadastro')
+    v_idobj = request.GET.get('idobj')
     data = dict()
     data = carrega_cliente_tabela(request, v_idobj, data)
     data = return_json(data)
@@ -22,7 +22,7 @@ def carrega_tabela(request):
 
 
 def delete_tabela(request):
-    v_idcadastro = request.GET.get('idcadastro')
+    v_idcadastro = request.GET.get('idobj')
     data = dict()
     if delete_cliente_tabela(v_idcadastro):
         data = html_tabela_propria(request, data)
@@ -54,19 +54,18 @@ def index_tabela(request):
 
 
 def nova_tabela_propria(request):
-    v_form = FormNovaTabelaPropria
+    v_form = None
     v_idobj = ''
     v_url = 'nova_tabela_propria'
     v_view = 'nova_tabela_propria'
     data = form_tabela(request, v_form, v_idobj, v_url, v_view)
-    data['idcadastro'] = request.POST.get('cliente')
+    data['idobj'] = request.POST.get('idobj')
     data['nova_tabela'] = True
     data = return_json(data)
     return data
 
 
 def novo_item_tabela(request):
-    print(request.POST)
     v_form = None
     v_idobj = request.GET.get('idobj')
     v_url = 'novo_item_tabela/'

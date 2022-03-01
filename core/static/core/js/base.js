@@ -71,8 +71,8 @@ function formAjaxSubmit(modal, action, cbAfterLoad, cbAfterSuccess) {
                     $(modal).modal('hide');
                     $('.menu-extra').fadeOut(500)
                     if (xhr['nova_tabela']) {
-                        $('.item-tabela').data('idobj', xhr['idcadastro'])
-                        $('.item-zerado').data('idobj', xhr['idcadastro'])
+                        $('.item-tabela').data('idobj', xhr['idobj'])
+                        $('.item-zerado').data('idobj', xhr['idobj'])
                         $('.item-tabela').show()
                         $('.item-zerado').show()
                     }
