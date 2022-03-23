@@ -68,7 +68,7 @@ DATABASES = {
         'PORT': config('PORT'),
         'NAME': config('NAME'),
         'options': {
-            'init_command': 'SET foreing_key_checks = 0',
+            'init_command': 'SET default_storage_engine=MyISAM',
         }
     }
 }
