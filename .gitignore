@@ -4,3 +4,4 @@ desktop.ini
 manage.py
 *.pyc
 .idea/
+site/
