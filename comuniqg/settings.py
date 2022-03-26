@@ -98,4 +98,4 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = (BASE_DIR, 'static')
-STATIC_ROOT = config('STATIC_ROOT')
+STATIC_ROOT = config('STATIC_ROOT_CONFIG')
