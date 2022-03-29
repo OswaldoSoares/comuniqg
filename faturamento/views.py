@@ -1,3 +1,7 @@
 from django.shortcuts import render
 
-# Create your views here.
+from faturamento.facade import context
+
+def index_faturamento(request):
+    contexto = context()
+    return render(request, 'faturamento/index.html', contexto) 

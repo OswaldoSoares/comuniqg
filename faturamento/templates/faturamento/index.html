@@ -1,0 +1,6 @@
+{% load humanize %}
+{% for fatura in faturadas %}
+    <div>
+        {{ fatura.idfatura }} - R$ {{ fatura.valorfatura|intcomma }} - R$ {{ fatura.valorpago|intcomma }}
+    </div>
+{% endfor %}

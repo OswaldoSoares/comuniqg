@@ -32,7 +32,7 @@ urlpatterns = [
  #   path('account/', include(account_urls)),
  #   path('clientes/', include(clientes_urls)),
     path('dashboard/', include(dashboard_urls)),
- #   path('faturamento/', include(faturamento_urls)),
+    path('faturamento/', include(faturamento_urls)),
  #   path('produtos/', include(produtos_urls)),
  #   path('servicos/', include(servicos_urls)),
     path('tabelas/', include(tabelas_urls)),
