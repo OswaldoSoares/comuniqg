@@ -4,3 +4,12 @@
         {{ fatura.idfatura }} - R$ {{ fatura.valorfatura|intcomma }} - R$ {{ fatura.valorpago|intcomma }}
     </div>
 {% endfor %}
+<div>
+    R$ {{ total_faturadas|intcomma }}
+</div>
+<div>
+    R$ {{ total_pago|intcomma }}
+</div>
+<div>
+    R$ {{ total_recebe|intcomma }}
+</div>
