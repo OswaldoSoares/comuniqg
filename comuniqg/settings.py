@@ -1,3 +1,4 @@
+from ntpath import join
 import os
 from pathlib import Path
 from decouple import config
@@ -97,5 +98,4 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = (BASE_DIR, 'static')
 STATIC_ROOT = config('STATIC_ROOT_CONFIG')

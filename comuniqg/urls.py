@@ -16,6 +16,8 @@ Including another URLconf
 from django import urls
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from account import urls as account_urls
 from clientes import urls as clientes_urls
 from core import urls as core_urls
@@ -35,4 +37,4 @@ urlpatterns = [
  #   path('servicos/', include(servicos_urls)),
     path('tabelas/', include(tabelas_urls)),
     path('', include(core_urls)),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
