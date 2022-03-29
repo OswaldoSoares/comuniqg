@@ -1,15 +1,41 @@
+{% extends 'core/base_restrito.html' %}
+{% load static %}
 {% load humanize %}
-{% for fatura in faturadas %}
-    <div>
-        {{ fatura.idfatura }} - R$ {{ fatura.valorfatura|intcomma }} - R$ {{ fatura.valorpago|intcomma }}
+
+{% block main %}
+<div class="card card-faturadas">
+    <div class="card-title">
+        <span>FATURADAS</span>
     </div>
-{% endfor %}
-<div>
-    R$ {{ total_faturadas|intcomma }}
+    <div class="card-body">
+        {% for fatura in faturadas %}
+        <div class="lista-faturadas">
+            <div class="fatura">
+                <span>{{ fatura.idfatura }}</span>
+            </div>
+            <div class="valor-fatura">
+                <span>R$ {{ fatura.valorfatura|intcomma }}</span>
+            </div>
+            <div class="valor-pago">
+                <span>R$ {{ fatura.valorpago|intcomma }}</span>
+            </div>
+        </div>
+        <div class="linha-divisoria"></div>
+        {% endfor %}
+        <div class="lista-faturadas">
+            <div class="fatura">
+                <span>TOTAIS</span>
+            </div>
+            <div class="valor-fatura">
+                <span>R$ {{ total_faturadas|intcomma }}</span>
+            </div>
+            <div class="valor-pago">
+                <span>R$ {{ total_pago|intcomma }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <span>TOTAL A RECEBER R$ {{ total_recebe|intcomma }}</span>
+    </div>
 </div>
-<div>
-    R$ {{ total_pago|intcomma }}
-</div>
-<div>
-    R$ {{ total_recebe|intcomma }}
-</div>
+{% endblock %}

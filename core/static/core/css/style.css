@@ -341,3 +341,32 @@ body {
         100% { transform: rotate(360deg); }
     }
 /* SCREEN AGUARDE END */
+
+.card-faturadas {
+    width: 400px;
+}
+
+.lista-faturadas {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--color6);
+}
+
+.lista-faturadas .fatura {
+    width: 25%;
+    text-align: center;
+}
+
+.lista-faturadas .valor-fatura {
+    width: 40%;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.lista-faturadas .valor-pago {
+    width: 35%;
+    text-align: right;
+    padding-right: 5px;
+}
