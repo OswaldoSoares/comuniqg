@@ -355,18 +355,24 @@ body {
 }
 
 .lista-faturadas .fatura {
-    width: 25%;
+    width: 15%;
     text-align: center;
 }
 
-.lista-faturadas .valor-fatura {
+.lista-faturadas .cliente {
     width: 40%;
+    text-align: left;
+    padding-left: 5px;
+}
+
+.lista-faturadas .valor-fatura {
+    width: 25%;
     text-align: right;
     padding-right: 5px;
 }
 
 .lista-faturadas .valor-pago {
-    width: 35%;
+    width: 20%;
     text-align: right;
     padding-right: 5px;
 }

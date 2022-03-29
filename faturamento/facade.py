@@ -1,5 +1,6 @@
 from django.db.models import Sum
-from databaseold.models import Formapgto, Receber
+from databaseold.models import Formapgto, Pessoa, Receber, Servico
+from django.db import connection
 
 class FaturasReceber:
     def __init__(self) -> None:
@@ -16,7 +17,15 @@ def context():
 
 def get_faturadas():
     faturas = Receber.objects.filter(status='A RECEBER')
-    lista = [{'idfatura': itens.idfatura, 'diafatura': itens.diafatura, 'valorfatura': itens.valorfatura, 'valorpago': itens.valorpago} for itens in faturas]
+    servico = get_servico_fatura()
+    lista = []
+    for itens in faturas:
+        apelido = ' '
+        os = servico.filter(idfatura=itens.idfatura)
+        if os:
+            cliente = Pessoa.objects.get(idpessoa=os[0].idcadastro)
+            apelido = cliente.apelido
+        lista.append({'idfatura': itens.idfatura, 'diafatura': itens.diafatura, 'valorfatura': itens.valorfatura, 'valorpago': itens.valorpago, 'apelido': apelido})
     return lista
 
 
@@ -28,4 +37,9 @@ def get_total_faturadas():
 def get_total_pago():
     total = Receber.objects.filter(status='A RECEBER').aggregate(pago=Sum('valorpago'))
     return total['pago']
+
+
+def get_servico_fatura():
+    servico = Servico.objects.filter(status='FATURADA')
+    return servico
 

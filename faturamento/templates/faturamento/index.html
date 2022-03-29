@@ -13,6 +13,9 @@
             <div class="fatura">
                 <span>{{ fatura.idfatura }}</span>
             </div>
+            <div class="cliente">
+                <span>{{ fatura.apelido }}</span>
+            </div>
             <div class="valor-fatura">
                 <span>R$ {{ fatura.valorfatura|intcomma }}</span>
             </div>
@@ -20,10 +23,11 @@
                 <span>R$ {{ fatura.valorpago|intcomma }}</span>
             </div>
         </div>
-        <div class="linha-divisoria"></div>
         {% endfor %}
         <div class="lista-faturadas">
             <div class="fatura">
+            </div>
+            <div class="cliente">
                 <span>TOTAIS</span>
             </div>
             <div class="valor-fatura">
