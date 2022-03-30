@@ -3,20 +3,20 @@
     <span>{{ apelido }}</span>
 </div>
 <div class="card-body">
-    {% for fatura in faturas %}
+    {% for servico in servicos %}
     <div class="lista-selecionadas">
-        <div class="fatura">
-            <span>{{ fatura.idfatura }}</span>
+        <div class="servico">
+            <span>{{ servico.idservico }}</span>
         </div>
-        <div class="valor-fatura">
-            <span>R$ {{ fatura.valorfatura|intcomma }}</span>
+        <div class="data-servico">
+            <span>R$ {{ servico.diaservico }}</span>
         </div>
-        <div class="valor-pago">
-            <span>R$ {{ fatura.valorpago|intcomma }}</span>
+        <div class="total-servico">
+            <span>R$ {{ servico.total|intcomma }}</span>
         </div>
         <div class="botoes">
             <i class="bi bi-printer i-button js-print-fatura" data-idobj="{{ fatura.idfatura }}"></i>
-            <i class="bi bi-clipboard i-button js-servico-fatura" data-idobj="{{ fatura.idfatura }}"></i>
+            <i class="bi bi-clipboard i-button js-minuta-fatura" data-idobj="{{ fatura.idfatura }}"></i>
         </div>
     </div>
     {% endfor %}

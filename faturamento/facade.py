@@ -56,14 +56,30 @@ def get_cliente_faturada(v_idpessoa):
     return sorted_list
 
 
+def get_servico(v_fatura):
+    servicos = Servico.objects.filter(idfatura=v_fatura)
+    lista = [{'idservico': itens.idservico, 'diaservico': itens.diaservico, 'total': itens.total} for itens in servicos]
+    return lista
+
+
 def get_apelido(v_idpessoa):
     cliente = Pessoa.objects.get(idpessoa=v_idpessoa)
     return cliente.apelido
 
 
-def html_cliente_faturada(request, v_contexto):
+def html_cliente_faturada(request, v_faturas, v_idobj):
     data = dict()
-    data['html_cliente_faturada'] = render_to_string('faturamento/cliente_faturada.html', v_contexto, request=request)
+    apelido = get_apelido(v_idobj)
+    contexto = {'faturas': v_faturas, 'apelido': apelido}
+    data['html_cliente_faturada'] = render_to_string('faturamento/cliente_faturada.html', contexto, request=request)
+    data = JsonResponse(data)
+    return data
+
+
+def html_servico_faturada(request, v_servicos):
+    data = dict()
+    contexto = {'servicos': v_servicos}
+    data['html_servico_faturada'] = render_to_string('faturamento/servico_faturada.html', contexto, request=request)
     data = JsonResponse(data)
     return data
 

@@ -1,7 +1,7 @@
 from ntpath import join
-import os
 from pathlib import Path
 from decouple import config
+from django.conf.locale.pt_BR import formats as br_formats
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -99,6 +99,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+br_formats.DATE_FORMAT = 'd/m/Y'
 
 STATIC_URL = 'static/'
 STATIC_ROOT = config('STATIC_ROOT_CONFIG')

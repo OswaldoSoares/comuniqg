@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from faturamento.facade import context, get_apelido, get_cliente_faturada, html_cliente_faturada
+from faturamento.facade import context, get_cliente_faturada, get_servico, html_cliente_faturada, html_servico_faturada
 
 
 def index_faturamento(request):
@@ -10,7 +10,16 @@ def index_faturamento(request):
 def cliente_faturada(request):
     v_idobj = request.GET.get('idobj')
     faturas = get_cliente_faturada(v_idobj)
-    apelido = get_apelido(v_idobj)
-    contexto = {'faturas': faturas, 'apelido': apelido}
-    data = html_cliente_faturada(request, contexto)
+    data = html_cliente_faturada(request, faturas, v_idobj)
+    return data
+
+
+def print_fatura(request):
+    v_idobj = request.GET.get('idobj')
+
+
+def servico_fatura(request):
+    v_idobj = request.GET.get('idobj')
+    servicos = get_servico(v_idobj)
+    data = html_servico_faturada(request, servicos)
     return data
