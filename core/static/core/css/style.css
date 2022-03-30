@@ -343,7 +343,7 @@ body {
 /* SCREEN AGUARDE END */
 
 .card-faturadas {
-    width: 400px;
+    width: 500px;
 }
 
 .lista-faturadas {
@@ -355,7 +355,7 @@ body {
 }
 
 .lista-faturadas .fatura {
-    width: 15%;
+    width: 10%;
     text-align: center;
 }
 
@@ -366,7 +366,7 @@ body {
 }
 
 .lista-faturadas .valor-fatura {
-    width: 25%;
+    width: 20%;
     text-align: right;
     padding-right: 5px;
 }
@@ -375,4 +375,12 @@ body {
     width: 20%;
     text-align: right;
     padding-right: 5px;
+}
+
+.lista-faturadas .botoes {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
 }

@@ -22,6 +22,10 @@
             <div class="valor-pago">
                 <span>R$ {{ fatura.valorpago|intcomma }}</span>
             </div>
+            <div class="botoes">
+                <i class="bi bi-printer i-button"></i>
+                <i class="bi bi-clipboard i-button"></i>
+            </div>
         </div>
         {% endfor %}
         <div class="lista-faturadas">
@@ -35,6 +39,8 @@
             </div>
             <div class="valor-pago">
                 <span>R$ {{ total_pago|intcomma }}</span>
+            </div>
+            <div class="botoes">
             </div>
         </div>
     </div>
