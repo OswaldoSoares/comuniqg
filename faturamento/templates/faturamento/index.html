@@ -25,7 +25,7 @@
                 </div>
             </div>
             {% endfor %}
-            <div class="lista-faturadas">
+            {% comment %} <div class="lista-faturadas">
                 <div class="cliente">
                 </div>
                 <div class="valor-fatura">
@@ -36,10 +36,10 @@
                 </div>
                 <div class="botoes">
                 </div>
-            </div>
+            </div> {% endcomment %}
         </div>
         <div class="card-footer">
-            <span>TOTAL A RECEBER R$ {{ total_recebe|intcomma }}</span>
+            <span>R$ {{ total_recebe|intcomma }}</span>
         </div>
     </div>
     <div class="card card-selecionadas">
