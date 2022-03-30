@@ -1,7 +1,10 @@
+$('.box-loader').hide()
+
 function openMyModal(event) {
     var modal = initModalDialog(event, '#MyModal');
     var url = $(event.target).data('action');
     var idobj = $(event.target).data('idobj');
+    $('.text-loader').text($(event.target).data('loader'))
     /**
      * tipotb usado no app tabelas
      */
@@ -54,7 +57,8 @@ function formAjaxSubmit(modal, action, cbAfterLoad, cbAfterSuccess) {
     if (cbAfterLoad) { cbAfterLoad(modal); }
     modal.find('form input:visible').first().focus();
     $(form).on('submit', function(event) {
-        $('.row').hide()
+        $('.text-loader').text($(this).attr('loader'))
+       console.log($(this).attr('loader')) || 'ATE'
         $('.box-loader').show()
         event.preventDefault();
         header.addClass('loading');
@@ -95,6 +99,8 @@ function formAjaxSubmit(modal, action, cbAfterLoad, cbAfterSuccess) {
                         cbAfterSuccess(modal);
                     }
                 }
+                $('.box-loader').fadeOut(50)
+                $('.text-loader').text('AGUARDE...')
             },
             error: function(xhr, ajaxOptions, thrownError) {s
                 // $(".mensagem-erro").text(thrownError);

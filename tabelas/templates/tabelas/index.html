@@ -3,9 +3,9 @@
 
 {% block main %}
 <nav class="menu-extra">
-    <i class="bi bi-plus-circle i-button extra-button" onclick="openMyModal(event); return false;" data-title="CRIA NOVA TABELA PRÓPRIA" data-action="{% url 'nova_tabela_propria' %}" data-button-save-label="CRIAR" data-idobj="">&nbsp; TABELA PRÓPRIA</i>
-    <i class="bi bi-plus-circle i-button extra-button item-tabela" onclick="openMyModal(event); return false;" data-title="ADICIONA ITEM TABELA PRÓPRIA" data-action="{% url 'novo_item_tabela' %}" data-button-save-label="ADICIONAR" data-idobj="">&nbsp; ITEM TABELA</i>
-    <i class="bi bi-x-circle i-button extra-button item-zerado" data-idobj="">&nbsp; ITEM ZERADO</i>
+    <i class="bi bi-plus-circle i-button extra-button" onclick="openMyModal(event); return false;" data-title="CRIA NOVA TABELA PRÓPRIA" data-action="{% url 'nova_tabela_propria' %}" data-button-save-label="CRIAR" data-idobj="" data-loader="AGUARDE CRIANDO TABELA PRÓPRIA...">&nbsp; TABELA PRÓPRIA</i>
+    <i class="bi bi-plus-circle i-button extra-button item-tabela" onclick="openMyModal(event); return false;" data-title="ADICIONA ITEM TABELA PRÓPRIA" data-action="{% url 'novo_item_tabela' %}" data-button-save-label="ADICIONAR" data-idobj=""  data-idobj="" data-loader="AGUARDE ADICIONANDO ITEM...">&nbsp; ITEM TABELA</i>
+    <i class="bi bi-x-circle i-button extra-button item-zerado">&nbsp; ITEM ZERADO</i>
 </nav>
 <main class="main-tabela">
     <div class="card tabela-selecionada">

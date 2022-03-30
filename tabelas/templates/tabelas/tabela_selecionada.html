@@ -20,13 +20,8 @@
         </div>
         {% else %}
         <div class="tc-produtos p-button">
-            <i class="bi bi-pencil-square i-button" onclick="openMyModal(event); return false;"
-                data-title="ALTERAR VALOR PRODUTO" data-action="{% url 'altera_valor_produto' %}"
-                data-button-save-label="EDITAR" data-idobj="{{ produtos.idtabela }}"
-                data-tipo-tb="{{ apelido.idcadastro}}"></i>
-            <i class="bi bi-trash i-button" onclick="openMyModal(event); return false;"
-                data-title="EXCLUIR ITEM DA TABELA" data-action="{% url 'delete_tabela_item' %}"
-                data-button-save-label="EXCLUIR" data-idobj="{{ produtos.idtabela }}"></i>
+            <i class="bi bi-pencil-square i-button" onclick="openMyModal(event); return false;" data-title="ALTERAR VALOR DO PRODUTO" data-action="{% url 'altera_valor_produto' %}" data-button-save-label="EDITAR" data-idobj="{{ produtos.idtabela }}" data-tipo-tb="{{ apelido.idcadastro}}" data-loader="AGUARDE ALTERANDO VALOR DO PRODUTO..."></i>
+            <i class="bi bi-trash i-button" onclick="openMyModal(event); return false;" data-title="EXCLUIR ITEM DA TABELA" data-action="{% url 'delete_tabela_item' %}" data-button-save-label="EXCLUIR" data-idobj="{{ produtos.idtabela }}" data-loader="AGUARDE EXCLUINDO ITEM DA TABELA..."></i>
         </div>
         {% endif %}
     </div>

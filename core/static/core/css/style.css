@@ -311,17 +311,19 @@ body {
 
 /* SCREEN AGUARDE START */
 .box-loader {
+    background-color: var(--color6);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 10001;
 }
-
-    .box-loader span {
-        padding-top: 20px;
-        font-size: 14px;
-        color: var(--color2);
-    }
 
     .loader {
         margin: auto;
@@ -335,6 +337,14 @@ body {
         height: 150px;
         animation: spinner 0.75s linear infinite;
     }
+
+    .box-loader span {
+        padding-top: 20px;
+        font-size: 14px;
+        color: var(--color8);
+        margin-bottom: 50px;
+    }
+
 
     @keyframes spinner {
         0% { transform: rotate(0deg); }

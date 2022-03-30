@@ -10,12 +10,16 @@ $(document).ready(function(){
             beforeSend: function() {
                 $('.card-servico').fadeOut(500)
                 $('.card-selecionadas').fadeOut(500)
+                $('.text-loader').text('AGUARDE CARREGANDO FATURAS...')
+                $('.box-loader').fadeIn(50)
                 $('.js-card-body').css('height', '');
             },
             success:function(data) {
                 $('.card-selecionadas').html(data['html_cliente_faturada'])
                 $('.card-selecionadas').fadeIn(500)
                 bodyHeight()
+                $('.box-loader').fadeOut(50)
+                $('.text-loader').text('AGUARDE...')
             },
         });
     });
@@ -37,7 +41,7 @@ $(document).ready(function(){
             },
         });
     });
-
+    
     $(document).on('click', '.js-servico-fatura', function() {
         var v_idobj = $(this).data('idobj')
         $.ajax({
@@ -48,11 +52,15 @@ $(document).ready(function(){
             },
             beforeSend: function() {
                 $('.card-servico').fadeOut(500)
+                $('.text-loader').text('AGUARDE CARREGANDO SERVIÇOS...')
+                $('.box-loader').fadeIn(50)
             },
             success:function(data) {
                 $('.card-servico').html(data['html_servico_faturada'])
                 $('.card-servico').fadeIn(500)
                 bodyHeight()
+                $('.box-loader').fadeOut(50)
+                $('.text-loader').text('AGUARDE...')
             },
         });
     });
