@@ -354,31 +354,26 @@ body {
     border-bottom: 1px solid var(--color6);
 }
 
-.lista-faturadas .fatura {
-    width: 10%;
-    text-align: center;
-}
-
 .lista-faturadas .cliente {
-    width: 40%;
+    width: 45%;
     text-align: left;
     padding-left: 5px;
 }
 
 .lista-faturadas .valor-fatura {
-    width: 20%;
+    width: 25%;
     text-align: right;
     padding-right: 5px;
 }
 
 .lista-faturadas .valor-pago {
-    width: 20%;
+    width: 25%;
     text-align: right;
     padding-right: 5px;
 }
 
 .lista-faturadas .botoes {
-    width: 10%;
+    width: 5%;
     display: flex;
     align-items: center;
     justify-content: space-between;

@@ -10,9 +10,6 @@
     <div class="card-body">
         {% for fatura in faturadas %}
         <div class="lista-faturadas">
-            <div class="fatura">
-                <span>{{ fatura.idfatura }}</span>
-            </div>
             <div class="cliente">
                 <span>{{ fatura.apelido }}</span>
             </div>
@@ -23,16 +20,12 @@
                 <span>R$ {{ fatura.valorpago|intcomma }}</span>
             </div>
             <div class="botoes">
-                <i class="bi bi-printer i-button"></i>
                 <i class="bi bi-clipboard i-button"></i>
             </div>
         </div>
         {% endfor %}
         <div class="lista-faturadas">
-            <div class="fatura">
-            </div>
             <div class="cliente">
-                <span>TOTAIS</span>
             </div>
             <div class="valor-fatura">
                 <span>R$ {{ total_faturadas|intcomma }}</span>
