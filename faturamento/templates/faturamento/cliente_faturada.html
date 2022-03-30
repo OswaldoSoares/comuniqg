@@ -1,0 +1,26 @@
+{% load humanize %}
+<div class="card-title">
+    <span>{{ apelido }}</span>
+</div>
+<div class="card-body">
+    {% for fatura in faturas %}
+    <div class="lista-selecionadas">
+        <div class="fatura">
+            <span>{{ fatura.idfatura }}</span>
+        </div>
+        <div class="valor-fatura">
+            <span>R$ {{ fatura.valorfatura|intcomma }}</span>
+        </div>
+        <div class="valor-pago">
+            <span>R$ {{ fatura.valorpago|intcomma }}</span>
+        </div>
+        <div class="botoes">
+            <i class="bi bi-printer i-button"></i>
+            <i class="bi bi-clipboard i-button"></i>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="card-footer">
+    <span>TOTAL A RECEBER R$ {{ total_recebe|intcomma }}</span>
+</div>

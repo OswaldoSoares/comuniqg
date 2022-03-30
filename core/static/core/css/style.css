@@ -342,11 +342,22 @@ body {
     }
 /* SCREEN AGUARDE END */
 
-.card-faturadas {
-    width: 500px;
+.faturamento {
+    margin-top: 10px;
+    display: flex;
+    align-items: start;
+    justify-content: start;
 }
 
-.lista-faturadas {
+.card-faturadas,
+.card-selecionadas {
+    width: 420px;
+    margin: 0;
+    padding: 10px 5px;
+}
+
+.lista-faturadas,
+.lista-selecionadas {
     width: 100%;
     display: flex;
     align-items: center;
@@ -355,7 +366,7 @@ body {
 }
 
 .lista-faturadas .cliente {
-    width: 45%;
+    width: 43%;
     text-align: left;
     padding-left: 5px;
 }
@@ -373,7 +384,30 @@ body {
 }
 
 .lista-faturadas .botoes {
-    width: 5%;
+    width: 7%;
+    text-align: center;
+}
+
+.lista-selecionadas .fatura {
+    width: 18%;
+    text-align: center;
+    padding-left: 5px;
+}
+
+.lista-selecionadas .valor-fatura {
+    width: 35%;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.lista-selecionadas .valor-pago {
+    width: 35%;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.lista-selecionadas .botoes {
+    width: 12%;
     display: flex;
     align-items: center;
     justify-content: space-between;

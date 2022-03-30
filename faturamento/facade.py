@@ -1,6 +1,8 @@
 from decimal import Decimal
 from django.db.models import Sum
+from django.http import JsonResponse
 from databaseold.models import Formapgto, Pessoa, Receber, Servico
+from django.template.loader import render_to_string
 from django.db import connection
 
 class FaturasReceber:
@@ -26,7 +28,8 @@ def get_faturadas():
         if os:
             cliente = Pessoa.objects.get(idpessoa=os[0].idcadastro)
             apelido = cliente.apelido
-        lista.append({'idfatura': itens.idfatura, 'valorfatura': itens.valorfatura, 'valorpago': itens.valorpago, 'apelido': apelido})
+            idpessoa = cliente.idpessoa
+        lista.append({'idfatura': itens.idfatura, 'valorfatura': itens.valorfatura, 'valorpago': itens.valorpago, 'apelido': apelido, 'idpessoa': idpessoa})
     sorted_list = sorted(lista, key=lambda x: x['apelido'])
     for itens in sorted_list:
         lista_cliente = list(filter(lambda x: x['apelido'] == itens['apelido'], sorted_list))
@@ -37,8 +40,32 @@ def get_faturadas():
             soma_pago += x['valorpago']
         verifica_lista_soma = next((i for i, x in enumerate(lista_soma) if x['apelido'] == itens['apelido']), None)
         if verifica_lista_soma == None:
-            lista_soma.append({'idfatura': itens['idfatura'], 'valorfatura': soma_fatura, 'valorpago': soma_pago, 'apelido': itens['apelido']})
+            lista_soma.append({'apelido': itens['apelido'], 'valorfatura': soma_fatura, 'valorpago': soma_pago, 'idpessoa': itens['idpessoa']})
     return lista_soma
+
+
+def get_cliente_faturada(v_idpessoa):
+    faturas = Receber.objects.filter(status='A RECEBER')
+    lista = []
+    for itens in faturas:
+        os = Servico.objects.filter(idfatura=itens.idfatura, idcadastro=v_idpessoa)
+        if os:
+            apelido = get_apelido(v_idpessoa)
+            lista.append({'idfatura': itens.idfatura, 'valorfatura': itens.valorfatura, 'valorpago': itens.valorpago, 'apelido': apelido})
+    sorted_list = sorted(lista, key=lambda x: x['idfatura'])
+    return sorted_list
+
+
+def get_apelido(v_idpessoa):
+    cliente = Pessoa.objects.get(idpessoa=v_idpessoa)
+    return cliente.apelido
+
+
+def html_cliente_faturada(request, v_contexto):
+    data = dict()
+    data['html_cliente_faturada'] = render_to_string('faturamento/cliente_faturada.html', v_contexto, request=request)
+    data = JsonResponse(data)
+    return data
 
 
 def get_total_faturadas():
