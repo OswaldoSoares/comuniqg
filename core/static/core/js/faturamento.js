@@ -10,6 +10,7 @@ $(document).ready(function(){
             beforeSend: function() {
                 $('.card-servico').fadeOut(500)
                 $('.card-selecionadas').fadeOut(500)
+                $('.js-card-body').css('height', '');
             },
             success:function(data) {
                 $('.card-selecionadas').html(data['html_cliente_faturada'])
