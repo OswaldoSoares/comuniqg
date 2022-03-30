@@ -21,5 +21,5 @@ def print_fatura(request):
 def servico_fatura(request):
     v_idobj = request.GET.get('idobj')
     servicos = get_servico(v_idobj)
-    data = html_servico_faturada(request, servicos)
+    data = html_servico_faturada(request, servicos, v_idobj)
     return data

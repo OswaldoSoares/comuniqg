@@ -1,15 +1,15 @@
 {% load humanize %}
 <div class="card-title">
-    <span>{{ apelido }}</span>
+    <span>FATURA {{ fatura }}</span>
 </div>
 <div class="card-body">
     {% for servico in servicos %}
-    <div class="lista-selecionadas">
+    <div class="lista-servicos">
         <div class="servico">
             <span>{{ servico.idservico }}</span>
         </div>
         <div class="data-servico">
-            <span>R$ {{ servico.diaservico }}</span>
+            <span>{{ servico.diaservico }}</span>
         </div>
         <div class="total-servico">
             <span>R$ {{ servico.total|intcomma }}</span>
@@ -22,5 +22,5 @@
     {% endfor %}
 </div>
 <div class="card-footer">
-    <span>TOTAL A RECEBER R$ {{ total_recebe|intcomma }}</span>
+    <span>{{ os }} ORDE{{ os|pluralize:"m,ns"|upper }} DE SERVIÇO</span>
 </div>

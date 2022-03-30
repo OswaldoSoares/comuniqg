@@ -59,7 +59,8 @@ def get_cliente_faturada(v_idpessoa):
 def get_servico(v_fatura):
     servicos = Servico.objects.filter(idfatura=v_fatura)
     lista = [{'idservico': itens.idservico, 'diaservico': itens.diaservico, 'total': itens.total} for itens in servicos]
-    return lista
+    sorted_list = sorted(lista, key=lambda x: x['diaservico'])
+    return sorted_list
 
 
 def get_apelido(v_idpessoa):
@@ -69,16 +70,20 @@ def get_apelido(v_idpessoa):
 
 def html_cliente_faturada(request, v_faturas, v_idobj):
     data = dict()
+    total_receber = Decimal()
+    for x in v_faturas:
+        total_receber += x['valorfatura']
+        total_receber -= x['valorpago']
     apelido = get_apelido(v_idobj)
-    contexto = {'faturas': v_faturas, 'apelido': apelido}
+    contexto = {'faturas': v_faturas, 'apelido': apelido, 'total_receber': total_receber}
     data['html_cliente_faturada'] = render_to_string('faturamento/cliente_faturada.html', contexto, request=request)
     data = JsonResponse(data)
     return data
 
 
-def html_servico_faturada(request, v_servicos):
+def html_servico_faturada(request, v_servicos, v_fatura):
     data = dict()
-    contexto = {'servicos': v_servicos}
+    contexto = {'servicos': v_servicos, 'fatura': v_fatura, 'os': len(v_servicos)}
     data['html_servico_faturada'] = render_to_string('faturamento/servico_faturada.html', contexto, request=request)
     data = JsonResponse(data)
     return data

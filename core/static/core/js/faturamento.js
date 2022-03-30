@@ -8,6 +8,7 @@ $(document).ready(function(){
                 idobj: v_idobj,
             },
             beforeSend: function() {
+                $('.card-servico').fadeOut(500)
                 $('.card-selecionadas').fadeOut(500)
             },
             success:function(data) {
