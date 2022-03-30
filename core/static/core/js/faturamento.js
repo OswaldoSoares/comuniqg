@@ -14,6 +14,7 @@ $(document).ready(function(){
             success:function(data) {
                 $('.card-selecionadas').html(data['html_cliente_faturada'])
                 $('.card-selecionadas').fadeIn(500)
+                bodyHeight()
             },
         });
     });
@@ -50,9 +51,29 @@ $(document).ready(function(){
             success:function(data) {
                 $('.card-servico').html(data['html_servico_faturada'])
                 $('.card-servico').fadeIn(500)
+                bodyHeight()
             },
         });
     });
 
     $('.box-loader').hide()
 })
+
+var bodyHeight = function() {
+    var maxHeight = 0;
+    var topPosition = 0;
+    $('.js-card-body').each(function(index) {
+        if (index === 0) {
+            topPosition = $(this).position().top
+        }
+        var thisH = $(this).height();
+        if (thisH > maxHeight) {
+            maxHeight = thisH
+        }
+    });
+    $('.js-card-body').each(function() {
+        if ($(this).position().top == topPosition) {
+            $(this).height(maxHeight)
+        }
+    });
+}
