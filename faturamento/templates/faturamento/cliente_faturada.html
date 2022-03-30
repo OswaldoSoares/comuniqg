@@ -22,5 +22,5 @@
     {% endfor %}
 </div>
 <div class="card-footer">
-    <span>R$ {{ total_receber|intcomma }}</span>
+    <span>{{ quantidade }} FATURA{{ quantidade|pluralize|upper }} - R$ {{ total_receber|intcomma }}</span>
 </div>

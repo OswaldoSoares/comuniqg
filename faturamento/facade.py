@@ -75,7 +75,7 @@ def html_cliente_faturada(request, v_faturas, v_idobj):
         total_receber += x['valorfatura']
         total_receber -= x['valorpago']
     apelido = get_apelido(v_idobj)
-    contexto = {'faturas': v_faturas, 'apelido': apelido, 'total_receber': total_receber}
+    contexto = {'faturas': v_faturas, 'apelido': apelido, 'total_receber': total_receber, 'quantidade': len(v_faturas)}
     data['html_cliente_faturada'] = render_to_string('faturamento/cliente_faturada.html', contexto, request=request)
     data = JsonResponse(data)
     return data
