@@ -1,14 +1,49 @@
 from decimal import Decimal
 from django.db.models import Sum
 from django.http import JsonResponse
-from databaseold.models import Formapgto, Pessoa, Receber, Servico
+from databaseold.models import Formapgto, Pessoa, Receber, Servico, Produto, Servicoitem
 from django.template.loader import render_to_string
 from django.db import connection
 
-class FaturasReceber:
-    def __init__(self) -> None:
-        pass
+
+class Fatura:
+    def __init__(self, v_idfatura) -> None:
+        self.fatura = get_fatura(v_idfatura)
+        self.servicos = get_servico(v_idfatura)
+        self.cliente = get_cliente(self.servicos[0]['idpessoa'])
+        self.pagamentos = get_pagamentos(v_idfatura)
+
+
+class ItensServico:
+    def __init__(self, v_idservico) -> None:
+        self.itens = get_itens(v_idservico)
+
+
+class Produtos:
+    def __init__(self, v_idproduto) -> None:
+        self.produto = get_produto(v_idproduto)
+
+
+def get_produto(v_idproduto):
+    produto = Produto.objects.get(idproduto=v_idproduto)
+    return produto
+
+
+def get_itens(v_idservico):
+    itens_os = Servicoitem.objects.filter(idservico=v_idservico)
+    lista = [{'idservicoitem': itens.idservicoitem, 'idproduto': itens.idproduto, 'originais': itens.originais, 'copias': itens.copias, 'valor': itens.valor, 'tamanho': itens.tamanho} for itens in itens_os]
     
+
+def get_fatura(v_idfatura):
+    fatura = Receber.objects.get(idfatura=v_idfatura)
+    return fatura
+
+
+def get_pagamentos(v_idfatura):
+    pgtos = Formapgto.objects.filter(fatura=v_idfatura)
+    lista = [{'idformapgto': itens.idformapgto, 'diapago': itens.diapago, 'dinheiro': itens.dinheiro, 'debito': itens.debito, 'credito': itens.credito, 'deposito': itens.deposito, 'parcelas': itens.parcelas} for itens in pgtos]
+    return lista
+
 
 def context():
     faturadas = get_faturadas()
@@ -58,7 +93,7 @@ def get_cliente_faturada(v_idpessoa):
 
 def get_servico(v_fatura):
     servicos = Servico.objects.filter(idfatura=v_fatura)
-    lista = [{'idservico': itens.idservico, 'diaservico': itens.diaservico, 'total': itens.total} for itens in servicos]
+    lista = [{'idservico': itens.idservico, 'diaservico': itens.diaservico, 'total': itens.total, 'idpessoa': itens.idcadastro} for itens in servicos]
     sorted_list = sorted(lista, key=lambda x: x['diaservico'])
     return sorted_list
 
@@ -103,3 +138,7 @@ def get_servico_fatura():
     servico = Servico.objects.filter(status='FATURADA')
     return servico
 
+
+def get_cliente(v_idpessoa):
+    cliente = Pessoa.objects.get(idpessoa=v_idpessoa)
+    return cliente
