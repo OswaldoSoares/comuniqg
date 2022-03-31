@@ -104,3 +104,6 @@ br_formats.DATE_FORMAT = 'd/m/Y'
 
 STATIC_URL = 'static/'
 STATIC_ROOT = config('STATIC_ROOT_CONFIG')
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = config('MEDIA_ROOT_CONFIG')
