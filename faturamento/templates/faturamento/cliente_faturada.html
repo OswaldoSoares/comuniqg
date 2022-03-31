@@ -15,7 +15,7 @@
             <span>R$ {{ fatura.valorpago|intcomma }}</span>
         </div>
         <div class="botoes">
-            <i class="bi bi-printer i-button js-print-fatura" data-idobj="{{ fatura.idfatura }}"></i>
+            <a class="bi bi-printer i-button" href={% url 'print_fatura' fatura.idfatura %} target="_blank"></a>
             <i class="bi bi-clipboard i-button js-servico-fatura" data-idobj="{{ fatura.idfatura }}"></i>
         </div>
     </div>

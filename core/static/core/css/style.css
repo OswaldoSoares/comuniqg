@@ -94,7 +94,9 @@ body {
         flex-shrink: 0;
     }
 
-.i-button {
+.i-button,
+.i-button:active,
+.i-button:focus {
     color: var(--color4);
 }
 

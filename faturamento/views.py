@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from faturamento.facade import context, get_cliente_faturada, get_servico, html_cliente_faturada, html_servico_faturada
+from faturamento.print import fatura_pdf
 
 
 def index_faturamento(request):
@@ -14,8 +15,9 @@ def cliente_faturada(request):
     return data
 
 
-def print_fatura(request):
-    v_idobj = request.GET.get('idobj')
+def print_fatura(request, idfatura):
+    response = fatura_pdf(idfatura)
+    return response
 
 
 def servico_fatura(request):
