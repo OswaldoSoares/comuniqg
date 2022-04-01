@@ -32,6 +32,7 @@ def get_produto(v_idproduto):
 def get_itens(v_idservico):
     itens_os = Servicoitem.objects.filter(idservico=v_idservico)
     lista = [{'idservicoitem': itens.idservicoitem, 'idproduto': itens.idproduto, 'originais': itens.originais, 'copias': itens.copias, 'valor': itens.valor, 'tamanho': itens.tamanho} for itens in itens_os]
+    return lista
     
 
 def get_fatura(v_idfatura):
