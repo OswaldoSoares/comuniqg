@@ -11,7 +11,7 @@ $(document).ready(function(){
                 $('.card-servico').fadeOut(500)
                 $('.card-selecionadas').fadeOut(500)
                 $('.text-loader').text('AGUARDE CARREGANDO FATURAS...')
-                $('.box-loader').fadeIn(50)
+                // $('.box-loader').fadeIn(50)
                 $('.js-card-body').css('height', '');
             },
             success:function(data) {
@@ -21,6 +21,9 @@ $(document).ready(function(){
                 $('.box-loader').fadeOut(50)
                 $('.text-loader').text('AGUARDE...')
             },
+            error: function(errors) {
+                console.log(errors)
+            }
         });
     });
 
