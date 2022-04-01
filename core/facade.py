@@ -14,7 +14,7 @@ def mp(mm: float) -> float:
 
 
 def c_br(valor: str) -> str:
-    locale.setlocale(locale.LC_ALL, 'Portuguese_Brazil.1252')
+    locale.setlocale(locale.LC_ALL, 'pt_BR UTF-8')
     valor_br = locale.currency(valor, grouping=True, symbol=True)
     valor_br = valor_br.replace('R$', 'R$ ')
     return valor_br
