@@ -16,9 +16,9 @@ def cabecalho(pdf, s_fatura):
     url = f'{STATIC_ROOT}/core/img/logo.png'
     v_endereco = 'RUA PE BENEDITO DE CAMARGO, 385'
     v_cidade = 'CEP 03604-010 - SÃO PAULO - SP'
-    v_telefone = '(11) 2647-1200 - (11) 96191-8082 WHASTAPP'
+    v_telefone = '(11) 2647-1200 - (11) 94233-8804 WHATSAPP - (11) 96191-8082 WHASTAPP'
     v_email = 'tecnoline@uol.com.br - comuniqg.gmail.com'
-    v_pix = 'PIX: 00.000.000/000-00'
+    v_pix = 'PIX: 40.062.536/0001-56'
     pdf.roundRect(mp(6), mp(6), mp(198), mp(285), 10, stroke=1, fill=0)
     pdf.drawImage(url, mp(10), mp(272), mp(55), mp(15))
     pdf.roundRect(mp(70), mp(272), mp(130), mp(15), 5)
