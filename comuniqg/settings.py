@@ -108,3 +108,7 @@ STATIC_ROOT = config("STATIC_ROOT_CONFIG")
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = config("MEDIA_ROOT_CONFIG")
+
+
+# Account Model
+AUTH_USER_MODEL = "account.Account"
