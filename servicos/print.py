@@ -5,8 +5,11 @@ from core.facade import mp
 from databaseold.models import Pessoa, Produto, Servico, Servicoitem
 from django.http import HttpResponse
 from reportlab.lib.colors import HexColor
+from reportlab.lib.enums import TA_JUSTIFY
 from reportlab.lib.pagesizes import A4, landscape
+from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfgen import canvas
+from reportlab.platypus import Paragraph
 
 
 def servico_pdf(idservico):
@@ -48,7 +51,7 @@ def servico_pdf(idservico):
         pdf.drawCentredString(mp(74 + posx), mp(176), v_email)
         pdf.line(mp(5 + posx), mp(175), mp(143.5 + posx), mp(175))
         pdf.line(mp(5 + posx), mp(165), mp(143.5 + posx), mp(165))
-        pdf.setFont("Times-Bold", 12)
+        pdf.setFont("Times-Bold", 10)
         pdf.setFillColor(HexColor("#c1c1c1"))
         pdf.setStrokeColor(HexColor("#c1c1c1"))
         pdf.rect(mp(5.5 + posx), mp(170), mp(67.75), mp(4.5), fill=1, stroke=1)
@@ -112,7 +115,18 @@ def servico_pdf(idservico):
         pdf.line(mp(5 + posx), mp(linha - 8), mp(143.5 + posx), mp(linha - 8))
         pdf.line(mp(5 + posx), mp(55), mp(143.5 + posx), mp(55))
         pdf.drawString(mp(7 + posx), mp(51), "Observações:")
-        pdf.drawString(mp(7.5 + posx), mp(46), servico.obs)
+        obs_style = ParagraphStyle(
+            "claro",
+            fontName="Times-Roman",
+            fontSize=8,
+            leading=8,
+            alignment=TA_JUSTIFY,
+        )
+        if servico.obs:
+            v_paragraph = Paragraph(servico.obs, style=obs_style)
+            v_paragraph.wrapOn(pdf, mp(130), mp(19))
+            v_height = (v_paragraph.height / 8) * 3
+            v_paragraph.drawOn(pdf, mp(8 + posx), mp(49 - v_height))
         pdf.rect(mp(7 + posx), mp(34), mp(134.5), mp(15))
         pdf.drawString(mp(7 + posx), mp(29), "Obra")
         pdf.drawString(mp(7 + posx), mp(24), servico.obra)
