@@ -9,7 +9,6 @@ def test_create_account():
     account = Account.objects.create_user(
         username="usuario_test", email="usuario@test.com", password="password"
     )
-
     assert account.username == "usuario_test"
     assert account.email == "usuario@test.com"
     assert account.is_active
@@ -21,7 +20,6 @@ def test_create_superuser():
     account = Account.objects.create_superuser(
         username="admin_test", email="admin@test.com", password="password"
     )
-
     assert account.username == "admin_test"
     assert account.email == "admin@test.com"
     assert account.is_active

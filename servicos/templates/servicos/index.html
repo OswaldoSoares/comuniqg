@@ -1,0 +1,57 @@
+{% extends 'core/base_restrito.html' %}
+
+{% block main %}
+    <div class="lista_conteudo">
+        <header>
+            CADASTRO DE ORDEM DE SERVIÇO
+        </header>
+        <div class="nav_filtro">
+            <div>
+                <div class="filtro">
+                    <form>
+                        <input type="text" class="filtro-texto" placeholder="FILTRAR OS" name="filtro-os">
+                        <button type="submit" class="btm btn-info glyphicon glyphicon-search"></button>
+                    </form>
+                </div>
+                <div class="filtro-adicional">
+                    <form>
+                        <input type="text" class="filtro-texto" placeholder="FILTRO STATUS" name="filtro-status">
+                        <button type="submit" class="brn btn-info glyphicon glyphicon-search"></button>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <table class="tabela">
+                    <thead>
+                        <tr class="tabela-titulo">
+                            <th class="primeira-coluna">OS</th>
+                            <th>CLIENTE</th>
+                            <th>SOLICITANTE</th>
+                            <th>OBRA</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, value in os.items %}
+                            <tr class="tabela-linha">
+                                <td class="primeira-coluna">{{ key }}</td>
+                                <td>{{ value.Cliente }}</td>
+                                <td>{{ value.Solicitante }}</td>
+                                <td>{{ value.Obra }}</td>
+                                <td class="seleciona-registro">
+                                    <button class="btn btn-primary btn-xs"
+                                            onclick="window.location.href = '{% url 'print_servico' value.idservico %}';">
+                                        <span class="plyphicon glyphicon-print">Testando 123...</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <footer>
+                <h5>Alguma coisa descrita aqui</h5>
+            </footer>
+        </div>
+    </div>
+{% endblock %}

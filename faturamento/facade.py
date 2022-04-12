@@ -25,6 +25,92 @@ class Produtos:
         self.produto = get_produto(v_idproduto)
 
 
+class ClassFatura:
+    def __init__(self, v_fatura):
+        self.fatura = v_fatura
+        self.faturada_grouped = self.get_faturadas_grouped()
+
+    @staticmethod
+    def get_faturadas_grouped():
+        faturas = Receber.objects.filter(status="A RECEBER")
+        lista = []
+        lista_soma = []
+        for itens in faturas:
+            apelido = ""
+            os = Servico.objects.filter(idfatura=itens.idfatura)
+            if os:
+                cliente = Pessoa.objects.get(idpessoa=os[0].idcadastro)
+                apelido = cliente.apelido
+                idpessoa = cliente.idpessoa
+            lista.append(
+                {
+                    "idfatura": itens.idfatura,
+                    "valorfatura": itens.valorfatura,
+                    "valorpago": itens.valorpago,
+                    "apelido": apelido,
+                    "idpessoa": idpessoa,
+                }
+            )
+
+        sorted_list = sorted(lista, key=lambda x: x["apelido"])
+        for itens in sorted_list:
+            lista_cliente = list(
+                filter(lambda x: x["apelido"] == itens["apelido"], sorted_list)
+            )
+            soma_fatura = Decimal()
+            soma_pago = Decimal()
+            for x in lista_cliente:
+                soma_fatura += x["valorfatura"]
+                soma_pago += x["valorpago"]
+            verifica_lista_soma = next(
+                (
+                    i
+                    for i, x in enumerate(lista_soma)
+                    if x["apelido"] == itens["apelido"]
+                ),
+                None,
+            )
+            if verifica_lista_soma == None:
+                lista_soma.append(
+                    {
+                        "apelido": itens["apelido"],
+                        "valorfatura": soma_fatura,
+                        "valorpago": soma_pago,
+                        "idpessoa": itens["idpessoa"],
+                    }
+                )
+        return lista_soma
+
+    class ClassServico:
+        def __init__(self, v_idfatura):
+            self.servico = self.get_serv(v_idfatura)
+
+        @staticmethod
+        def get_serv(v_fatura):
+            class ClassCliente:
+                def __init__(self, v_idcliente):
+                    self.cliente = get_apelido(v_idcliente)
+
+            class ClassItensServico:
+                def __init__(self, v_idservico):
+                    self.itens = get_itens(v_idservico)
+
+            servicos = Servico.objects.filter(idfatura=v_fatura)
+            lista = [
+                {
+                    "idservico": itens.idservico,
+                    "diaservico": itens.diaservico,
+                    "total": itens.total,
+                    "idpessoa": itens.idcadastro,
+                    "pessoa": ClassCliente(itens.idcadastro).__dict__,
+                    "itens": ClassItensServico(itens.idservico).__dict__,
+                }
+                for itens in servicos
+            ]
+            sorted_list = sorted(lista, key=lambda x: x["diaservico"])
+            return sorted_list
+
+
 def context():
     faturadas = get_faturadas()
     total_faturadas = get_total_faturadas()
