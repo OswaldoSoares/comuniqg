@@ -18,6 +18,11 @@ def servico_pdf(idservico):
     :return:
     """
     url = f"{STATIC_ROOT}/core/img/logo.png"
+    v_endereco = "RUA PE BENEDITO DE CAMARGO, 385"
+    v_cidade = "CEP 03604-010 - SÃO PAULO - SP"
+    v_telefone = "(11) 2647-1200 - (11) 94233-8804 WHATSAPP - (11) 96191-8082 WHATSAPP"
+    v_email = "tecnoline@uol.com.br - comuniqg.gmail.com"
+    v_pix = "PIX: 40.062.536/0001-56"
     servico = Servico.objects.get(idservico=idservico)
     cliente = Pessoa.objects.get(idpessoa=servico.idcadastro)
     qs_servico_item = Servicoitem.objects.filter(idservico=idservico)
@@ -38,15 +43,9 @@ def servico_pdf(idservico):
         pdf.setFont("Times-Bold", 12)
         pdf.drawString(mp(106.5 + posx), mp(193.5), "OS: " + str(servico.idservico))
         pdf.setFont("Times-Bold", 10)
-        pdf.drawCentredString(
-            mp(74 + posx),
-            mp(184),
-            "Rua Pe Benedito de Camargo, 385 - CEP 03604-010 - " "São Paulo - SP",
-        )
-        pdf.drawCentredString(
-            mp(74 + posx), mp(180), "(11) 2647-1200 - Whatsapp (11) 94233-8804"
-        )
-        pdf.drawCentredString(mp(74 + posx), mp(176), "tecnoline@uol.com.br")
+        pdf.drawCentredString(mp(74 + posx), mp(184), f"{v_endereco} - {v_cidade}")
+        pdf.drawCentredString(mp(74 + posx), mp(180), v_telefone)
+        pdf.drawCentredString(mp(74 + posx), mp(176), v_email)
         pdf.line(mp(5 + posx), mp(175), mp(143.5 + posx), mp(175))
         pdf.line(mp(5 + posx), mp(165), mp(143.5 + posx), mp(165))
         pdf.setFont("Times-Bold", 12)
@@ -70,7 +69,6 @@ def servico_pdf(idservico):
         linha = 166
         total = 0
         for x in servico_item:
-            print(x)
             pdf.drawString(mp(6 + posx), mp(linha - 4), x.get("idproduto"))
             # pdf.drawCentredString(mp(50.5), mp(linha-4), x.get('codigo'))
             pdf.drawRightString(mp(69 + posx), mp(linha - 4), str(x.get("originais")))
