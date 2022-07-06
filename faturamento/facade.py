@@ -364,15 +364,21 @@ def html_cliente_faturada(request, v_faturas, v_idobj):
 
 def html_servico_faturada(request, v_servicos, v_fatura):
     data = dict()
-    pagamentos = get_pagamentos(v_fatura)
     hoje = datetime.datetime.today()
     hoje = datetime.datetime.strftime(hoje, "%Y-%m-%d")
+    pagamentos = get_pagamentos(v_fatura)
+    fatura = get_fatura(v_fatura)
+    total = Decimal(0.00)
+    for i in pagamentos:
+        total = i["dinheiro"] + i["debito"] + i["credito"] + i["deposito"]
+    saldo = fatura.valorfatura - total
     contexto = {
         "servicos": v_servicos,
         "fatura": v_fatura,
         "os": len(v_servicos),
         "pagamentos": pagamentos,
         "hoje": hoje,
+        'saldo': saldo,
     }
     data["html_servico_faturada"] = render_to_string(
         "faturamento/servico_faturada.html", contexto, request=request
