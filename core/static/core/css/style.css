@@ -566,3 +566,16 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+
+.card-pagamento-fatura .lista-pagamentos .item-pagamento input {
+    width: 120px;
+    text-align: right;
+    color: var(--color6)
+}
+
+.card-pagamento-fatura .lista-pagamentos .botao {
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
