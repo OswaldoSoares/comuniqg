@@ -1,0 +1,35 @@
+{% load humanize %}
+<div class="card-title">
+    <span>PAGAMENTOS</span>
+</div>
+<div class="card-body js-card-body">
+    {% for pgtos in pagamentos %}
+    <div class="lista-pagamentos">
+        <div class="item-pagamento dia">
+            <span>Data Pagamento:</span>
+            <span>{{ pgtos.diapago }}</span>
+        </div>
+        <div class="item-pagamento dinheiro">
+            <span>Dinheiro</span>
+            <span>R$ {{ pgtos.dinheiro|intcomma }}</span>
+        </div>
+        <div class="item-pagamento debito">
+            <span>Cartão de Débito</span>
+            <span>R$ {{ pgtos.debito|intcomma }}</span>
+        </div>
+        <div class="item-pagamento credito">
+            <span>Cartão de Crédito</span>
+            <span>R$ {{ pgtos.credito|intcomma }}</span>
+        </div>
+        <div class="item-pagamento pix">
+            <span>Pix</span>
+            <span>R$ 0,00 {{ pgtos.pix|intcomma }}</span>
+        </div>
+        <div class="item-pagamento deposito">
+            <span>Depósito</span>
+            <span>R$ {{ pgtos.deposito|intcomma }}</span>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="card-footer"></div>

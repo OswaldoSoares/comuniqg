@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function() {
     $(document).on('click', '.js-cliente-faturada', function() {
         var v_idobj = $(this).data('idobj')
         $.ajax({
@@ -8,17 +8,19 @@ $(document).ready(function(){
                 idobj: v_idobj,
             },
             beforeSend: function() {
-                $('.card-servico').fadeOut(500)
-                $('.card-selecionadas').fadeOut(500)
+                $('.card-servico').hide()
+                $('.card-selecionadas').hide()
+                $('.card-faturar').hide()
+                $('.card-pagamento-fatura').hide()
                 $('.text-loader').text('AGUARDE CARREGANDO FATURAS...')
-                $('.box-loader').fadeIn(50)
+                $('.box-loader').show()
                 $('.js-card-body').css('height', '');
             },
-            success:function(data) {
+            success: function(data) {
                 $('.card-selecionadas').html(data['html_cliente_faturada'])
-                $('.card-selecionadas').fadeIn(500)
+                $('.card-selecionadas').show()
                 bodyHeight()
-                $('.box-loader').fadeOut(50)
+                $('.box-loader').hide()
                 $('.text-loader').text('AGUARDE...')
             },
             error: function(errors) {
@@ -36,22 +38,31 @@ $(document).ready(function(){
                 idobj: v_idobj,
             },
             beforeSend: function() {
-                $('.card-servico').fadeOut(500)
+                $('.card-servico').hide()
                 $('.text-loader').text('AGUARDE CARREGANDO SERVIÇOS...')
-                $('.box-loader').fadeIn(50)
+                $('.box-loader').show()
             },
-            success:function(data) {
+            success: function(data) {
                 $('.card-servico').html(data['html_servico_faturada'])
-                $('.card-servico').fadeIn(500)
+                $('.card-servico').show()
+                $('.card-pagamento-fatura').html(data['html_pagamento_fatura'])
+                $('.card-pagamento-fatura').show()
                 bodyHeight()
-                $('.box-loader').fadeOut(50)
+                $('.box-loader').hide()
                 $('.text-loader').text('AGUARDE...')
             },
+            error: function(errors) {
+                console.log(errors)
+            }
         });
     });
 
     $('.box-loader').hide()
+    $('.card-selecionadas').hide()
+    $('.card-servico').hide()
+    bodyHeight()
 })
+
 
 var bodyHeight = function() {
     var maxHeight = 0;

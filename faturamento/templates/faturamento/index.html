@@ -21,7 +21,8 @@
                     <span>R$ {{ fatura.valorpago|intcomma }}</span>
                 </div>
                 <div class="botoes">
-                    <i class="bi bi-clipboard i-button js-cliente-faturada" data-idobj="{{ fatura.idpessoa }}"></i>
+                    <i class="bi bi-clipboard i-button js-cliente-faturada"
+                    data-idobj="{{ fatura.idpessoa }}"></i>
                 </div>
             </div>
             {% endfor %}
@@ -47,6 +48,33 @@
     </div>
     <div class="card card-servico">
         
+    </div>
+    <div class="card card-pagamento-fatura">
+        
+    </div>
+    <div class="card card-faturar">
+        <div class="card-title">
+            <span>FATURAR</span>
+        </div>
+        <div class="card-body js-card-body">
+            {% for fatura in faturar %}
+            <div class="lista-faturar">
+                <div class="cliente">
+                    <span>{{ fatura.apelido }}</span>
+                </div>
+                <div class="valor-fatura">
+                    <span>R$ {{ fatura.valorfatura|intcomma }}</span>
+                </div>
+                <div class="botoes">
+                    <i class="bi bi-clipboard i-button js-cliente-faturada"
+                    data-idobj="{{ fatura.idpessoa }}"></i>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="card-footer">
+            <span>R$ {{ total_faturar|intcomma }}</span>
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -113,14 +113,18 @@ class ClassFatura:
 
 def context():
     faturadas = get_faturadas()
+    faturar = get_faturar()
     total_faturadas = get_total_faturadas()
+    total_faturar = get_total_faturar()
     total_pago = get_total_pago()
     total_recebe = total_faturadas - total_pago
     return {
         "faturadas": faturadas,
         "total_faturadas": total_faturadas,
+        "total_faturar": total_faturar,
         "total_pago": total_pago,
         "total_recebe": total_recebe,
+        "faturar": faturar,
     }
 
 
@@ -136,6 +140,25 @@ def get_cliente(v_idpessoa):
 
 def get_cliente_faturada(v_idpessoa):
     faturas = Receber.objects.filter(status="A RECEBER")
+    lista = []
+    for itens in faturas:
+        os = Servico.objects.filter(idfatura=itens.idfatura, idcadastro=v_idpessoa)
+        if os:
+            apelido = get_apelido(v_idpessoa)
+            lista.append(
+                {
+                    "idfatura": itens.idfatura,
+                    "valorfatura": itens.valorfatura,
+                    "valorpago": itens.valorpago,
+                    "apelido": apelido,
+                }
+            )
+    sorted_list = sorted(lista, key=lambda x: x["idfatura"])
+    return sorted_list
+
+
+def get_cliente_faturar(v_idpessoa):
+    faturas = Receber.objects.filter(status="A FATURAR")
     lista = []
     for itens in faturas:
         os = Servico.objects.filter(idfatura=itens.idfatura, idcadastro=v_idpessoa)
@@ -198,6 +221,45 @@ def get_faturadas():
                     "apelido": itens["apelido"],
                     "valorfatura": soma_fatura,
                     "valorpago": soma_pago,
+                    "idpessoa": itens["idpessoa"],
+                }
+            )
+    return lista_soma
+
+
+def get_faturar():
+    os = Servico.objects.filter(status="FATURAR")
+    lista = []
+    lista_soma = []
+    for itens in os:
+        cliente = Pessoa.objects.get(idpessoa=itens.idcadastro)
+        apelido = cliente.apelido
+        idpessoa = cliente.idpessoa
+        lista.append(
+            {
+                "idfatura": itens.idfatura,
+                "valorfatura": itens.total,
+                "apelido": apelido,
+                "idpessoa": idpessoa,
+            }
+        )
+    sorted_list = sorted(lista, key=lambda x: x["apelido"])
+    for itens in sorted_list:
+        lista_cliente = list(
+            filter(lambda x: x["apelido"] == itens["apelido"], sorted_list)
+        )
+        soma_fatura = Decimal()
+        for x in lista_cliente:
+            soma_fatura += x["valorfatura"]
+        verifica_lista_soma = next(
+            (i for i, x in enumerate(lista_soma) if x["apelido"] == itens["apelido"]),
+            None,
+        )
+        if verifica_lista_soma == None:
+            lista_soma.append(
+                {
+                    "apelido": itens["apelido"],
+                    "valorfatura": soma_fatura,
                     "idpessoa": itens["idpessoa"],
                 }
             )
@@ -269,6 +331,11 @@ def get_total_faturadas():
     return total["total"]
 
 
+def get_total_faturar():
+    total = Servico.objects.filter(status="FATURAR").aggregate(total=Sum("total"))
+    return total["total"]
+
+
 def get_total_pago():
     total = Receber.objects.filter(status="A RECEBER").aggregate(pago=Sum("valorpago"))
     return total["pago"]
@@ -296,13 +363,18 @@ def html_cliente_faturada(request, v_faturas, v_idobj):
 
 def html_servico_faturada(request, v_servicos, v_fatura):
     data = dict()
+    pagamentos = get_pagamentos(v_fatura)
     contexto = {
         "servicos": v_servicos,
         "fatura": v_fatura,
         "os": len(v_servicos),
+        'pagamentos': pagamentos,
     }
     data["html_servico_faturada"] = render_to_string(
         "faturamento/servico_faturada.html", contexto, request=request
+    )
+    data["html_pagamento_fatura"] = render_to_string(
+        "faturamento/html_pagamento_fatura.html", contexto, request=request
     )
     data = JsonResponse(data)
     return data
