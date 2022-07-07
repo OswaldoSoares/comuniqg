@@ -11,28 +11,39 @@
                 <input class="" type="date" value="{{ hoje }}"></input>
             </div>
             <div class="item-pagamento dinheiro">
-                <span>Dinheiro</span>
-                <input class="" type="number" step="0.01" value={{ saldo|stringformat:'.2f' }}></input>
+                <i class="i-button js-bt-dinheiro">Dinheiro</i>
+                <input class="js-dinheiro" type="number" step="0.01" value="0.00">
             </div>
             <div class="item-pagamento debito">
-                <span>Cartão de Débito</span>
-                <input class="" type="number" step="0.01" value="0.00"></input>
+                <i class="i-button js-bt-debito">Cartão de Débito</i>
+                <input class="js-debito" type="number" step="0.01" value="0.00">
             </div>
             <div class="item-pagamento credito">
-                <span>Cartão de Crédito</span>
-                <input class="" type="number" step="0.01" value="0.00"></input>
+                <i class="i-button js-bt-credito">Cartão de Crédito</i>
+                <input class="js-credito" type="number" step="0.01" value="0.00">
             </div>
             <div class="item-pagamento pix">
-                <span>Pix</span>
-                <input class="" type="number" step="0.01" value="0.00" disabled></input>
+                <i class="i-button js-bt-pix">Pix</i>
+                <input class="js-pix" type="number" step="0.01" value="0.00" disabled>
             </div>
             <div class="item-pagamento deposito">
-                <span>Depósito</span>
-                <input class="" type="number" step="0.01" value="0.00"></input>
+                <i class="i-button js-bt-deposito">Depósito</i>
+                <input class="js-deposito" type="number" step="0.01" value="0.00">
+            </div>
+            <div class="item-pagamento desconto">
+                <span class="i-button js-bt-desconto">Desconto</span>
+                <input class="js-desconto" type="number" step="0.01" value="0.00" disabled>
+            </div>
+            <div class="item-pagamento saldo">
+                <span>A Receber</span>
+                <input class="js-receber" type="number" step="0.01"
+                value="{{ saldo|stringformat:'.2f' }}" disabled>
             </div>
             <div class="item-pagamento botao">
                 <button type="submit" class="bi bi-currency-dollar i-button"></button>
             </div>
+            <input class="js-saldo" type="hidden" name="saldo"
+            value="{{ saldo|stringformat:'.2f' }}">
         </form>
     </div>
     {% for pgtos in pagamentos %}

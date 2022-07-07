@@ -29,6 +29,92 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('change', '.js-dinheiro', function() {
+        // saldo_fatura = $('.js-saldo').val() - $(this).val()
+        soma_entrada()
+    })
+
+    $(document).on('click', '.js-bt-dinheiro', function() {
+        var saldo = $('.js-saldo').val()
+        $('.js-dinheiro').val(saldo)
+        $('.js-debito').val('0.00')
+        $('.js-credito').val('0.00')
+        $('.js-pix').val('0.00')
+        $('.js-deposito').val('0.00')
+        $('.js-desconto').val('0.00')
+        $('.js-receber').val('0.00')
+    })
+
+    $(document).on('change', '.js-debito', function() {
+        // saldo_fatura = $('.js-debito').val() - $(this).val()
+        soma_entrada()
+    })
+
+    $(document).on('click', '.js-bt-debito', function() {
+        var saldo = $('.js-saldo').val()
+        $('.js-dinheiro').val('0.00')
+        $('.js-debito').val(saldo)
+        $('.js-credito').val('0.00')
+        $('.js-pix').val('0.00')
+        $('.js-deposito').val('0.00')
+        $('.js-desconto').val('0.00')
+        $('.js-receber').val('0.00')
+    })
+
+    $(document).on('change', '.js-credito', function() {
+        // saldo_fatura = $('.js-credito').val() - $(this).val()
+        soma_entrada()
+    })
+
+    $(document).on('click', '.js-bt-credito', function() {
+        var saldo = $('.js-saldo').val()
+        $('.js-dinheiro').val('0.00')
+        $('.js-debito').val('0.00')
+        $('.js-credito').val(saldo)
+        $('.js-pix').val('0.00')
+        $('.js-deposito').val('0.00')
+        $('.js-desconto').val('0.00')
+        $('.js-receber').val('0.00')
+    })
+
+    $(document).on('change', '.js-pix', function() {
+        // saldo_fatura = $('.js-pix').val() - $(this).val()
+        // soma_entrada()
+    })
+
+    $(document).on('click', '.js-bt-pix', function() {
+        // var saldo = $('.js-saldo').val()
+        // $('.js-dinheiro').val('0.00')
+        // $('.js-debito').val('0.00')
+        // $('.js-credito').val('0.00')
+        // $('.js-pix').val(saldo)
+        // $('.js-deposito').val('0.00')
+        // $('.js-desconto').val('0.00')
+        // $('.js-receber').val('0.00')
+    })
+
+    $(document).on('change', '.js-deposito', function() {
+        // saldo_fatura = $('.js-deposito').val() - $(this).val()
+        soma_entrada()
+    })
+
+    $(document).on('click', '.js-bt-deposito', function() {
+        var saldo = $('.js-saldo').val()
+        $('.js-dinheiro').val('0.00')
+        $('.js-debito').val('0.00')
+        $('.js-credito').val('0.00')
+        $('.js-pix').val('0.00')
+        $('.js-deposito').val(saldo)
+        $('.js-desconto').val('0.00')
+        $('.js-receber').val('0.00')
+    })
+
+    $(document).on('click', '.js-bt-desconto', function() {
+        var saldo = $('.js-receber').val()
+        $('.js-desconto').val(saldo)
+        soma_entrada()
+    })
+
     $(document).on('click', '.js-servico-fatura', function() {
         var v_idobj = $(this).data('idobj')
         $.ajax({
@@ -63,6 +149,23 @@ $(document).ready(function() {
     bodyHeight()
 })
 
+var soma_entrada = function() {
+    saldo_fatura = $('.js-saldo').val()
+    dinheiro = parseFloat($('.js-dinheiro').val())
+    debito = parseFloat($('.js-debito').val())
+    credito = parseFloat($('.js-credito').val())
+    pix = parseFloat($('.js-pix').val())
+    deposito = parseFloat($('.js-deposito').val())
+    desconto = parseFloat($('.js-desconto').val())
+    total = dinheiro + debito + credito + pix + deposito + desconto
+    saldo = (saldo_fatura - total).toFixed(2)
+    $(".js-dinheiro").val(dinheiro.toFixed(2));
+    $(".js-debito").val(debito.toFixed(2));
+    $(".js-credito").val(credito.toFixed(2));
+    $(".js-pix").val(pix.toFixed(2));
+    $(".js-deposito").val(deposito.toFixed(2));
+    $('.js-receber').val(saldo)
+}
 
 var bodyHeight = function() {
     var maxHeight = 0;

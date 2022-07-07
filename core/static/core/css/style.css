@@ -578,4 +578,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 20px;
+}
+
+.card-pagamento-fatura .lista-pagamentos .botao button {
+    background-color: var(--color2);
+    border: none;
 }
