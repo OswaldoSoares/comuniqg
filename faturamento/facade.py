@@ -378,7 +378,7 @@ def html_servico_faturada(request, v_servicos, v_fatura):
         "os": len(v_servicos),
         "pagamentos": pagamentos,
         "hoje": hoje,
-        'saldo': saldo,
+        "saldo": saldo,
     }
     data["html_servico_faturada"] = render_to_string(
         "faturamento/servico_faturada.html", contexto, request=request
@@ -388,3 +388,32 @@ def html_servico_faturada(request, v_servicos, v_fatura):
     )
     data = JsonResponse(data)
     return data
+
+
+def paga_fatura(v_dia, v_din, v_deb, v_cre, v_pix, v_dep, v_fat):
+    soma = v_din + v_deb + v_cre + v_pix + v_dep
+    obj = Formapgto()
+    obj.fatura = v_fat
+    obj.diapago = v_dia
+    obj.dinheiro = v_din
+    obj.debito = v_deb
+    obj.credito = v_cre
+    obj.deposito = v_dep
+    obj.parcelas = 1
+    obj.save()
+    fatura = Receber.objects.get(idfatura=v_fat)
+    obj = fatura
+    if obj.valorpago == None:
+        obj.valorpago = soma
+    else:
+        obj.valorpago += soma
+    if obj.valorpago < obj.valorfatura:
+        obj.status = obj.status
+    else:
+        obj.status = "RECEBIDA"
+    obj.save(update_fields=["valorpago", "status"])
+    servicos = Servico.objects.filter(idfatura=v_fat)
+    for i in servicos:
+        obj = i
+        obj.status = "PAGA"
+        obj.save(update_fields=["status"])

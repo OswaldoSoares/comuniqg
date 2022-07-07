@@ -4,35 +4,35 @@
 </div>
 <div class="card-body js-card-body">
     <div class="lista-pagamentos">
-        <form class="js-paga-fatura" method="post" action="">
+        <form class="js-paga-fatura" method="post" action="{% url 'paga_fatura' %}">
         {% csrf_token %}
             <div class="item-pagamento dia">
                 <span>Data Pagamento:</span>
-                <input class="" type="date" value="{{ hoje }}"></input>
+                <input class="" type="date" value="{{ hoje }}" name='dia'>
             </div>
             <div class="item-pagamento dinheiro">
                 <i class="i-button js-bt-dinheiro">Dinheiro</i>
-                <input class="js-dinheiro" type="number" step="0.01" value="0.00">
+                <input class="js-dinheiro" type="number" step="0.01" value="0.00" name="dinheiro">
             </div>
             <div class="item-pagamento debito">
                 <i class="i-button js-bt-debito">Cartão de Débito</i>
-                <input class="js-debito" type="number" step="0.01" value="0.00">
+                <input class="js-debito" type="number" step="0.01" value="0.00" name="debito">
             </div>
             <div class="item-pagamento credito">
                 <i class="i-button js-bt-credito">Cartão de Crédito</i>
-                <input class="js-credito" type="number" step="0.01" value="0.00">
+                <input class="js-credito" type="number" step="0.01" value="0.00" name="credito">
             </div>
             <div class="item-pagamento pix">
                 <i class="i-button js-bt-pix">Pix</i>
-                <input class="js-pix" type="number" step="0.01" value="0.00" disabled>
+                <input class="js-pix" type="number" step="0.01" value="0.00" name="pix" disabled>
             </div>
             <div class="item-pagamento deposito">
                 <i class="i-button js-bt-deposito">Depósito</i>
-                <input class="js-deposito" type="number" step="0.01" value="0.00">
+                <input class="js-deposito" type="number" step="0.01" value="0.00" name="deposito">
             </div>
             <div class="item-pagamento desconto">
                 <span class="i-button js-bt-desconto">Desconto</span>
-                <input class="js-desconto" type="number" step="0.01" value="0.00" disabled>
+                <input class="js-desconto" type="number" step="0.01" value="0.00" name="desconto" disabled>
             </div>
             <div class="item-pagamento saldo">
                 <span>A Receber</span>
@@ -44,6 +44,7 @@
             </div>
             <input class="js-saldo" type="hidden" name="saldo"
             value="{{ saldo|stringformat:'.2f' }}">
+            <input type="hidden" name="idfatura" value="{{ fatura }}">
         </form>
     </div>
     {% for pgtos in pagamentos %}

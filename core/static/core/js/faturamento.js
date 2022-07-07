@@ -143,6 +143,22 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('submit', '.js-paga-fatura', function(event) {
+        event.preventDefault();
+        $.ajax({
+            type: $(this).attr('method'),
+            url: '/faturamento/paga_fatura',
+            data: $(this).serialize(),
+            beforeSend: function() {
+                $(".box-loader").show();
+            },
+            success: function(data) {
+                $(".card-multas").html(data.html_form_multas)
+                $(".box-loader").hide();
+            },
+        });
+    });
+
     $('.box-loader').hide()
     $('.card-selecionadas').hide()
     $('.card-servico').hide()
