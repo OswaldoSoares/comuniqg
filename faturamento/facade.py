@@ -287,15 +287,16 @@ def get_pagamentos(v_idfatura):
     pgtos = Formapgto.objects.filter(fatura=v_idfatura)
     lista = [
         {
-            "idformapgto": itens.idformapgto,
-            "diapago": itens.diapago,
-            "dinheiro": itens.dinheiro,
-            "debito": itens.debito,
-            "credito": itens.credito,
-            "deposito": itens.deposito,
-            "parcelas": itens.parcelas,
+            "idformapgto": i.idformapgto,
+            "diapago": i.diapago,
+            "dinheiro": i.dinheiro,
+            "debito": i.debito,
+            "credito": i.credito,
+            "deposito": i.deposito,
+            "parcelas": i.parcelas,
+            "total": i.dinheiro + i.debito + i.credito + i.deposito,
         }
-        for itens in pgtos
+        for i in pgtos
     ]
     return lista
 
@@ -370,10 +371,11 @@ def html_servico_faturada(request, v_servicos, v_fatura):
     fatura = get_fatura(v_fatura)
     total = Decimal(0.00)
     for i in pagamentos:
-        total = i["dinheiro"] + i["debito"] + i["credito"] + i["deposito"]
+        total += i["total"]
     saldo = fatura.valorfatura - total
     contexto = {
         "servicos": v_servicos,
+        "idpessoal": v_servicos[0]["idpessoa"],
         "fatura": v_fatura,
         "os": len(v_servicos),
         "pagamentos": pagamentos,

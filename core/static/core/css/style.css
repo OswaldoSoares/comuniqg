@@ -585,3 +585,7 @@ body {
     background-color: var(--color2);
     border: none;
 }
+
+.card-pagamento-fatura .destaque {
+    color: var(--color5)
+}

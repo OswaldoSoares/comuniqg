@@ -45,11 +45,12 @@
             <input class="js-saldo" type="hidden" name="saldo"
             value="{{ saldo|stringformat:'.2f' }}">
             <input type="hidden" name="idfatura" value="{{ fatura }}">
+            <input type="hidden" name="idcliente" value="{{ idpessoal }}">
         </form>
     </div>
     {% for pgtos in pagamentos %}
     <div class="lista-pagamentos">
-        <div class="item-pagamento dia">
+        <div class="item-pagamento dia destaque">
             <span>Data Pagamento:</span>
             <span>{{ pgtos.diapago }}</span>
         </div>
@@ -72,6 +73,10 @@
         <div class="item-pagamento deposito">
             <span>Depósito</span>
             <span>R$ {{ pgtos.deposito|intcomma }}</span>
+        </div>
+        <div class="item-pagamento total destaque">
+            <span>Valor Pago</span>
+            <span>R$ {{ pgtos.total|intcomma }}</span>
         </div>
     </div>
     {% endfor %}

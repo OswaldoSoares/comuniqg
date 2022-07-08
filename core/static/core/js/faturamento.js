@@ -150,11 +150,19 @@ $(document).ready(function() {
             url: '/faturamento/paga_fatura',
             data: $(this).serialize(),
             beforeSend: function() {
+                $('.card-servico').hide()
+                $('.card-selecionadas').hide()
+                $('.card-faturar').hide()
+                $('.card-pagamento-fatura').hide()
+                $('.text-loader').text('AGUARDE CARREGANDO FATURAS...')
                 $(".box-loader").show();
             },
             success: function(data) {
-                $(".card-multas").html(data.html_form_multas)
+                $('.card-selecionadas').html(data['html_cliente_faturada'])
+                $('.card-selecionadas').show()
+                bodyHeight()
                 $(".box-loader").hide();
+                $('.text-loader').text('AGUARDE...')
             },
         });
     });

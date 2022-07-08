@@ -31,7 +31,6 @@ def servico_fatura(request):
 
 
 def paga_fatura(request):
-    print(request.POST)
     v_dia = request.POST.get("dia")
     v_din = Decimal(request.POST.get("dinheiro"))
     v_deb = Decimal(request.POST.get("debito"))
@@ -40,6 +39,11 @@ def paga_fatura(request):
     v_pix = Decimal(0.00)
     v_dep = Decimal(request.POST.get("deposito"))
     v_fat = request.POST.get("idfatura")
+    v_idp = int(request.POST.get("idcliente"))
     soma = v_din + v_deb + v_cre + v_pix + v_dep
     if not soma == 0.00:
+        # print(request.POST)
         facade.paga_fatura(v_dia, v_din, v_deb, v_cre, v_pix, v_dep, v_fat)
+    faturas = facade.get_cliente_faturada(v_idp)
+    data = facade.html_cliente_faturada(request, faturas, v_idp)
+    return data
