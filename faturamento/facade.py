@@ -112,23 +112,6 @@ class ClassFatura:
             return sorted_list
 
 
-def context():
-    faturadas = get_faturadas()
-    faturar = get_faturar()
-    total_faturadas = get_total_faturadas()
-    total_faturar = get_total_faturar()
-    total_pago = get_total_pago()
-    total_recebe = total_faturadas - total_pago
-    return {
-        "faturadas": faturadas,
-        "total_faturadas": total_faturadas,
-        "total_faturar": total_faturar,
-        "total_pago": total_pago,
-        "total_recebe": total_recebe,
-        "faturar": faturar,
-    }
-
-
 def get_apelido(v_idpessoa):
     cliente = Pessoa.objects.get(idpessoa=v_idpessoa)
     return cliente.apelido
@@ -343,8 +326,7 @@ def get_total_pago():
     return total["pago"]
 
 
-def html_cliente_faturada(request, v_faturas, v_idobj):
-    data = dict()
+def create_contexto_cliente_faturada(v_faturas, v_idobj):
     total_receber = Decimal()
     for x in v_faturas:
         total_receber += x["valorfatura"]
@@ -356,15 +338,79 @@ def html_cliente_faturada(request, v_faturas, v_idobj):
         "total_receber": total_receber,
         "quantidade": len(v_faturas),
     }
+    return contexto
+
+
+def create_data_cliente_faturada(request, contexto):
+    data = dict()
+    data = html_fatura_agrupada(request, contexto, data)
+    data = html_cliente_faturada(request, contexto, data)
+    print("A:", data["html_cliente_faturada"], ":A")
+    print(type(data["html_cliente_faturada"]))
+    return JsonResponse(data)
+
+
+def html_cliente_faturada(request, contexto, data):
     data["html_cliente_faturada"] = render_to_string(
         "faturamento/cliente_faturada.html", contexto, request=request
     )
-    data = JsonResponse(data)
     return data
 
 
-def html_servico_faturada(request, v_servicos, v_fatura):
+def create_data_servico_faturada(request, contexto):
     data = dict()
+    data = html_servico_faturada(request, contexto, data)
+    data = html_pagamento_fatura(request, contexto, data)
+    return JsonResponse(data)
+
+
+def html_servico_faturada(request, contexto, data):
+    data["html_servico_faturada"] = render_to_string(
+        "faturamento/servico_faturada.html", contexto, request=request
+    )
+    return data
+
+
+def html_pagamento_fatura(request, contexto, data):
+    data["html_pagamento_fatura"] = render_to_string(
+        "faturamento/html_pagamento_fatura.html", contexto, request=request
+    )
+    return data
+
+
+def html_fatura_agrupada(request, contexto, data):
+    data["html_fatura_agrupada"] = render_to_string(
+        "faturamento/html_fatura_agrupada.html", contexto, request=request
+    )
+    return data
+
+
+def create_data_paga_fatura(request, contexto):
+    data = dict()
+    data = html_fatura_agrupada(request, contexto, data)
+    data = html_servico_faturada(request, contexto, data)
+    data = html_pagamento_fatura(request, contexto, data)
+    return data
+
+
+def create_contexto_faturadas():
+    faturadas = get_faturadas()
+    total_faturadas = get_total_faturadas()
+    total_faturar = get_total_faturar()
+    total_pago = get_total_pago()
+    total_recebe = total_faturadas - total_pago
+    faturar = get_faturar()
+    return {
+        "faturadas": faturadas,
+        "total_faturadas": total_faturadas,
+        "total_faturar": total_faturar,
+        "total_pago": total_pago,
+        "total_recebe": total_recebe,
+        "faturar": faturar,
+    }
+
+
+def create_contexto_fatura_selecionada(v_servicos, v_fatura):
     hoje = datetime.datetime.today()
     hoje = datetime.datetime.strftime(hoje, "%Y-%m-%d")
     pagamentos = get_pagamentos(v_fatura)
@@ -382,14 +428,7 @@ def html_servico_faturada(request, v_servicos, v_fatura):
         "hoje": hoje,
         "saldo": saldo,
     }
-    data["html_servico_faturada"] = render_to_string(
-        "faturamento/servico_faturada.html", contexto, request=request
-    )
-    data["html_pagamento_fatura"] = render_to_string(
-        "faturamento/html_pagamento_fatura.html", contexto, request=request
-    )
-    data = JsonResponse(data)
-    return data
+    return contexto
 
 
 def paga_fatura(v_dia, v_din, v_deb, v_cre, v_pix, v_dep, v_fat):

@@ -6,16 +6,17 @@ from faturamento import facade
 from faturamento.print import fatura_pdf
 
 
+def index_faturamento(request):
+    contexto = facade.create_contexto_faturadas()
+    return render(request, "faturamento/index.html", contexto)
+
+
 def cliente_faturada(request):
     v_idobj = request.GET.get("idobj")
     faturas = facade.get_cliente_faturada(v_idobj)
-    data = facade.html_cliente_faturada(request, faturas, v_idobj)
+    contexto = facade.create_contexto_cliente_faturada(faturas, v_idobj)
+    data = facade.create_data_cliente_faturada(request, contexto)
     return data
-
-
-def index_faturamento(request):
-    contexto = facade.context()
-    return render(request, "faturamento/index.html", contexto)
 
 
 def print_fatura(request, idfatura):
@@ -24,9 +25,10 @@ def print_fatura(request, idfatura):
 
 
 def servico_fatura(request):
-    v_idobj = request.GET.get("idobj")
-    servicos = facade.get_servico(v_idobj)
-    data = facade.html_servico_faturada(request, servicos, v_idobj)
+    v_fatura = request.GET.get("idobj")
+    v_servicos = facade.get_servico(v_fatura)
+    contexto = facade.create_contexto_fatura_selecionada(v_servicos, v_fatura)
+    data = facade.create_data_servico_faturada(request, contexto)
     return data
 
 
@@ -42,8 +44,10 @@ def paga_fatura(request):
     v_idp = int(request.POST.get("idcliente"))
     soma = v_din + v_deb + v_cre + v_pix + v_dep
     if not soma == 0.00:
-        # print(request.POST)
         facade.paga_fatura(v_dia, v_din, v_deb, v_cre, v_pix, v_dep, v_fat)
+    contexto = facade.create_contexto_faturadas()
     faturas = facade.get_cliente_faturada(v_idp)
-    data = facade.html_cliente_faturada(request, faturas, v_idp)
+    contexto_add = facade.create_contexto_cliente_faturada(faturas, v_idp)
+    contexto.update(contexto_add)
+    data = facade.create_data_cliente_faturada(request, contexto)
     return data

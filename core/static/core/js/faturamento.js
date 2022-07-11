@@ -8,10 +8,10 @@ $(document).ready(function() {
                 idobj: v_idobj,
             },
             beforeSend: function() {
-                $('.card-servico').hide()
                 $('.card-selecionadas').hide()
-                $('.card-faturar').hide()
+                $('.card-servico').hide()
                 $('.card-pagamento-fatura').hide()
+                $('.card-faturar').hide()
                 $('.text-loader').text('AGUARDE CARREGANDO FATURAS...')
                 $('.box-loader').show()
                 $('.js-card-body').css('height', '');
@@ -150,6 +150,7 @@ $(document).ready(function() {
             url: '/faturamento/paga_fatura',
             data: $(this).serialize(),
             beforeSend: function() {
+                $('.card-faturadas').hide()
                 $('.card-servico').hide()
                 $('.card-selecionadas').hide()
                 $('.card-faturar').hide()
@@ -158,8 +159,14 @@ $(document).ready(function() {
                 $(".box-loader").show();
             },
             success: function(data) {
-                $('.card-selecionadas').html(data['html_cliente_faturada'])
-                $('.card-selecionadas').show()
+                $('.card-faturadas').html(data['html_fatura_agrupada'])
+                $('.card-faturadas').show()
+                if (data['html_cliente_faturada'] != '') {
+                    $('.card-selecionadas').html(data['html_cliente_faturada'])
+                    $('.card-selecionadas').show()
+                } else {
+                    $('.card-faturar').show()
+                };
                 bodyHeight()
                 $(".box-loader").hide();
                 $('.text-loader').text('AGUARDE...')
@@ -170,6 +177,7 @@ $(document).ready(function() {
     $('.box-loader').hide()
     $('.card-selecionadas').hide()
     $('.card-servico').hide()
+    $('.card-pagamento-fatura').hide()
     bodyHeight()
 })
 

@@ -1,3 +1,4 @@
+{% if quantidade > 0 %}
 {% load humanize %}
 <div class="card-title">
     <span>{{ apelido }}</span>
@@ -24,3 +25,4 @@
 <div class="card-footer">
     <span>{{ quantidade }} FATURA{{ quantidade|pluralize|upper }} - R$ {{ total_receber|intcomma }}</span>
 </div>
+{% endif %}
