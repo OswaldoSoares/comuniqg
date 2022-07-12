@@ -352,9 +352,15 @@ def create_data_cliente_faturada(request, contexto):
     data = dict()
     data = html_fatura_agrupada(request, contexto, data)
     data = html_cliente_faturada(request, contexto, data)
-    print("A:", data["html_cliente_faturada"], ":A")
-    print(type(data["html_cliente_faturada"]))
+    data = html_mensal(request, contexto, data)
     return JsonResponse(data)
+
+
+def html_mensal(request, contexto, data):
+    data["html_mensal"] = render_to_string(
+        "faturamento/html_recebe_mensal.html", contexto, request=request
+    )
+    return data
 
 
 def html_cliente_faturada(request, contexto, data):

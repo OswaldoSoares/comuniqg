@@ -48,9 +48,11 @@ def paga_fatura(request):
     soma = v_din + v_deb + v_cre + v_pix + v_dep
     if not soma == 0.00:
         facade.paga_fatura(v_dia, v_din, v_deb, v_cre, v_pix, v_dep, v_fat)
+    mes, ano = facade.mes_ano(facade.hoje())
     contexto = facade.create_contexto_faturadas()
+    contexto.update(facade.create_contexto_diario(mes, ano))
+    contexto.update(facade.create_contexto_total_recebido_mes(mes, ano))
     faturas = facade.get_cliente_faturada(v_idp)
-    contexto_add = facade.create_contexto_cliente_faturada(faturas, v_idp)
-    contexto.update(contexto_add)
+    contexto.update(facade.create_contexto_cliente_faturada(faturas, v_idp))
     data = facade.create_data_cliente_faturada(request, contexto)
     return data

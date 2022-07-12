@@ -12,6 +12,7 @@ $(document).ready(function() {
                 $('.card-servico').hide()
                 $('.card-pagamento-fatura').hide()
                 $('.card-faturar').hide()
+                $('.card-mensal').hide()
                 $('.text-loader').text('AGUARDE CARREGANDO FATURAS...')
                 $('.box-loader').show()
                 $('.js-card-body').css('height', '');
@@ -166,6 +167,8 @@ $(document).ready(function() {
                     $('.card-selecionadas').show()
                 } else {
                     $('.card-faturar').show()
+                    $('.card-mensal').html(data['html_mensal'])
+                    $('.card-mensal').show()
                 };
                 bodyHeight()
                 $(".box-loader").hide();
