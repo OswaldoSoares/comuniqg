@@ -1,6 +1,14 @@
 {% load humanize %}
 <div class="card-title">
-    <span>MENSAL</span>
+    <i class="bi bi-chevron-double-left i-button js-mes-ano"
+    data-periodo="-12" data-dia={{ mes|date:'d/m/Y' }}></i>
+    <i class="bi bi-chevron-left i-button js-mes-ano"
+    data-periodo="-1" data-dia={{ mes|date:'d/m/Y' }}></i>
+    <span>{{ mes|date:'F/Y'|upper }}</span>
+    <i class="bi bi-chevron-right i-button js-mes-ano"
+    data-periodo="1" data-dia={{ mes|date:'d/m/Y' }}></i>
+    <i class="bi bi-chevron-double-right i-button js-mes-ano"
+    data-periodo="12" data-dia={{ mes|date:'d/m/Y' }}></i>
 </div>
 <div class="card-body js-card-body">
     {% for diapgto in mensal %}

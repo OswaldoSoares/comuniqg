@@ -5,13 +5,39 @@ from .views import (
     index_faturamento,
     paga_fatura,
     print_fatura,
+    seleciona_mes_recebido,
     servico_fatura,
 )
 
 urlpatterns = [
-    path("", index_faturamento, name="index_faturamento"),
-    path("cliente_faturada/", cliente_faturada, name="cliente_faturada"),
-    path("print_fatura/<int:idfatura>", print_fatura, name="print_fatura"),
-    path("servico_fatura/", servico_fatura, name="servico_fatura"),
-    path("paga_fatura", paga_fatura, name="paga_fatura"),
+    path(
+        "",
+        index_faturamento,
+        name="index_faturamento",
+    ),
+    path(
+        "cliente_faturada/",
+        cliente_faturada,
+        name="cliente_faturada",
+    ),
+    path(
+        "print_fatura/<int:idfatura>",
+        print_fatura,
+        name="print_fatura",
+    ),
+    path(
+        "servico_fatura/",
+        servico_fatura,
+        name="servico_fatura",
+    ),
+    path(
+        "paga_fatura",
+        paga_fatura,
+        name="paga_fatura",
+    ),
+    path(
+        "seleciona_mes_recebido",
+        seleciona_mes_recebido,
+        name="seleciona_mes_recebido",
+    ),
 ]

@@ -177,6 +177,31 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('click', '.js-mes-ano', function() {
+        var dia = $(this).data('dia')
+        var periodo = $(this).data('periodo')
+        $.ajax({
+            type: 'GET',
+            url: 'seleciona_mes_recebido',
+            data: {
+                dia: dia,
+                periodo: periodo
+            },
+            beforeSend: function() {
+                $('.card-mensal').hide()
+                $('.text-loader').text('AGUARDE CARREGANDO PAGAMENTOS...')
+                $(".box-loader").show();
+            },
+            success: function(data) {
+                $('.card-mensal').html(data['html_mensal'])
+                $('.card-mensal').show()
+                bodyHeight()
+                $(".box-loader").hide();
+                $('.text-loader').text('AGUARDE...')
+            },
+        });
+    });
+
     $('.box-loader').hide()
     $('.card-selecionadas').hide()
     $('.card-servico').hide()

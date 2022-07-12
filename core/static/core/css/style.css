@@ -596,6 +596,10 @@ body {
     padding: 10px 5px;
 }
 
+.card-mensal .card-title span {
+    padding: 0 10px;
+}
+
 .card-mensal .lista-mensal {
     width: 100%;
     display: flex;

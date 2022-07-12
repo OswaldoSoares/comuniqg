@@ -56,3 +56,15 @@ def paga_fatura(request):
     contexto.update(facade.create_contexto_cliente_faturada(faturas, v_idp))
     data = facade.create_data_cliente_faturada(request, contexto)
     return data
+
+
+def seleciona_mes_recebido(request):
+    dia = request.GET.get("dia")
+    meses = int(request.GET.get("periodo"))
+    nova_data = facade.altera_data(dia, 0, meses, 0)
+    mes, ano = facade.mes_ano(nova_data)
+    contexto = facade.create_contexto_diario(mes, ano)
+    print(contexto)
+    contexto.update(facade.create_contexto_total_recebido_mes(mes, ano))
+    data = facade.create_data_mensal(request, contexto)
+    return data

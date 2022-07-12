@@ -356,6 +356,12 @@ def create_data_cliente_faturada(request, contexto):
     return JsonResponse(data)
 
 
+def create_data_mensal(request, contexto):
+    data = dict()
+    data = html_mensal(request, contexto, data)
+    return JsonResponse(data)
+
+
 def html_mensal(request, contexto, data):
     data["html_mensal"] = render_to_string(
         "faturamento/html_recebe_mensal.html", contexto, request=request
@@ -448,7 +454,7 @@ def create_contexto_diario(mes, ano):
             }
         )
         pdm = pdm + relativedelta(days=1)
-    return {"mensal": lista_pgto}
+    return {"mensal": lista_pgto, "mes": udm}
 
 
 def create_contexto_total_recebido_mes(mes, ano):
@@ -470,6 +476,12 @@ def create_contexto_total_recebido_mes(mes, ano):
 def hoje():
     hoje = datetime.datetime.today()
     return hoje
+
+
+def altera_data(dia, dias, meses, anos):
+    nova_data = datetime.datetime.strptime(dia, "%d/%m/%Y").date()
+    nova_data = nova_data + relativedelta(days=dias, months=meses, years=anos)
+    return nova_data
 
 
 def mes_ano(data):
