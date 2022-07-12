@@ -2,6 +2,7 @@ import datetime
 from decimal import Decimal
 
 from databaseold.models import Formapgto, Pessoa, Produto, Receber, Servico, Servicoitem
+from dateutil.relativedelta import relativedelta
 from django.db import connection
 from django.db.models import Sum
 from django.http import JsonResponse
@@ -110,6 +111,12 @@ class ClassFatura:
             ]
             sorted_list = sorted(lista, key=lambda x: x["diaservico"])
             return sorted_list
+
+
+def extremos_mes(_mes, _ano):
+    first_day = datetime.datetime.strptime(f"1-{int(_mes)}-{int(_ano)}", "%d-%m-%Y")
+    last_day = first_day + relativedelta(months=+1, days=-1)
+    return first_day, last_day
 
 
 def get_apelido(v_idpessoa):
@@ -408,6 +415,61 @@ def create_contexto_faturadas():
         "total_recebe": total_recebe,
         "faturar": faturar,
     }
+
+
+def create_contexto_diario(mes, ano):
+    pdm, udm = extremos_mes(mes, ano)
+    lista_pgto = []
+    while pdm < udm + relativedelta(days=1):
+        qs = Formapgto.objects.filter(diapago=pdm).aggregate(
+            din=Sum("dinheiro"),
+            deb=Sum("debito"),
+            cre=Sum("credito"),
+            dep=Sum("deposito"),
+        )
+        din = Decimal(0.00) if qs["din"] == None else qs["din"]
+        deb = Decimal(0.00) if qs["deb"] == None else qs["deb"]
+        cre = Decimal(0.00) if qs["cre"] == None else qs["cre"]
+        dep = Decimal(0.00) if qs["dep"] == None else qs["dep"]
+        lista_pgto.append(
+            {
+                "dia": pdm,
+                "dinheiro": din,
+                "debito": deb,
+                "credito": cre,
+                "deposito": dep,
+                "total": din + deb + cre + dep,
+            }
+        )
+        pdm = pdm + relativedelta(days=1)
+    return {"mensal": lista_pgto}
+
+
+def create_contexto_total_recebido_mes(mes, ano):
+    pdm, udm = extremos_mes(mes, ano)
+    qs = Formapgto.objects.filter(diapago__range=(pdm, udm)).aggregate(
+        din=Sum("dinheiro"),
+        deb=Sum("debito"),
+        cre=Sum("credito"),
+        dep=Sum("deposito"),
+    )
+    din = Decimal(0.00) if qs["din"] == None else qs["din"]
+    deb = Decimal(0.00) if qs["deb"] == None else qs["deb"]
+    cre = Decimal(0.00) if qs["cre"] == None else qs["cre"]
+    dep = Decimal(0.00) if qs["dep"] == None else qs["dep"]
+    total = din + deb + cre + dep
+    return {"total": total}
+
+
+def hoje():
+    hoje = datetime.datetime.today()
+    return hoje
+
+
+def mes_ano(data):
+    mes = datetime.datetime.strftime(data, "%m")
+    ano = datetime.datetime.strftime(data, "%Y")
+    return mes, ano
 
 
 def create_contexto_fatura_selecionada(v_servicos, v_fatura):

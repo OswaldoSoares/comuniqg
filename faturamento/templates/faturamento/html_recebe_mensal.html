@@ -1,0 +1,26 @@
+{% load humanize %}
+<div class="card-title">
+    <span>MENSAL</span>
+</div>
+<div class="card-body js-card-body">
+    {% for diapgto in mensal %}
+    {% if diapgto.total > 0 %}
+    <div class="lista-mensal">
+        <div class="item-data">
+            <span data-dia={{ diapgto.dia|date:'d/m/Y' }}>
+                {{ diapgto.dia|date:'d/m/Y' }}
+            </span>
+        </div>
+        <div class="item-valor">
+            <span>R$ {{ diapgto.total|intcomma }}</span>
+        </div>
+        <div class="item-botao">
+            <i class="bi bi-clipboard i-button"></i>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+<div class="card-footer">
+    <span>R$ {{ total|intcomma }}</span>
+</div>

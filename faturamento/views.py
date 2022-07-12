@@ -7,7 +7,10 @@ from faturamento.print import fatura_pdf
 
 
 def index_faturamento(request):
+    mes, ano = facade.mes_ano(facade.hoje())
     contexto = facade.create_contexto_faturadas()
+    contexto.update(facade.create_contexto_diario(mes, ano))
+    contexto.update(facade.create_contexto_total_recebido_mes(mes, ano))
     return render(request, "faturamento/index.html", contexto)
 
 
