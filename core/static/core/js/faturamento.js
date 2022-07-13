@@ -185,7 +185,8 @@ $(document).ready(function() {
             url: 'seleciona_mes_recebido',
             data: {
                 dia: dia,
-                periodo: periodo
+                periodo: periodo,
+                tipo: 'MENSAL',
             },
             beforeSend: function() {
                 $('.card-mensal').hide()
@@ -202,10 +203,67 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('click', '.js-mes-ano-detalhado', function() {
+        var dia = $(this).data('dia')
+        var periodo = $(this).data('periodo')
+        $.ajax({
+            type: 'GET',
+            url: 'seleciona_mes_recebido',
+            data: {
+                dia: dia,
+                periodo: periodo,
+                tipo: 'MENSAL DETALHADO',
+            },
+            beforeSend: function() {
+                $('.card-mensal-detalhado').hide()
+                $('.card-pagamentos-dia').hide()
+                $('.text-loader').text('AGUARDE CARREGANDO PAGAMENTOS...')
+                $(".box-loader").show();
+            },
+            success: function(data) {
+                $('.card-mensal-detalhado').html(data['html_mensal_detalhado'])
+                $('.card-mensal-detalhado').show()
+                bodyHeight()
+                $(".box-loader").hide();
+                $('.text-loader').text('AGUARDE...')
+            },
+        });
+    });
+
+    $(document).on('click', '.js-seleciona-data', function() {
+        var dia = $(this).data('dia')
+        $.ajax({
+            type: 'GET',
+            url: 'seleciona_dia_recebido',
+            data: {
+                dia: dia,
+            },
+            beforeSend: function() {
+                $('.card-faturadas').hide()
+                $('.card-faturar').hide()
+                $('.card-mensal').hide()
+                $('.card-pagamentos-dia').hide()
+                $('.text-loader').text('AGUARDE CARREGANDO PAGAMENTOS...')
+                $(".box-loader").show();
+            },
+            success: function(data) {
+                $('.card-mensal-detalhado').html(data['html_mensal_detalhado'])
+                $('.card-mensal-detalhado').show()
+                $('.card-pagamentos-dia').html(data['html_pgto_dia'])
+                $('.card-pagamentos-dia').show()
+                bodyHeight()
+                $(".box-loader").hide();
+                $('.text-loader').text('AGUARDE...')
+            },
+        });
+    });
+
     $('.box-loader').hide()
     $('.card-selecionadas').hide()
     $('.card-servico').hide()
     $('.card-pagamento-fatura').hide()
+    $('.card-mensal-detalhado').hide()
+    $('.card-pagamentos-dia').hide()
     bodyHeight()
 })
 

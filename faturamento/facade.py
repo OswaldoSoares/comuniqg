@@ -348,6 +348,25 @@ def create_contexto_cliente_faturada(v_faturas, v_idobj):
     return contexto
 
 
+def create_contexto_pago_dia(v_dia):
+    if type(v_dia) is str:
+        v_dia = datetime.datetime.strptime(v_dia, "%d/%m/%Y").date()
+    qs_pagamento = Formapgto.objects.filter(diapago=v_dia)
+    lista_pgto = []
+    for x in qs_pagamento:
+        qs_servico = Servico.objects.filter(idfatura=x.fatura)
+        cliente = Pessoa.objects.get(idpessoa=qs_servico[0].idcadastro)
+        lista_pgto.append(
+            {
+                "cliente": cliente.apelido,
+                "fatura": x.fatura,
+                "total": x.dinheiro + x.debito + x.credito + x.deposito,
+            }
+        )
+    lista_ordenada = sorted(lista_pgto, key=lambda d: d["cliente"])
+    return {"pagamentos": lista_ordenada}
+
+
 def create_data_cliente_faturada(request, contexto):
     data = dict()
     data = html_fatura_agrupada(request, contexto, data)
@@ -362,9 +381,31 @@ def create_data_mensal(request, contexto):
     return JsonResponse(data)
 
 
+def html_pgto_dia(request, contexto, data):
+    data["html_pgto_dia"] = render_to_string(
+        "faturamento/html_pagamentos_dia.html", contexto, request=request
+    )
+    return data
+
+
 def html_mensal(request, contexto, data):
     data["html_mensal"] = render_to_string(
         "faturamento/html_recebe_mensal.html", contexto, request=request
+    )
+    return data
+
+
+def create_data_mensal_detalhado(request, contexto):
+    data = dict()
+    data = html_mensal_detalhado(request, contexto, data)
+    data = html_pgto_dia(request, contexto, data)
+    print(data["html_pgto_dia"])
+    return JsonResponse(data)
+
+
+def html_mensal_detalhado(request, contexto, data):
+    data["html_mensal_detalhado"] = render_to_string(
+        "faturamento/html_recebe_mensal_detalhado.html", contexto, request=request
     )
     return data
 
@@ -485,6 +526,8 @@ def altera_data(dia, dias, meses, anos):
 
 
 def mes_ano(data):
+    if type(data) is str:
+        data = datetime.datetime.strptime(data, "%d/%m/%Y").date()
     mes = datetime.datetime.strftime(data, "%m")
     ano = datetime.datetime.strftime(data, "%Y")
     return mes, ano

@@ -61,10 +61,23 @@ def paga_fatura(request):
 def seleciona_mes_recebido(request):
     dia = request.GET.get("dia")
     meses = int(request.GET.get("periodo"))
+    tipo = request.GET.get("tipo")
     nova_data = facade.altera_data(dia, 0, meses, 0)
     mes, ano = facade.mes_ano(nova_data)
     contexto = facade.create_contexto_diario(mes, ano)
-    print(contexto)
     contexto.update(facade.create_contexto_total_recebido_mes(mes, ano))
-    data = facade.create_data_mensal(request, contexto)
+    if tipo == "MENSAL":
+        data = facade.create_data_mensal(request, contexto)
+    if tipo == "MENSAL DETALHADO":
+        data = facade.create_data_mensal_detalhado(request, contexto)
+    return data
+
+
+def seleciona_dia_recebido(request):
+    dia = request.GET.get("dia")
+    mes, ano = facade.mes_ano(dia)
+    contexto = facade.create_contexto_diario(mes, ano)
+    contexto.update(facade.create_contexto_total_recebido_mes(mes, ano))
+    contexto.update(facade.create_contexto_pago_dia(dia))
+    data = facade.create_data_mensal_detalhado(request, contexto)
     return data

@@ -23,7 +23,8 @@
             <span>R$ {{ diapgto.total|intcomma }}</span>
         </div>
         <div class="item-botao">
-            <i class="bi bi-clipboard i-button"></i>
+            <i class="bi bi-clipboard i-button js-seleciona-data"
+            data-dia={{ diapgto.dia|date:'d/m/Y' }}></i>
         </div>
     </div>
     {% endif %}
