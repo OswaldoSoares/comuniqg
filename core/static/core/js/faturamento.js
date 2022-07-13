@@ -258,6 +258,31 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('click', '.js-detalhado-filtro', function() {
+        var dia = $('#id_pgto').data('dia')
+        var filtro = $(this).data('filtro')
+        $.ajax({
+            type: 'GET',
+            url: 'seleciona_filtro_pagamento',
+            data: {
+                dia: dia,
+                filtro: filtro,
+            },
+            beforeSend: function() {
+                $('.card-pagamentos-dia').hide()
+                $('.text-loader').text('AGUARDE CARREGANDO PAGAMENTOS...')
+                $(".box-loader").show();
+            },
+            success: function(data) {
+                $('.card-pagamentos-dia').html(data['html_pgto_dia'])
+                $('.card-pagamentos-dia').show()
+                bodyHeight()
+                $(".box-loader").hide();
+                $('.text-loader').text('AGUARDE...')
+            },
+        });
+    });
+
     $('.box-loader').hide()
     $('.card-selecionadas').hide()
     $('.card-servico').hide()
@@ -286,6 +311,7 @@ var soma_entrada = function() {
 }
 
 var bodyHeight = function() {
+    alert('OK')
     var maxHeight = 0;
     var topPosition = 0;
     $('.js-card-body').each(function(index) {

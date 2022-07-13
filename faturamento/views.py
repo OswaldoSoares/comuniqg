@@ -66,6 +66,7 @@ def seleciona_mes_recebido(request):
     mes, ano = facade.mes_ano(nova_data)
     contexto = facade.create_contexto_diario(mes, ano)
     contexto.update(facade.create_contexto_total_recebido_mes(mes, ano))
+    contexto.update(facade.create_contexto_pago_mes_totais(mes, ano))
     if tipo == "MENSAL":
         data = facade.create_data_mensal(request, contexto)
     if tipo == "MENSAL DETALHADO":
@@ -79,5 +80,16 @@ def seleciona_dia_recebido(request):
     contexto = facade.create_contexto_diario(mes, ano)
     contexto.update(facade.create_contexto_total_recebido_mes(mes, ano))
     contexto.update(facade.create_contexto_pago_dia(dia))
+    contexto.update(facade.create_contexto_pago_mes_totais(mes, ano))
+    contexto.update({"dia": dia})
     data = facade.create_data_mensal_detalhado(request, contexto)
+    return data
+
+
+def seleciona_filtro_pagamento(request):
+    dia = request.GET.get("dia")
+    filtro = request.GET.get("filtro")
+    contexto = facade.create_contexto_pago_dia_filtro(dia, filtro)
+    contexto.update({"dia": dia})
+    data = facade.create_data_filtro_pagamento(request, contexto)
     return data

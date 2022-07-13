@@ -353,6 +353,7 @@ def create_contexto_pago_dia(v_dia):
         v_dia = datetime.datetime.strptime(v_dia, "%d/%m/%Y").date()
     qs_pagamento = Formapgto.objects.filter(diapago=v_dia)
     lista_pgto = []
+    total_filtro = Decimal(0.00)
     for x in qs_pagamento:
         qs_servico = Servico.objects.filter(idfatura=x.fatura)
         cliente = Pessoa.objects.get(idpessoa=qs_servico[0].idcadastro)
@@ -363,8 +364,88 @@ def create_contexto_pago_dia(v_dia):
                 "total": x.dinheiro + x.debito + x.credito + x.deposito,
             }
         )
+        total_filtro += x.dinheiro + x.debito + x.credito + x.deposito
     lista_ordenada = sorted(lista_pgto, key=lambda d: d["cliente"])
-    return {"pagamentos": lista_ordenada}
+    return {"pagamentos": lista_ordenada, "total_filtro": total_filtro}
+
+
+def create_contexto_pago_mes_totais(v_dia):
+    if type(v_dia) is str:
+        v_dia = datetime.datetime.strptime(v_dia, "%d/%m/%Y").date()
+
+
+def create_contexto_pago_mes_totais(mes, ano):
+    pdm, udm = extremos_mes(mes, ano)
+    qs = Formapgto.objects.filter(diapago__range=(pdm, udm)).aggregate(
+        total=Sum("dinheiro")
+    )
+    dinheiro = qs["total"]
+    qs = Formapgto.objects.filter(diapago__range=(pdm, udm)).aggregate(
+        total=Sum("debito")
+    )
+    debito = qs["total"]
+    qs = Formapgto.objects.filter(diapago__range=(pdm, udm)).aggregate(
+        total=Sum("credito")
+    )
+    credito = qs["total"]
+    qs = Formapgto.objects.filter(diapago__range=(pdm, udm)).aggregate(
+        total=Sum("deposito")
+    )
+    deposito = qs["total"]
+    contexto = {
+        "dinheiro": dinheiro,
+        "debito": debito,
+        "credito": credito,
+        "deposito": deposito,
+    }
+    return contexto
+
+
+def create_contexto_pago_dia_filtro(v_dia, filtro):
+    if type(v_dia) is str:
+        v_dia = datetime.datetime.strptime(v_dia, "%d/%m/%Y").date()
+    if filtro == "DINHEIRO":
+        qs_pagamento = Formapgto.objects.filter(diapago=v_dia, dinheiro__gt=0.00)
+    elif filtro == "DEBITO":
+        qs_pagamento = Formapgto.objects.filter(diapago=v_dia, debito__gt=0.00)
+    elif filtro == "CREDITO":
+        qs_pagamento = Formapgto.objects.filter(diapago=v_dia, credito__gt=0.00)
+    elif filtro == "DEPOSITO":
+        qs_pagamento = Formapgto.objects.filter(diapago=v_dia, deposito__gt=0.00)
+    else:
+        qs_pagamento = Formapgto.objects.filter(diapago=v_dia)
+    lista_pgto = []
+    total_filtro = Decimal(0.00)
+    for x in qs_pagamento:
+        qs_servico = Servico.objects.filter(idfatura=x.fatura)
+        cliente = Pessoa.objects.get(idpessoa=qs_servico[0].idcadastro)
+        valor = Decimal(0.00)
+        if filtro == "DINHEIRO":
+            valor = x.dinheiro
+        elif filtro == "DEBITO":
+            valor = x.debito
+        elif filtro == "CREDITO":
+            valor = x.credito
+        elif filtro == "DEPOSITO":
+            valor = x.deposito
+        else:
+            valor = x.dinheiro + x.debito + x.credito + x.deposito
+        total_filtro += valor
+        lista_pgto.append(
+            {
+                "cliente": cliente.apelido,
+                "fatura": x.fatura,
+                "total": valor,
+            }
+        )
+    lista_ordenada = sorted(lista_pgto, key=lambda d: d["cliente"])
+    return {"pagamentos": lista_ordenada, "total_filtro": total_filtro}
+
+
+def create_data_filtro_pagamento(request, contexto):
+    data = dict()
+    data = html_pgto_dia(request, contexto, data)
+    return JsonResponse(data)
 
 
 def create_data_cliente_faturada(request, contexto):
@@ -399,7 +480,6 @@ def create_data_mensal_detalhado(request, contexto):
     data = dict()
     data = html_mensal_detalhado(request, contexto, data)
     data = html_pgto_dia(request, contexto, data)
-    print(data["html_pgto_dia"])
     return JsonResponse(data)
 
 

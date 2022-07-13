@@ -6,6 +6,7 @@ from .views import (
     paga_fatura,
     print_fatura,
     seleciona_dia_recebido,
+    seleciona_filtro_pagamento,
     seleciona_mes_recebido,
     servico_fatura,
 )
@@ -45,5 +46,10 @@ urlpatterns = [
         "seleciona_dia_recebido",
         seleciona_dia_recebido,
         name="seleciona_dia_recebido",
+    ),
+    path(
+        "seleciona_filtro_pagamento",
+        seleciona_filtro_pagamento,
+        name="seleciona_filtro_pagamento",
     ),
 ]

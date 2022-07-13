@@ -15,22 +15,28 @@
         <div class="item-data">
         </div>
         <div class="item-dinheiro item-titulo">
-            <span>DINHEIRO</span>
+            <span class="i-button js-detalhado-filtro"
+            data-filtro="DINHEIRO">DINHEIRO</span>
         </div>
         <div class="item-debito item-titulo">
-            <span>DÉBITO</span>
+            <span class="i-button js-detalhado-filtro"
+            data-filtro="DEBITO">DÉBITO</span>
         </div>
         <div class="item-credito item-titulo">
-            <span>CRÉDITO</span>
+            <span class="i-button js-detalhado-filtro"
+            data-filtro="CREDITO">CRÉDITO</span>
         </div>
         <div class="item-pix item-titulo">
-            <span>PIX</span>
+            <span class="i-button js-detalhado-filtro"
+            data-filtro="PIX">PIX</span>
         </div>
         <div class="item-deposito item-titulo">
-            <span>DEPÓSITO</span>
+            <span class="i-button js-detalhado-filtro"
+            data-filtro="DEPOSITO">DEPÓSITO</span>
         </div>
         <div class="item-valor item-titulo">
-            <span>TOTAL</span>
+            <span class="i-button js-detalhado-filtro"
+            data-filtro="total">TOTAL</span>
         </div>
         <div class="item-botao">
         </div>
@@ -70,5 +76,12 @@
     {% endfor %}
 </div>
 <div class="card-footer">
-    <span>R$ {{ total|intcomma }}</span>
+    <span class="item-data"></span>
+    <span class="item-valor">R$ {{ dinheiro|intcomma }}</span>
+    <span class="item-valor">R$ {{ debito|intcomma }}</span>
+    <span class="item-valor">R$ {{ credito|intcomma }}</span>
+    <span class="item-valor">R$ 0,00</span>
+    <span class="item-valor">R$ {{ deposito|intcomma }}</span>
+    <span class="item-valor">R$ {{ total|intcomma }}</span>
+    <span class="item-botao"></span>
 </div>
