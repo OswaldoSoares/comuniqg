@@ -242,7 +242,6 @@ $(document).ready(function() {
                 $('.card-faturadas').hide()
                 $('.card-faturar').hide()
                 $('.card-mensal').hide()
-                $('.card-pagamentos-dia').hide()
                 $('.text-loader').text('AGUARDE CARREGANDO PAGAMENTOS...')
                 $(".box-loader").show();
             },
@@ -311,20 +310,17 @@ var soma_entrada = function() {
 }
 
 var bodyHeight = function() {
-    alert('OK')
     var maxHeight = 0;
-    var topPosition = 0;
     $('.js-card-body').each(function(index) {
-        if (index === 0) {
-            topPosition = $(this).position().top
-        }
-        var thisH = $(this).height();
-        if (thisH > maxHeight) {
-            maxHeight = thisH
+        if ($(this).is(':visible')) {
+            var thisH = $(this).height();
+            if (thisH > maxHeight) {
+                maxHeight = thisH
+            }
         }
     });
     $('.js-card-body').each(function() {
-        if ($(this).position().top == topPosition) {
+        if ($(this).is(':visible')) {
             $(this).height(maxHeight)
         }
     });
