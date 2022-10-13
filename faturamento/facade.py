@@ -176,6 +176,7 @@ def get_faturadas():
     faturas = Receber.objects.filter(status="A RECEBER")
     lista = []
     lista_soma = []
+    idpessoa = 1
     for itens in faturas:
         apelido = ""
         os = Servico.objects.filter(idfatura=itens.idfatura)
@@ -183,6 +184,8 @@ def get_faturadas():
             cliente = Pessoa.objects.get(idpessoa=os[0].idcadastro)
             apelido = cliente.apelido
             idpessoa = cliente.idpessoa
+        if idpessoa == 1:
+            print(itens.idfatura)
         lista.append(
             {
                 "idfatura": itens.idfatura,
