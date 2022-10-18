@@ -1,7 +1,10 @@
+from os import name
+
 from django.urls import path
 
 from .views import (
     cliente_faturada,
+    cliente_faturar,
     index_faturamento,
     paga_fatura,
     print_fatura,
@@ -51,5 +54,10 @@ urlpatterns = [
         "seleciona_filtro_pagamento",
         seleciona_filtro_pagamento,
         name="seleciona_filtro_pagamento",
+    ),
+    path(
+        "cliente_faturar",
+        cliente_faturar,
+        name="cliente_faturar",
     ),
 ]

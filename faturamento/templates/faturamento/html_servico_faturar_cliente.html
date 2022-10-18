@@ -1,0 +1,26 @@
+{% load humanize %}
+<div class="card-title">
+    <span>SERVICOS FATURAR</span>
+</div>
+<div class="card-body js-card-body re-faturar">
+    {% for servico in servicos %}
+    <div class="lista-servicos">
+        <div class="servico">
+            <span>{{ servico.idservico }}</span>
+        </div>
+        <div class="data-servico">
+            <span>{{ servico.diaservico }}</span>
+        </div>
+        <div class="total-servico">
+            <span>R$ {{ servico.total|intcomma }}</span>
+        </div>
+        <div class="botoes">
+            <a class="bi bi-printer i-button" href="{% url 'print_servico' servico.idservico %}" target="_blank"></a>
+            <i class="bi bi-clipboard i-button js-minuta-fatura" data-idobj="{{ fatura.idfatura }}"></i>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="card-footer">
+    <span>R$ {{ total_faturar|intcomma }}</span>
+</div>

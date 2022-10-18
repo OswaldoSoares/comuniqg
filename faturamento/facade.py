@@ -319,6 +319,22 @@ def get_servico_fatura():
     return servico
 
 
+def get_servico_faturar(v_idpessoa):
+    servicos = Servico.objects.filter(idcadastro=v_idpessoa, status="FATURAR")
+    lista = [
+        {
+            "idservico": x.idservico,
+            "diaservico": x.diaservico,
+            "solicitante": x.solicitante,
+            "obra": x.obra,
+            "total": x.total,
+        }
+        for x in servicos
+    ]
+    sorted_list = sorted(lista, key=lambda x: x["diaservico"])
+    return sorted_list
+
+
 def get_total_faturadas():
     total = Receber.objects.filter(status="A RECEBER").aggregate(
         total=Sum("valorfatura")
@@ -347,6 +363,13 @@ def create_contexto_cliente_faturada(v_faturas, v_idobj):
         "apelido": apelido,
         "total_receber": total_receber,
         "quantidade": len(v_faturas),
+    }
+    return contexto
+
+
+def create_contexto_servicos_faturar_cliente(v_servicos, v_idobj):
+    contexto = {
+        "servicos": v_servicos,
     }
     return contexto
 
@@ -457,6 +480,19 @@ def create_data_cliente_faturada(request, contexto):
     data = html_cliente_faturada(request, contexto, data)
     data = html_mensal(request, contexto, data)
     return JsonResponse(data)
+
+
+def create_data_servico_faturar_cliente(request, contexto):
+    data = dict()
+    data = html_servico_faturar_cliente(request, contexto, data)
+    return JsonResponse(data)
+
+
+def html_servico_faturar_cliente(request, contexto, data):
+    data["html_servico_faturar_cliente"] = render_to_string(
+        "faturamento/html_servico_faturar_cliente.html", contexto, request=request
+    )
+    return data
 
 
 def create_data_mensal(request, contexto):

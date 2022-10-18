@@ -22,6 +22,14 @@ def cliente_faturada(request):
     return data
 
 
+def cliente_faturar(request):
+    v_idobj = request.GET.get("idobj")
+    servicos = facade.get_servico_faturar(v_idobj)
+    contexto = facade.create_contexto_servicos_faturar_cliente(servicos, v_idobj)
+    data = facade.create_data_servico_faturar_cliente(request, contexto)
+    return data
+
+
 def print_fatura(request, idfatura):
     response = fatura_pdf(idfatura)
     return response

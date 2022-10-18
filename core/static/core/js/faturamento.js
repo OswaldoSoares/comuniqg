@@ -30,6 +30,38 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('click', '.js-cliente-faturar', function() {
+        var v_idobj = $(this).data('idobj')
+        $.ajax({
+            type: 'GET',
+            url: 'cliente_faturar',
+            data: {
+                idobj: v_idobj,
+            },
+            beforeSend: function() {
+                $('.card-selecionadas').hide()
+                $('.card-servico').hide()
+                $('.card-pagamento-fatura').hide()
+                $('.card-faturadas').hide()
+                $('.card-faturar').hide()
+                $('.card-mensal').hide()
+                $('.text-loader').text('AGUARDE CARREGANDO SERVIÇOS...')
+                $('.box-loader').show()
+                $('.js-card-body').css('height', '');
+            },
+            success: function(data) {
+                // $('.card-selecionadas').html(data['html_cliente_faturada'])
+                $('.card-faturar').show()
+                bodyHeight()
+                $('.box-loader').hide()
+                $('.text-loader').text('AGUARDE...')
+            },
+            error: function(errors) {
+                console.log(errors)
+            }
+        });
+    });
+
     $(document).on('change', '.js-dinheiro', function() {
         // saldo_fatura = $('.js-saldo').val() - $(this).val()
         soma_entrada()
