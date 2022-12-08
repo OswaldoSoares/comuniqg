@@ -50,7 +50,8 @@ $(document).ready(function() {
                 $('.js-card-body').css('height', '');
             },
             success: function(data) {
-                // $('.card-selecionadas').html(data['html_cliente_faturada'])
+                $('.card-servico').html(data['html_servico_faturar_cliente'])
+                $('.card-servico').show()
                 $('.card-faturar').show()
                 bodyHeight()
                 $('.box-loader').hide()

@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from decimal import Decimal
 
 from dateutil.relativedelta import relativedelta
@@ -114,8 +114,18 @@ class ClassFatura:
             return sorted_list
 
 
-def extremos_mes(_mes, _ano):
-    first_day = datetime.datetime.strptime(f"1-{int(_mes)}-{int(_ano)}", "%d-%m-%Y")
+def extremos_mes(_mes: str, _ano: str):
+    """Retorna o primeiro e o último dia do mês e ano informado.
+
+    Args:
+        _mes (str): Mês
+        _ano (str): Ano
+
+    Returns:
+        tuple[datetime, datetime]: primeiro e último dia
+    """
+
+    first_day = datetime.strptime(f"1-{int(_mes)}-{int(_ano)}", "%d-%m-%Y")
     last_day = first_day + relativedelta(months=+1, days=-1)
     return first_day, last_day
 
@@ -173,11 +183,22 @@ def get_fatura(v_idfatura):
     return fatura
 
 
-def get_faturadas():
+# TODO após alterar para banco de dados relacionados, melhorar código.
+def get_faturadas() -> list:
+    """1 - Cria uma query das faturas com status 'A RECEBER' 2 - Percorre
+    a query e insere em uma lista com o apelido e o id do cliente, valor da
+    fatura e valor pago. 3 - Cria uma nova lista por ordem de apelido. 4 -
+    Percorre essa nova lista filtrando por apelido e realizando a soma dos
+    valores da fatura e valores pagos. 5 - Insere na lista final o apelido e
+    o id do cliente, valor da fatura e valor pago.
+
+    Returns:
+        list: Lista de faturas a receber com o apelido do cliente, valor a receber,
+        valor já pago da fatura se houver e o id do cliente.
+    """
     faturas = Receber.objects.filter(status="A RECEBER")
     lista = []
     lista_soma = []
-    idpessoa = 1
     for itens in faturas:
         apelido = ""
         os = Servico.objects.filter(idfatura=itens.idfatura)
@@ -185,8 +206,6 @@ def get_faturadas():
             cliente = Pessoa.objects.get(idpessoa=os[0].idcadastro)
             apelido = cliente.apelido
             idpessoa = cliente.idpessoa
-        if idpessoa == 1:
-            print(itens.idfatura)
         lista.append(
             {
                 "idfatura": itens.idfatura,
@@ -222,7 +241,18 @@ def get_faturadas():
     return lista_soma
 
 
-def get_faturar():
+# TODO após alterar para banco de dados relacionados, melhorar código.
+def get_faturar() -> list:
+    """1 - Cria uma query dos servicos com status 'FATURAR' 2 - Percorre
+    a query e insere em uma lista com o apelido e o id do cliente, valor e
+    id da fatura. 3 - Cria uma nova lista por ordem de apelido. 4 - Percorre
+    essa nova lista filtrando por apelido e realizando a soma dos valores da
+    fatura. 5 - Insere na lista final o apelido e o id do cliente, valor da
+    fatura.
+
+    Returns:
+        list: _description_
+    """
     os = Servico.objects.filter(status="FATURAR")
     lista = []
     lista_soma = []
@@ -336,19 +366,34 @@ def get_servico_faturar(v_idpessoa):
     return sorted_list
 
 
-def get_total_faturadas():
+def get_total_faturadas() -> Decimal:
+    """Soma o total das faturas que estão com o status "A RECEBER".
+
+    Returns:
+        Decimal: Total a receber.
+    """
     total = Receber.objects.filter(status="A RECEBER").aggregate(
         total=Sum("valorfatura")
     )
     return total["total"]
 
 
-def get_total_faturar():
+def get_total_faturar() -> Decimal:
+    """Soma o total dos serviços que estão com o status "FATURAR".
+
+    Returns:
+        Decimal: Total dos serviços.
+    """
     total = Servico.objects.filter(status="FATURAR").aggregate(total=Sum("total"))
     return total["total"]
 
 
-def get_total_pago():
+def get_total_pago() -> Decimal:
+    """Soma o total já pago das faturas que estão com o status "A RECEBER".
+
+    Returns:
+        Decimal: Total já pago.
+    """
     total = Receber.objects.filter(status="A RECEBER").aggregate(pago=Sum("valorpago"))
     return total["pago"]
 
@@ -377,7 +422,7 @@ def create_contexto_servicos_faturar_cliente(v_servicos, v_idobj):
 
 def create_contexto_pago_dia(v_dia):
     if type(v_dia) is str:
-        v_dia = datetime.datetime.strptime(v_dia, "%d/%m/%Y").date()
+        v_dia = datetime.strptime(v_dia, "%d/%m/%Y").date()
     qs_pagamento = Formapgto.objects.filter(diapago=v_dia)
     lista_pgto = []
     total_filtro = Decimal(0.00)
@@ -398,7 +443,7 @@ def create_contexto_pago_dia(v_dia):
 
 def create_contexto_pago_mes_totais(v_dia):
     if type(v_dia) is str:
-        v_dia = datetime.datetime.strptime(v_dia, "%d/%m/%Y").date()
+        v_dia = datetime.strptime(v_dia, "%d/%m/%Y").date()
 
 
 def create_contexto_pago_mes_totais(mes, ano):
@@ -430,7 +475,7 @@ def create_contexto_pago_mes_totais(mes, ano):
 
 def create_contexto_pago_dia_filtro(v_dia, filtro):
     if type(v_dia) is str:
-        v_dia = datetime.datetime.strptime(v_dia, "%d/%m/%Y").date()
+        v_dia = datetime.strptime(v_dia, "%d/%m/%Y").date()
     if filtro == "DINHEIRO":
         qs_pagamento = Formapgto.objects.filter(diapago=v_dia, dinheiro__gt=0.00)
     elif filtro == "DEBITO":
@@ -486,6 +531,7 @@ def create_data_cliente_faturada(request, contexto):
 def create_data_servico_faturar_cliente(request, contexto):
     data = dict()
     data = html_servico_faturar_cliente(request, contexto, data)
+    print("[INFO] - ", data)
     return JsonResponse(data)
 
 
@@ -573,24 +619,41 @@ def create_data_paga_fatura(request, contexto):
     return data
 
 
-def create_contexto_faturadas():
+def create_contexto_faturadas() -> dict:
+    """Gera contexto com as faturas para receber, os serviços para faturar,
+    os totais das faturas e do que já foi pago e o total dos serviços para
+    faturar.
+
+    Returns:
+        dict: _description_
+    """
     faturadas = get_faturadas()
     total_faturadas = get_total_faturadas()
-    total_faturar = get_total_faturar()
     total_pago = get_total_pago()
     total_recebe = total_faturadas - total_pago
     faturar = get_faturar()
+    total_faturar = get_total_faturar()
     return {
         "faturadas": faturadas,
         "total_faturadas": total_faturadas,
-        "total_faturar": total_faturar,
-        "total_pago": total_pago,
         "total_recebe": total_recebe,
+        "total_pago": total_pago,
         "faturar": faturar,
+        "total_faturar": total_faturar,
     }
 
 
-def create_contexto_diario(mes, ano):
+def create_contexto_diario(mes: str, ano: str) -> dict:
+    """Percorre o mês e soma os valores recebidos diariamente, separados por
+    tipo de pagamento e o total do dia.
+
+    Args:
+        mes (str): Mês
+        ano (str): Ano
+
+    Returns:
+        dict: Lista de recebimentos diário e o último dia do mês
+    """
     pdm, udm = extremos_mes(mes, ano)
     lista_pgto = []
     while pdm < udm + relativedelta(days=1):
@@ -618,7 +681,17 @@ def create_contexto_diario(mes, ano):
     return {"mensal": lista_pgto, "mes": udm}
 
 
-def create_contexto_total_recebido_mes(mes, ano):
+def create_contexto_total_recebido_mes(mes: str, ano: str) -> dict:
+    """Cria uma query com os valores recebidos no mês e ano informado,
+    separados por tipo de pagamento e depois soma esses valores.
+
+    Args:
+        mes (str): Mês
+        ano (str): Ano
+
+    Returns:
+        dict: Total recebido no mês e ano informado.
+    """
     pdm, udm = extremos_mes(mes, ano)
     qs = Formapgto.objects.filter(diapago__range=(pdm, udm)).aggregate(
         din=Sum("dinheiro"),
@@ -635,27 +708,27 @@ def create_contexto_total_recebido_mes(mes, ano):
 
 
 def hoje():
-    hoje = datetime.datetime.today()
+    hoje = datetime.today()
     return hoje
 
 
 def altera_data(dia, dias, meses, anos):
-    nova_data = datetime.datetime.strptime(dia, "%d/%m/%Y").date()
+    nova_data = datetime.strptime(dia, "%d/%m/%Y").date()
     nova_data = nova_data + relativedelta(days=dias, months=meses, years=anos)
     return nova_data
 
 
 def mes_ano(data):
     if type(data) is str:
-        data = datetime.datetime.strptime(data, "%d/%m/%Y").date()
-    mes = datetime.datetime.strftime(data, "%m")
-    ano = datetime.datetime.strftime(data, "%Y")
+        data = datetime.strptime(data, "%d/%m/%Y").date()
+    mes = datetime.strftime(data, "%m")
+    ano = datetime.strftime(data, "%Y")
     return mes, ano
 
 
 def create_contexto_fatura_selecionada(v_servicos, v_fatura):
-    hoje = datetime.datetime.today()
-    hoje = datetime.datetime.strftime(hoje, "%Y-%m-%d")
+    hoje = datetime.today()
+    hoje = datetime.strftime(hoje, "%Y-%m-%d")
     pagamentos = get_pagamentos(v_fatura)
     fatura = get_fatura(v_fatura)
     total = Decimal(0.00)

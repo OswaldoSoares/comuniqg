@@ -27,6 +27,7 @@ def cliente_faturar(request):
     servicos = facade.get_servico_faturar(v_idobj)
     contexto = facade.create_contexto_servicos_faturar_cliente(servicos, v_idobj)
     data = facade.create_data_servico_faturar_cliente(request, contexto)
+    print("[INFO] - ", data)
     return data
 
 
