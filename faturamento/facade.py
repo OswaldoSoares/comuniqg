@@ -531,7 +531,6 @@ def create_data_cliente_faturada(request, contexto):
 def create_data_servico_faturar_cliente(request, contexto):
     data = dict()
     data = html_servico_faturar_cliente(request, contexto, data)
-    print("[INFO] - ", data)
     return JsonResponse(data)
 
 
