@@ -752,3 +752,7 @@ body {
 .card-mensal-detalhado .card-footer .item-botao {
     width: 4%;
 }
+
+.check-hidden {
+    display: none !important;
+}

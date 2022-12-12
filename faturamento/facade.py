@@ -3,7 +3,7 @@ from decimal import Decimal
 
 from dateutil.relativedelta import relativedelta
 from django.db import connection
-from django.db.models import Sum
+from django.db.models import Max, Sum
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 
@@ -414,8 +414,12 @@ def create_contexto_cliente_faturada(v_faturas, v_idobj):
 
 
 def create_contexto_servicos_faturar_cliente(v_servicos, v_idobj):
+    total_faturar = Decimal()
+    for x in v_servicos:
+        total_faturar += x["total"]
     contexto = {
         "servicos": v_servicos,
+        "total_faturar": total_faturar,
     }
     return contexto
 
@@ -773,3 +777,37 @@ def paga_fatura(v_dia, v_din, v_deb, v_cre, v_pix, v_dep, v_fat):
         obj = i
         obj.status = "PAGA"
         obj.save(update_fields=["status"])
+
+
+def faturar_os_selecionadas(selecionadas):
+    ultima_fatura = Receber.objects.aggregate(id=Max("idfatura"))
+    os_faturadas = []
+    total_fatura = Decimal(0.00)
+    for i in selecionadas:
+        text_post = i.split(":")
+        os_faturadas.append(text_post[0])
+        total_fatura += Decimal(text_post[1].replace(",", "."))
+    data_hoje = datetime.strftime(hoje(), "%Y-%m-%d")
+    obj = Receber()
+    obj.idfatura = int(ultima_fatura["id"]) + 1
+    obj.diafatura = data_hoje
+    obj.valorfatura = total_fatura
+    obj.vencimento = data_hoje
+    obj.valorpago = 0.00
+    obj.diapago = "2001-01-01"
+    obj.status = "A RECEBER"
+    obj.tipofatura = "FA"
+    obj.save()
+    ultima_fatura = Receber.objects.aggregate(id=Max("idfatura"))
+    idfatura = ultima_fatura["id"]
+    atualizar_os_faturadas(os_faturadas, idfatura)
+
+
+def atualizar_os_faturadas(os_faturadas, idfatura):
+    for i in os_faturadas:
+        os = Servico.objects.get(idservico=int(i))
+        obj = Servico(os)
+        obj.idservico = os.idservico
+        obj.idfatura = idfatura
+        obj.status = "FATURADA"
+        obj.save(update_fields=["idfatura", "status"])

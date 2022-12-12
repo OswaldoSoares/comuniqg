@@ -322,7 +322,28 @@ $(document).ready(function() {
     $('.card-mensal-detalhado').hide()
     $('.card-pagamentos-dia').hide()
     bodyHeight()
-})
+
+    $(document).on('click', '.js-servico-faturar', function() {
+        var elemento = "#os_" + $(this).data("idobj")
+        if ($(elemento).is(":checked")) {
+            $(this).removeClass('bi-check-square').addClass('bi-square');
+            $(elemento).attr('checked', false);
+        } else {
+            $(this).removeClass('bi-square').addClass('bi-check-square');
+            $(elemento).attr('checked', true);
+        }
+    });
+
+    $(document).on('submit', '.js-faturar-selecionadas', function(event) {
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/faturamento/faturar_selecionadas',
+            data: $(this).serialize(),
+        });
+    });
+
+});
 
 var soma_entrada = function() {
     saldo_fatura = $('.js-saldo').val()

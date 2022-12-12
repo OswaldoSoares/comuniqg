@@ -101,3 +101,12 @@ def seleciona_filtro_pagamento(request):
     contexto.update({"dia": dia})
     data = facade.create_data_filtro_pagamento(request, contexto)
     return data
+
+
+def faturar_selecionadas(request):
+    selecionadas = request.POST.getlist("selecionadas")
+    if selecionadas:
+        print("[INFO] TEM")
+        facade.faturar_os_selecionadas(selecionadas)
+    else:
+        print("[INFO] NÃO TEM")
