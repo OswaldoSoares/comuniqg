@@ -32,6 +32,7 @@ $(document).ready(function() {
 
     $(document).on('click', '.js-cliente-faturar', function() {
         var v_idobj = $(this).data('idobj')
+        var v_apelido = $(this).data('cliente')
         $.ajax({
             type: 'GET',
             url: 'cliente_faturar',
@@ -51,7 +52,12 @@ $(document).ready(function() {
             },
             success: function(data) {
                 $('.card-servico').html(data['html_servico_faturar_cliente'])
+                $('.apelido-cliente').html(v_apelido)
                 $('.card-servico').show()
+                $('.card-obras').html(data['html_servico_faturar_cliente_obras'])
+                $('.card-obras').show()
+                $('.card-solicitantes').html(data['html_servico_faturar_cliente_solicitantes'])
+                $('.card-solicitantes').show()
                 $('.card-faturar').show()
                 bodyHeight()
                 $('.box-loader').hide()
@@ -348,7 +354,6 @@ $(document).ready(function() {
             success: function(data) {
                 $('.card-faturar').html(data['html_aguardando_faturar'])
                 $('.card-faturar').show()
-                console.log(data['html_servico_faturar_cliente'])
                 if (data['total_servicos'] > 0) {
                     $('.card-servico').html(data['html_servico_faturar_cliente'])
                     $('.card-servico').show()

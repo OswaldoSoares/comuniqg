@@ -418,11 +418,15 @@ def create_contexto_servicos_faturar_cliente(servicos, idpessoa):
     for x in servicos:
         total_faturar += x["total"]
     total_servicos = len(servicos)
+    obras = sorted(set([i["obra"] for i in servicos]))
+    solicitantes = sorted(set([i["solicitante"] for i in servicos]))
     contexto = {
         "servicos": servicos,
         "total_a_faturar": total_faturar,
         "idcliente": idpessoa,
         "total_servicos": total_servicos,
+        "obras": obras,
+        "solicitantes": solicitantes,
     }
     return contexto
 
@@ -538,12 +542,30 @@ def create_data_cliente_faturada(request, contexto):
 def create_data_servico_faturar_cliente(request, contexto):
     data = dict()
     data = html_servico_faturar_cliente(request, contexto, data)
+    data = html_servico_faturar_cliente_obras(request, contexto, data)
+    data = html_servico_faturar_cliente_solicitantes(request, contexto, data)
     return JsonResponse(data)
 
 
 def html_servico_faturar_cliente(request, contexto, data):
     data["html_servico_faturar_cliente"] = render_to_string(
         "faturamento/html_servico_faturar_cliente.html", contexto, request=request
+    )
+    return data
+
+
+def html_servico_faturar_cliente_obras(request, contexto, data):
+    data["html_servico_faturar_cliente_obras"] = render_to_string(
+        "faturamento/html_servico_faturar_cliente_obras.html", contexto, request=request
+    )
+    return data
+
+
+def html_servico_faturar_cliente_solicitantes(request, contexto, data):
+    data["html_servico_faturar_cliente_solicitantes"] = render_to_string(
+        "faturamento/html_servico_faturar_cliente_solicitantes.html",
+        contexto,
+        request=request,
     )
     return data
 
