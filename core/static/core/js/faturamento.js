@@ -340,7 +340,23 @@ $(document).ready(function() {
             type: 'POST',
             url: '/faturamento/faturar_selecionadas',
             data: $(this).serialize(),
-        });
+            beforeSend: function() {
+                $('.card-servico').hide();
+                $('.card-faturar').hide();
+                $('.box-loader').show();
+            },
+            success: function(data) {
+                $('.card-faturar').html(data['html_aguardando_faturar'])
+                $('.card-faturar').show()
+                console.log(data['html_servico_faturar_cliente'])
+                if (data['total_servicos'] > 0) {
+                    $('.card-servico').html(data['html_servico_faturar_cliente'])
+                    $('.card-servico').show()
+                }
+                bodyHeight()
+                $('.box-loader').hide();
+            },
+        })
     });
 
 });

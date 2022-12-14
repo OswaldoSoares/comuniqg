@@ -413,13 +413,16 @@ def create_contexto_cliente_faturada(v_faturas, v_idobj):
     return contexto
 
 
-def create_contexto_servicos_faturar_cliente(v_servicos, v_idobj):
+def create_contexto_servicos_faturar_cliente(servicos, idpessoa):
     total_faturar = Decimal()
-    for x in v_servicos:
+    for x in servicos:
         total_faturar += x["total"]
+    total_servicos = len(servicos)
     contexto = {
-        "servicos": v_servicos,
-        "total_faturar": total_faturar,
+        "servicos": servicos,
+        "total_a_faturar": total_faturar,
+        "idcliente": idpessoa,
+        "total_servicos": total_servicos,
     }
     return contexto
 
@@ -593,6 +596,28 @@ def create_data_servico_faturada(request, contexto):
     return JsonResponse(data)
 
 
+def create_data_paga_fatura(request, contexto):
+    data = dict()
+    data = html_fatura_agrupada(request, contexto, data)
+    data = html_servico_faturada(request, contexto, data)
+    data = html_pagamento_fatura(request, contexto, data)
+    return data
+
+
+def create_data_faturada(request, contexto):
+    data = dict()
+    data = html_fatura_agrupada(request, contexto, data)
+    return data
+
+
+def create_data_atualiza_servico_faturado(request, contexto):
+    data = dict()
+    data = html_aguardando_faturar(request, contexto, data)
+    data = html_servico_faturar_cliente(request, contexto, data)
+    data["total_servicos"] = contexto["total_servicos"]
+    return JsonResponse(data)
+
+
 def html_servico_faturada(request, contexto, data):
     data["html_servico_faturada"] = render_to_string(
         "faturamento/servico_faturada.html", contexto, request=request
@@ -614,11 +639,10 @@ def html_fatura_agrupada(request, contexto, data):
     return data
 
 
-def create_data_paga_fatura(request, contexto):
-    data = dict()
-    data = html_fatura_agrupada(request, contexto, data)
-    data = html_servico_faturada(request, contexto, data)
-    data = html_pagamento_fatura(request, contexto, data)
+def html_aguardando_faturar(request, contexto, data):
+    data["html_aguardando_faturar"] = render_to_string(
+        "faturamento/html_aguardando_faturar.html", contexto, request=request
+    )
     return data
 
 
@@ -811,3 +835,12 @@ def atualizar_os_faturadas(os_faturadas, idfatura):
         obj.idfatura = idfatura
         obj.status = "FATURADA"
         obj.save(update_fields=["idfatura", "status"])
+
+
+def create_contexto_faturar():
+    faturar = get_faturar()
+    total_faturar = get_total_faturar()
+    return {
+        "faturar": faturar,
+        "total_faturar": total_faturar,
+    }

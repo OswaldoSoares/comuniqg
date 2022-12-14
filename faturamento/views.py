@@ -106,7 +106,10 @@ def seleciona_filtro_pagamento(request):
 def faturar_selecionadas(request):
     selecionadas = request.POST.getlist("selecionadas")
     if selecionadas:
-        print("[INFO] TEM")
         facade.faturar_os_selecionadas(selecionadas)
-    else:
-        print("[INFO] NÃO TEM")
+    v_idobj = request.POST.get("idobj")
+    servicos = facade.get_servico_faturar(v_idobj)
+    contexto = facade.create_contexto_faturar()
+    contexto.update(facade.create_contexto_servicos_faturar_cliente(servicos, v_idobj))
+    data = facade.create_data_atualiza_servico_faturado(request, contexto)
+    return data

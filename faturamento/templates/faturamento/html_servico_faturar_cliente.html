@@ -26,9 +26,10 @@
             </div>
         </div>
         {% endfor %}
+        <input type="hidden" name="idobj" value="{{ idcliente }}">
     </div>
     <div class="card-footer">
-        <span>R$ {{ total_faturar|intcomma }}</span>
+        <span>R$ {{ total_a_faturar|intcomma }}</span>
         <button type="submit" class="bi bi-printer"></button>
     </div>
 </form>
