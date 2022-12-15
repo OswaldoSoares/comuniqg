@@ -20,6 +20,8 @@
                 <a class="bi bi-printer i-button"  target="_blank"
                 href="{% url 'print_servico' servico.idservico %}"></a>
                 <i class="bi bi-square i-button js-servico-faturar"
+                data-obra="{{ servico.obra_lower }}"
+                data-solicitante="{{ servico.solicitante_lower }}"
                 data-idobj="{{ servico.idservico }}"></i>
                 <input class="check-hidden" type="checkbox" name="selecionadas"
                 value="{{ servico.idservico }}:{{ servico.total }}" id="os_{{ servico.idservico }}">

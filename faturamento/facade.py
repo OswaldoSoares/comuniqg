@@ -357,7 +357,9 @@ def get_servico_faturar(v_idpessoa):
             "idservico": x.idservico,
             "diaservico": x.diaservico,
             "solicitante": x.solicitante,
+            "solicitante_lower": x.solicitante.lower().replace(" ", "_"),
             "obra": x.obra,
+            "obra_lower": x.obra.lower().replace(" ", "_"),
             "total": x.total,
         }
         for x in servicos
@@ -419,14 +421,18 @@ def create_contexto_servicos_faturar_cliente(servicos, idpessoa):
         total_faturar += x["total"]
     total_servicos = len(servicos)
     obras = sorted(set([i["obra"] for i in servicos]))
+    obras_list = [{"obra": i, "lower": i.lower().replace(" ", "_")} for i in obras]
     solicitantes = sorted(set([i["solicitante"] for i in servicos]))
+    solicitantes_list = [
+        {"solicitante": i, "lower": i.lower().replace(" ", "_")} for i in solicitantes
+    ]
     contexto = {
         "servicos": servicos,
         "total_a_faturar": total_faturar,
         "idcliente": idpessoa,
         "total_servicos": total_servicos,
-        "obras": obras,
-        "solicitantes": solicitantes,
+        "obras": obras_list,
+        "solicitantes": solicitantes_list,
     }
     return contexto
 

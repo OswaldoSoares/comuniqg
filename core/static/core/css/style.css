@@ -153,7 +153,7 @@ body {
 .card {
     color: var(--color7);
     margin: 10px;
-    border-radius: 25px;
+    border-radius: 15px;
 }
 
 .card-title {
@@ -161,7 +161,7 @@ body {
     color: var(--color8);
     width: 100%;
     height: 40px;
-    border-radius: 25px 25px 0 0;
+    border-radius: 15px 15px 0 0;
     font-size: large;
     font-style: italic;
     display: flex;
@@ -184,7 +184,7 @@ body {
     color: var(--color8);
     width: 100%;
     height: 30px;
-    border-radius: 0 0 25px 25px;
+    border-radius: 0 0 15px 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -401,10 +401,19 @@ body {
     padding: 10px 5px;
 }
 
+.card-obras,
+.card-solicitantes {
+    width: 250px;
+    margin: 0;
+    padding: 10px 5px;
+}
+
 .lista-faturadas,
 .lista-faturar,
 .lista-selecionadas,
-.lista-servicos {
+.lista-servicos,
+.lista-obras,
+.lista-solicitantes {
     width: 100%;
     display: flex;
     align-items: center;
@@ -499,6 +508,20 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0 5px;
+}
+
+.lista-obras .obras,
+.lista-solicitantes .solicitantes {
+    width: 85%;
+    text-align: left;
+    padding-left: 5px;
+}
+
+.lista-obras .botoes,
+.lista-solicitantes .botoes {
+    width: 15%;
+    text-align: center;
     padding: 0 5px;
 }
 

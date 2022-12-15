@@ -5,10 +5,14 @@
     {% for i in obras %}
     <div class="lista-obras">
         <div class="obras">
-            {{ i}}
+            {% if i.obra == "" %}
+            <span>NÃO INFORMADA</span>
+            {% else %}
+            <span>{{ i.obra }}</span>
+            {% endif %}
         </div>
         <div class="botoes">
-
+            <i class="bi bi-square i-button" data-obra="{{ i.lower }}"></i>
         </div>
     </div>
     {% endfor %}
