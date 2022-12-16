@@ -511,6 +511,33 @@ body {
     padding: 0 5px;
 }
 
+.lista-servicos-faturar-footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lista-servicos-faturar-footer .quantidade {
+    width: 40%;
+    text-align: center;
+}
+
+.lista-servicos-faturar-footer .valor {
+    width: 40%;
+    text-align: center;
+}
+
+.lista-servicos-faturar-footer .botoes {
+    width: 10%;
+    text-align: center;
+}
+
+.lista-servicos-faturar-footer .botoes button {
+    background-color: var(--color1);
+    border: none;
+}
+
 .lista-obras .obras,
 .lista-solicitantes .solicitantes {
     width: 85%;
@@ -777,5 +804,9 @@ body {
 }
 
 .check-hidden {
+    display: none !important;
+}
+
+.botao-hidden {
     display: none !important;
 }

@@ -642,6 +642,8 @@ def create_data_atualiza_servico_faturado(request, contexto):
     data = dict()
     data = html_aguardando_faturar(request, contexto, data)
     data = html_servico_faturar_cliente(request, contexto, data)
+    data = html_servico_faturar_cliente_obras(request, contexto, data)
+    data = html_servico_faturar_cliente_solicitantes(request, contexto, data)
     data["total_servicos"] = contexto["total_servicos"]
     return JsonResponse(data)
 

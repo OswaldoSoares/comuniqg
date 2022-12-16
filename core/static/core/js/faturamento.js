@@ -62,6 +62,7 @@ $(document).ready(function() {
                 bodyHeight()
                 $('.box-loader').hide()
                 $('.text-loader').text('AGUARDE...')
+                quantidade_servico_selecionado = 0
                 quantidade_obra_selecionada = 0
                 quantidade_solicitante_selecionado = 0
             },
@@ -330,17 +331,45 @@ $(document).ready(function() {
     $('.card-mensal-detalhado').hide()
     $('.card-pagamentos-dia').hide()
     bodyHeight()
+    var quantidade_servico_selecionado = 0
     var quantidade_obra_selecionada = 0
     var quantidade_solicitante_selecionado = 0
 
     $(document).on('click', '.js-servico-faturar', function() {
         var elemento = "#os_" + $(this).data("idobj")
+        var valor_servico_selecionado = 0
+        var valor_str = "R$ 0,00"
         if ($(elemento).is(":checked")) {
             $(this).removeClass('bi-check-square').addClass('bi-square');
             $(elemento).attr('checked', false);
+            quantidade_servico_selecionado -= 1;
         } else {
             $(this).removeClass('bi-square').addClass('bi-check-square');
             $(elemento).attr('checked', true);
+            quantidade_servico_selecionado += 1;
+        }
+        $("[data-obra]").each(function() {
+            var elemento_valor = "#os_" + $(this).data("idobj")
+            if ($(elemento_valor).is(":checked")) {
+                valor_servico_selecionado += parseFloat($(this).data("valor-os").replace(",", "."))
+                valor_str = valor_servico_selecionado.toFixed(2).replace(".", ",");
+                valor_str = valor_servico_selecionado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+            }
+            if (valor_servico_selecionado > 0) {
+                $('.botao-faturar').removeClass('botao-hidden')
+            } else {
+                $('.botao-faturar').addClass('botao-hidden')
+            }
+        });
+        if (quantidade_servico_selecionado == 0) {
+            $(".quantidade-servico-selecionado").html(`${quantidade_servico_selecionado} SERVIÇO`)
+            $(".valor-servico-selecionado").html(valor_str)
+        } else if (quantidade_servico_selecionado == 1) {
+            $(".quantidade-servico-selecionado").html(`${quantidade_servico_selecionado} SERVIÇO`)
+            $(".valor-servico-selecionado").html(valor_str)
+        } else {
+            $(".quantidade-servico-selecionado").html(`${quantidade_servico_selecionado} SERVIÇOS`)
+            $(".valor-servico-selecionado").html(valor_str)
         }
     });
 
@@ -351,8 +380,10 @@ $(document).ready(function() {
             url: '/faturamento/faturar_selecionadas',
             data: $(this).serialize(),
             beforeSend: function() {
-                $('.card-servico').hide();
                 $('.card-faturar').hide();
+                $('.card-servico').hide();
+                $('.card-obras').hide()
+                $('.card-solicitantes').hide()
                 $('.box-loader').show();
             },
             success: function(data) {
@@ -361,6 +392,10 @@ $(document).ready(function() {
                 if (data['total_servicos'] > 0) {
                     $('.card-servico').html(data['html_servico_faturar_cliente'])
                     $('.card-servico').show()
+                    $('.card-obras').html(data['html_servico_faturar_cliente_obras'])
+                    $('.card-obras').show()
+                    $('.card-solicitantes').html(data['html_servico_faturar_cliente_solicitantes'])
+                    $('.card-solicitantes').show()
                 }
                 bodyHeight()
                 $('.box-loader').hide();
