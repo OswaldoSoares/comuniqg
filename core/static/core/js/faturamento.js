@@ -62,6 +62,8 @@ $(document).ready(function() {
                 bodyHeight()
                 $('.box-loader').hide()
                 $('.text-loader').text('AGUARDE...')
+                quantidade_obra_selecionada = 0
+                quantidade_solicitante_selecionado = 0
             },
             error: function(errors) {
                 console.log(errors)
@@ -328,6 +330,8 @@ $(document).ready(function() {
     $('.card-mensal-detalhado').hide()
     $('.card-pagamentos-dia').hide()
     bodyHeight()
+    var quantidade_obra_selecionada = 0
+    var quantidade_solicitante_selecionado = 0
 
     $(document).on('click', '.js-servico-faturar', function() {
         var elemento = "#os_" + $(this).data("idobj")
@@ -364,6 +368,87 @@ $(document).ready(function() {
         })
     });
 
+    $(document).on('click', '.js-seleciona-obra', function() {
+        var elemento = $(this)
+        var obra = $(this).data('obra-seleciona')
+        if (quantidade_solicitante_selecionado > 0) {
+            $("[data-solicitante]").each(function() {
+                if (($(this).is(".bi-check-square"))) {
+                    $(this).trigger('click')
+                };
+            });
+            $("[data-solicitante-seleciona]").each(function() {
+                if (($(this).is(".bi-check-square"))) {
+                    $(this).trigger('click')
+                };
+            });
+        }
+        $("[data-obra]").each(function() {
+            if ($(this).data("obra") == obra) {
+                if ((elemento.is(".bi-check-square")) && ($(this).is(".bi-check-square"))) {
+                    $(this).trigger('click')
+                };
+                if ((elemento.is(".bi-square")) && ($(this).is(".bi-square"))) {
+                    $(this).trigger('click')
+                };
+            };
+        });
+        if (elemento.is(".bi-check-square")) {
+            $(this).removeClass('bi-check-square').addClass('bi-square');
+            quantidade_obra_selecionada -= 1;
+        } else {
+            $(this).removeClass('bi-square').addClass('bi-check-square');
+            quantidade_obra_selecionada += 1;
+        }
+        if (quantidade_obra_selecionada == 0) {
+            $(".quantidade-obra-selecionada").html("NENHUMA OBRA SELECIONADA")
+        } else if (quantidade_obra_selecionada == 1) {
+            $(".quantidade-obra-selecionada").html("1 OBRA SELECIONADA")
+        } else {
+            $(".quantidade-obra-selecionada").html(quantidade_obra_selecionada + " OBRAS SELECIONADAS")
+        }
+    });
+
+    $(document).on('click', '.js-seleciona-solicitante', function() {
+        var elemento = $(this)
+        var solicitante = $(this).data('solicitante-seleciona');
+        if (quantidade_obra_selecionada > 0) {
+            $("[data-obra]").each(function() {
+                if (($(this).is(".bi-check-square"))) {
+                    $(this).trigger('click')
+                };
+            });
+            $("[data-obra-seleciona]").each(function() {
+                if (($(this).is(".bi-check-square"))) {
+                    $(this).trigger('click')
+                };
+            });
+        }
+        $("[data-solicitante]").each(function() {
+            if ($(this).data("solicitante") == solicitante) {
+                if ((elemento.is(".bi-check-square")) && ($(this).is(".bi-check-square"))) {
+                    $(this).trigger('click')
+                };
+                if ((elemento.is(".bi-square")) && ($(this).is(".bi-square"))) {
+                    $(this).trigger('click')
+                };
+            };
+        });
+        if (elemento.is(".bi-check-square")) {
+            $(this).removeClass('bi-check-square').addClass('bi-square');
+            quantidade_solicitante_selecionado -= 1;
+        } else {
+            $(this).removeClass('bi-square').addClass('bi-check-square');
+            quantidade_solicitante_selecionado += 1;
+        }
+        if (quantidade_solicitante_selecionado == 0) {
+            $(".quantidade-solicitante-selecionado").html("NENHUMA SOLICITANTE SELECIONADO")
+        } else if (quantidade_solicitante_selecionado == 1) {
+            $(".quantidade-solicitante-selecionado").html("1 SOLICITANTE SELECIONADO")
+        } else {
+            $(".quantidade-solicitante-selecionado").html(quantidade_solicitante_selecionado + " SOLICITANTES SELECIONADOS")
+        }
+    });
 });
 
 var soma_entrada = function() {

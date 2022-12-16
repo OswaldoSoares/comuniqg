@@ -12,9 +12,12 @@
             {% endif %}
         </div>
         <div class="botoes">
-            <i class="bi bi-square i-button" data-obra="{{ i.lower }}"></i>
+            <i class="bi bi-square i-button js-seleciona-obra"
+            data-obra-seleciona="{{ i.lower }}"></i>
         </div>
     </div>
     {% endfor %}
 </div>
-<div class="card-footer"></div>
+<div class="card-footer">
+    <span class="quantidade-obra-selecionada">NENHUMA OBRA SELECIONADA</span>
+</div>
