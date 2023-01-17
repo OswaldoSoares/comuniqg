@@ -324,17 +324,6 @@ $(document).ready(function() {
         });
     });
 
-    $('.box-loader').hide()
-    $('.card-selecionadas').hide()
-    $('.card-servico').hide()
-    $('.card-pagamento-fatura').hide()
-    $('.card-mensal-detalhado').hide()
-    $('.card-pagamentos-dia').hide()
-    bodyHeight()
-    var quantidade_servico_selecionado = 0
-    var quantidade_obra_selecionada = 0
-    var quantidade_solicitante_selecionado = 0
-
     $(document).on('click', '.js-servico-faturar', function() {
         var elemento = "#os_" + $(this).data("idobj")
         var valor_servico_selecionado = 0
@@ -484,6 +473,20 @@ $(document).ready(function() {
             $(".quantidade-solicitante-selecionado").html(quantidade_solicitante_selecionado + " SOLICITANTES SELECIONADOS")
         }
     });
+
+    $('.box-loader').hide()
+    $('.card-selecionadas').hide()
+    $('.card-servico').hide()
+    $('.card-pagamento-fatura').hide()
+    $('.card-mensal-detalhado').hide()
+    $('.card-pagamentos-dia').hide()
+    $('.card-obras').hide()
+    $('.card-solicitantes').hide();
+    bodyHeight()
+    var quantidade_servico_selecionado = 0
+    var quantidade_obra_selecionada = 0
+    var quantidade_solicitante_selecionado = 0
+
 });
 
 var soma_entrada = function() {
