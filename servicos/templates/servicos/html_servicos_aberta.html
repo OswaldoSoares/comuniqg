@@ -1,9 +1,9 @@
-<div class="card card-aberta">
+<div class="card card-abertas">
     <div class="card-title">
         <span>ABERTAS</span>
     </div>
     <div class="card-body">
-        <div class="lista-aberta">
+        <div class="lista-abertas">
             <div class="os lista-title">
                 <span>OS</span>
             </div>
@@ -20,7 +20,7 @@
             </div>
         </div>
         {% for servico in aberta %}
-        <div class="lista-finalizadas">
+        <div class="lista-abertas">
             <div class="os">
                 <span>{{ servico.idservico }}</span>
             </div>
@@ -34,7 +34,7 @@
                 <span>{{ servico.obra }}</span>
             </div>
             <div class="botoes">
-                <a class="bi bi-printer i-button" href={% url 'print_servico' servico.idservico %} target="_blank"></a>
+                <a class="bi bi-plus-circle i-button" href={% url 'print_servico' servico.idservico %} target="_blank"></a>
             </div>
         </div>
         {% endfor %}
