@@ -9,12 +9,13 @@ def create_contexto_servicos_aberta():
     for itens in aberta:
         if itens.idcadastro:
             cliente = Pessoa.objects.get(idpessoa=itens.idcadastro)
+            apelido = cliente.apelido
             if not cliente:
-                cliente = None
+                apelido = None
         servicos_aberta.append(
             {
                 "idservico": itens.idservico,
-                "cliente": cliente.apelido,
+                "cliente": apelido,
                 "solicitante": itens.solicitante,
                 "obra": itens.obra,
             }
@@ -29,12 +30,13 @@ def create_contexto_servicos_entregar():
     for itens in entregar:
         if itens.idcadastro:
             cliente = Pessoa.objects.get(idpessoa=itens.idcadastro)
+            apelido = cliente.apelido
             if not cliente:
-                cliente = None
+                apelido = None
         servicos_entregar.append(
             {
                 "idservico": itens.idservico,
-                "cliente": cliente.apelido,
+                "cliente": apelido,
                 "solicitante": itens.solicitante,
                 "obra": itens.obra,
             }
