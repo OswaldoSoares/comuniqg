@@ -3,49 +3,6 @@
 {% block main %}
 <div class="ordem-servico">
     {% include  "servicos/html_servicos_aberta.html" %}
-    <div class="card card-finalizadas">
-        <div class="card-title">
-            <span>FINALIZADAS</span>
-        </div>
-        <div class="card-body">
-            <div class="lista-finalizadas">
-                <div class="os lista-title">
-                    <span>OS</span>
-                </div>
-                <div class="cliente lista-title">
-                    <span>CLIENTE</span>
-                </div>
-                <div class="solicitante lista-title">
-                    <span>SOLICITANTE</span>
-                </div>
-                <div class="obra lista-title">
-                    <span>OBRA</span>
-                </div>
-                <div class="botoes">
-                </div>
-            </div>
-            {% for servico in entregar %}
-            <div class="lista-finalizadas">
-                <div class="os">
-                    <span>{{ servico.idservico }}</span>
-                </div>
-                <div class="cliente">
-                    <span>{{ servico.cliente }}</span>
-                </div>
-                <div class="solicitante">
-                    <span>{{ servico.solicitante }}</span>
-                </div>
-                <div class="obra">
-                    <span>{{ servico.obra }}</span>
-                </div>
-                <div class="botoes">
-                    <a class="bi bi-printer i-button" href={% url 'print_servico' servico.idservico %} target="_blank"></a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="card-footer">
-        </div>
-    </div>
+    {% include  "servicos/html_servicos_entregar.html" %}
 </div>
 {% endblock %}
