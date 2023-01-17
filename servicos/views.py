@@ -9,7 +9,7 @@ def index_servico(request):
     aberta = facade.create_contexto_servicos_aberta()
     entregar = facade.create_contexto_servicos_entregar()
     return render(
-        request, "servicos/index.html", {"servicos": entregar, "aberta": aberta}
+        request, "servicos/index.html", {"entregar": entregar, "aberta": aberta}
     )
 
 
