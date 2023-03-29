@@ -34,7 +34,7 @@
                 <span>{{ servico.obra }}</span>
             </div>
             <div class="botoes">
-                <a class="bi bi-plus-circle i-button" href={% url 'print_servico' servico.idservico %} target="_blank"></a>
+                {% comment %} <a class="bi bi-plus-circle i-button" href="{% url 'print_servico' servico.idservico %}" target="_blank"></a> {% endcomment %}
             </div>
         </div>
         {% endfor %}
