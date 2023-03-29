@@ -206,6 +206,8 @@ def get_faturadas() -> list:
             cliente = Pessoa.objects.get(idpessoa=os[0].idcadastro)
             apelido = cliente.apelido
             idpessoa = cliente.idpessoa
+        else:
+            print(f"[INFO] - IDFartura: {itens.idfatura}")
         lista.append(
             {
                 "idfatura": itens.idfatura,
