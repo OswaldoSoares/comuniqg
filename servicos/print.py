@@ -21,7 +21,7 @@ def servico_pdf(idservico):
     :return:
     """
     url = f"{STATIC_ROOT}/core/img/logo.png"
-    v_endereco = "RUA NUNES DE SIQUEIRA, 22"
+    v_endereco = "RUA NUNES DE SIQUEIRA, 26"
     v_cidade = "CEP 03604-050 - SÃO PAULO - SP"
     v_telefone = "(11) 2647-1200 - (11) 94233-8804 WHATSAPP - (11) 99777-2837 WHATSAPP"
     v_email = "tecnoline@uol.com.br - comuniqg@uol.com.br"
