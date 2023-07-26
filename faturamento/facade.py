@@ -1,8 +1,9 @@
 from datetime import datetime
 from decimal import Decimal
+import time
 
 from dateutil.relativedelta import relativedelta
-from django.db import connection
+from django.db import connection, reset_queries
 from django.db.models import Max, Sum
 from django.http import JsonResponse
 from django.template.loader import render_to_string
@@ -35,6 +36,9 @@ class ClassFatura:
 
     @staticmethod
     def get_faturadas_grouped():
+        reset_queries()
+        start = time.time()
+        start_queries = len(connection.queries)
         faturas = Receber.objects.filter(status="A RECEBER")
         lista = []
         lista_soma = []
@@ -82,6 +86,11 @@ class ClassFatura:
                         "idpessoa": itens["idpessoa"],
                     }
                 )
+        end = time.time()
+        end_queries = len(connection.queries)
+        print(start_queries)
+        print("tempo: %.2fs" % (end - start))
+        print(end_queries)
         return lista_soma
 
     class ClassServico:
@@ -160,6 +169,8 @@ def get_cliente_faturada(v_idpessoa):
 
 
 def get_cliente_faturar(v_idpessoa):
+    start = time.time()
+    start_queries = len(connection.queries)
     faturas = Receber.objects.filter(status="A FATURAR")
     lista = []
     for itens in faturas:
@@ -175,6 +186,11 @@ def get_cliente_faturar(v_idpessoa):
                 }
             )
     sorted_list = sorted(lista, key=lambda x: x["idfatura"])
+    end = time.time()
+    end_queries = len(connection.queries)
+    print(start_queries)
+    print("tempo: %.2fs" % (end - start))
+    print(end_queries)
     return sorted_list
 
 
@@ -196,6 +212,8 @@ def get_faturadas() -> list:
         list: Lista de faturas a receber com o apelido do cliente, valor a receber,
         valor já pago da fatura se houver e o id do cliente.
     """
+    start = time.time()
+    start_queries = len(connection.queries)
     faturas = Receber.objects.filter(status="A RECEBER")
     lista = []
     lista_soma = []
@@ -240,7 +258,13 @@ def get_faturadas() -> list:
                     "idpessoa": itens["idpessoa"],
                 }
             )
-    return lista_soma
+    end = time.time()
+    end_queries = len(connection.queries)
+    print(start_queries)
+    print("tempo: %.2fs" % (end - start))
+    print(end_queries)
+    tempo = "tempo: %.2fs" % (end - start)
+    return lista_soma, tempo
 
 
 # TODO após alterar para banco de dados relacionados, melhorar código.
@@ -686,7 +710,7 @@ def create_contexto_faturadas() -> dict:
     Returns:
         dict: _description_
     """
-    faturadas = get_faturadas()
+    faturadas, tempo = get_faturadas()
     total_faturadas = get_total_faturadas()
     total_pago = get_total_pago()
     total_recebe = total_faturadas - total_pago
@@ -699,6 +723,7 @@ def create_contexto_faturadas() -> dict:
         "total_pago": total_pago,
         "faturar": faturar,
         "total_faturar": total_faturar,
+        "tempo": tempo,
     }
 
 
