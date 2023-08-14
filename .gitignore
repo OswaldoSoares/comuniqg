@@ -5,3 +5,4 @@ manage.py
 *.pyc
 .idea/
 site/
+.tool-versions
