@@ -6,3 +6,4 @@ manage.py
 .idea/
 site/
 .tool-versions
+.python-version
