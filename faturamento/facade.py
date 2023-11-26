@@ -37,8 +37,6 @@ class ClassFatura:
     @staticmethod
     def get_faturadas_grouped():
         reset_queries()
-        start = time.time()
-        start_queries = len(connection.queries)
         faturas = Receber.objects.filter(status="A RECEBER")
         lista = []
         lista_soma = []
@@ -86,11 +84,6 @@ class ClassFatura:
                         "idpessoa": itens["idpessoa"],
                     }
                 )
-        end = time.time()
-        end_queries = len(connection.queries)
-        print(start_queries)
-        print("tempo: %.2fs" % (end - start))
-        print(end_queries)
         return lista_soma
 
     class ClassServico:
@@ -169,8 +162,6 @@ def get_cliente_faturada(v_idpessoa):
 
 
 def get_cliente_faturar(v_idpessoa):
-    start = time.time()
-    start_queries = len(connection.queries)
     faturas = Receber.objects.filter(status="A FATURAR")
     lista = []
     for itens in faturas:
@@ -186,11 +177,6 @@ def get_cliente_faturar(v_idpessoa):
                 }
             )
     sorted_list = sorted(lista, key=lambda x: x["idfatura"])
-    end = time.time()
-    end_queries = len(connection.queries)
-    print(start_queries)
-    print("tempo: %.2fs" % (end - start))
-    print(end_queries)
     return sorted_list
 
 
@@ -212,8 +198,6 @@ def get_faturadas() -> list:
         list: Lista de faturas a receber com o apelido do cliente, valor a receber,
         valor já pago da fatura se houver e o id do cliente.
     """
-    start = time.time()
-    start_queries = len(connection.queries)
     faturas = Receber.objects.filter(status="A RECEBER")
     lista = []
     lista_soma = []
@@ -258,13 +242,7 @@ def get_faturadas() -> list:
                     "idpessoa": itens["idpessoa"],
                 }
             )
-    end = time.time()
-    end_queries = len(connection.queries)
-    print(start_queries)
-    print("tempo: %.2fs" % (end - start))
-    print(end_queries)
-    tempo = "tempo: %.2fs" % (end - start)
-    return lista_soma, tempo
+        return lista_soma
 
 
 # TODO após alterar para banco de dados relacionados, melhorar código.
@@ -710,8 +688,6 @@ def create_contexto_faturadas() -> dict:
     Returns:
         dict: _description_
     """
-    start = time.time()
-    start_queries = len(connection.queries)
     contexto = get_contexto_banco_dados()
     faturas_receber = [item for item in contexto["faturas"] if item.get("status") == "A RECEBER"]
     faturadas, total_recebe = get_faturas_servicos(faturas_receber, contexto["servicos"])
@@ -722,12 +698,6 @@ def create_contexto_faturadas() -> dict:
     faturar, total_faturar = get_faturar_servicos(servicos_faturar)
     #  faturar = get_faturar()
     #  total_faturar = get_total_faturar()
-    end = time.time()
-    end_queries = len(connection.queries)
-    print(start_queries)
-    print("tempo: %.2fs" % (end - start))
-    print(end_queries)
-    tempo = "tempo: %.2fs" % (end - start)
     return {
         "faturadas": faturadas,
         #  "total_faturadas": total_faturadas,
@@ -735,7 +705,6 @@ def create_contexto_faturadas() -> dict:
         #  "total_pago": total_pago,
         "faturar": faturar,
         "total_faturar": total_faturar,
-        "tempo": tempo,
     }
 
 
