@@ -927,3 +927,41 @@ def get_contexto_banco_dados():
             print(servico["idservico"])
     contexto = {"faturas": faturas, "servicos": servicos}
     return contexto
+
+
+def get_faturas_servicos(faturas_receber, servicos):
+    #  faturas_recebida = [item for item in faturas if item.get("status") == "RECEBIDA"]
+        #  servicos_aberta = [item for item in servicos if item.get('status') == "ABERTA"]
+    #  servicos_entregar = [item for item in servicos if item.get('status') == "ENTREGAR"]
+    #  servicos_faturada = [item for item in servicos if item.get('status') == "FATURADA"]
+    #  servicos_paga = [item for item in servicos if item.get('status') == "PAGA"]
+    for fatura in faturas_receber:
+        servicos_filtro = [item for item in servicos if item.get('idfatura') == fatura["idfatura"]]
+        fatura["servicos"] = servicos_filtro
+    lista_faturas = []
+    lista_clientes = []
+    for fatura in faturas_receber:
+        lista_faturas.append(
+            {
+                'apelido': fatura["servicos"][0]["apelido"],
+                "valorfatura": fatura["valorfatura"],
+                "valorpago": fatura["valorpago"],
+                "idpessoa": fatura["servicos"][0]["idcadastro"],
+            }
+        )
+        lista_clientes.append(fatura["servicos"][0]["apelido"])
+    lista_clientes = set(lista_clientes)
+    lista_final = []
+    for cliente in lista_clientes:
+        filtro = [item for item in lista_faturas if item.get('apelido') == cliente]
+        lista_final.append(
+            {
+                "apelido": cliente,
+                "valorfatura": sum(item['valorfatura'] for item in filtro),
+                "valorpago": sum(item["valorpago"] for item in filtro),
+                "idpessoa": filtro[0]["idpessoa"]
+            }
+        )
+    lista_final = sorted(lista_final, key=lambda x: x["apelido"])
+    total_receber = sum(item['valorfatura'] - item["valorpago"] for item in lista_faturas)
+    return lista_final, total_receber
