@@ -965,3 +965,24 @@ def get_faturas_servicos(faturas_receber, servicos):
     lista_final = sorted(lista_final, key=lambda x: x["apelido"])
     total_receber = sum(item['valorfatura'] - item["valorpago"] for item in lista_faturas)
     return lista_final, total_receber
+
+
+def get_faturar_servicos(servicos_faturar):
+    lista_clientes = []
+    for servico in servicos_faturar:
+        lista_clientes.append(servico["apelido"])
+    lista_clientes = set(lista_clientes)
+    lista_final = []
+    for cliente in lista_clientes:
+        filtro = [item for item in servicos_faturar if item.get("apelido") == cliente]
+        lista_final.append(
+            {
+                "apelido": cliente,
+                "valorfatura": sum(item["total"] for item in filtro),
+                "idpessoa": filtro[0]["idcadastro"],
+            }
+        )
+    lista_final = sorted(lista_final, key=lambda x: x["apelido"])
+    total_faturar = sum(item['total'] for item in servicos_faturar)
+    return lista_final, total_faturar
+
