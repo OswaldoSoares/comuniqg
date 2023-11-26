@@ -721,29 +721,27 @@ def create_contexto_diario(mes: str, ano: str) -> dict:
     """
     pdm, udm = extremos_mes(mes, ano)
     lista_pgto = []
+    pagamentos = list(Formapgto.objects.filter(diapago__range=[pdm, udm]).values())
     while pdm < udm + relativedelta(days=1):
-        qs = Formapgto.objects.filter(diapago=pdm).aggregate(
-            din=Sum("dinheiro"),
-            deb=Sum("debito"),
-            cre=Sum("credito"),
-            dep=Sum("deposito"),
-        )
-        din = Decimal(0.00) if qs["din"] == None else qs["din"]
-        deb = Decimal(0.00) if qs["deb"] == None else qs["deb"]
-        cre = Decimal(0.00) if qs["cre"] == None else qs["cre"]
-        dep = Decimal(0.00) if qs["dep"] == None else qs["dep"]
+        filtro = [item for item in pagamentos if item.get('diapago') == pdm.date()]
+        dinheiro = sum(item['dinheiro'] for item in filtro)
+        debito = sum(item['debito'] for item in filtro)
+        credito = sum(item['credito'] for item in filtro)
+        deposito = sum(item['deposito'] for item in filtro)
+        total = sum(item["dinheiro"] + item["debito"] + item["credito"] + item["deposito"] for item in filtro)
         lista_pgto.append(
             {
                 "dia": pdm,
-                "dinheiro": din,
-                "debito": deb,
-                "credito": cre,
-                "deposito": dep,
-                "total": din + deb + cre + dep,
+                "dinheiro": dinheiro,
+                "debito": debito,
+                "credito": credito,
+                "deposito": deposito,
+                "total": total,
             }
         )
         pdm = pdm + relativedelta(days=1)
-    return {"mensal": lista_pgto, "mes": udm}
+    total_mes = sum(item["dinheiro"] + item["debito"] + item["credito"] + item["deposito"] for item in pagamentos)
+    return {"mensal": lista_pgto, "mes": udm, "total": total_mes}
 
 
 def create_contexto_total_recebido_mes(mes: str, ano: str) -> dict:

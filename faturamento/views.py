@@ -15,7 +15,6 @@ def index_faturamento(request):
     mes, ano = facade.mes_ano(facade.hoje())
     contexto = facade.create_contexto_faturadas()
     contexto.update(facade.create_contexto_diario(mes, ano))
-    contexto.update(facade.create_contexto_total_recebido_mes(mes, ano))
     end = time.time()
     end_queries = len(connection.queries)
     print(start_queries)
