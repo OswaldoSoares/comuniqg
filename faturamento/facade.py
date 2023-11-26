@@ -710,17 +710,29 @@ def create_contexto_faturadas() -> dict:
     Returns:
         dict: _description_
     """
-    faturadas, tempo = get_faturadas()
-    total_faturadas = get_total_faturadas()
-    total_pago = get_total_pago()
-    total_recebe = total_faturadas - total_pago
-    faturar = get_faturar()
-    total_faturar = get_total_faturar()
+    start = time.time()
+    start_queries = len(connection.queries)
+    contexto = get_contexto_banco_dados()
+    faturas_receber = [item for item in contexto["faturas"] if item.get("status") == "A RECEBER"]
+    faturadas, total_recebe = get_faturas_servicos(faturas_receber, contexto["servicos"])
+    #  total_faturadas = get_total_faturadas()
+    #  total_pago = get_total_pago()
+    #  total_recebe = total_faturadas - total_pago
+    servicos_faturar = [item for item in contexto["servicos"] if item.get('status') == "FATURAR"]
+    faturar, total_faturar = get_faturar_servicos(servicos_faturar)
+    #  faturar = get_faturar()
+    #  total_faturar = get_total_faturar()
+    end = time.time()
+    end_queries = len(connection.queries)
+    print(start_queries)
+    print("tempo: %.2fs" % (end - start))
+    print(end_queries)
+    tempo = "tempo: %.2fs" % (end - start)
     return {
         "faturadas": faturadas,
-        "total_faturadas": total_faturadas,
+        #  "total_faturadas": total_faturadas,
         "total_recebe": total_recebe,
-        "total_pago": total_pago,
+        #  "total_pago": total_pago,
         "faturar": faturar,
         "total_faturar": total_faturar,
         "tempo": tempo,
