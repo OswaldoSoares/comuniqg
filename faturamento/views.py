@@ -1,4 +1,7 @@
 from decimal import Decimal
+import time
+
+from django.db import connection, reset_queries
 
 from django.shortcuts import render
 
@@ -7,10 +10,17 @@ from faturamento.print import fatura_pdf
 
 
 def index_faturamento(request):
+    start = time.time()
+    start_queries = len(connection.queries)
     mes, ano = facade.mes_ano(facade.hoje())
     contexto = facade.create_contexto_faturadas()
     contexto.update(facade.create_contexto_diario(mes, ano))
     contexto.update(facade.create_contexto_total_recebido_mes(mes, ano))
+    end = time.time()
+    end_queries = len(connection.queries)
+    print(start_queries)
+    print("tempo: %.2fs" % (end - start))
+    print(end_queries)
     return render(request, "faturamento/index.html", contexto)
 
 
