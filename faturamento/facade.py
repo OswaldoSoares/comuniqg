@@ -913,3 +913,17 @@ def create_contexto_faturar():
         "faturar": faturar,
         "total_faturar": total_faturar,
     }
+
+
+def get_contexto_banco_dados():
+    faturas = list(Receber.objects.all().values())
+    servicos = list(Servico.objects.all().values())
+    clientes = list(Pessoa.objects.filter(funcao="CLIENTE").values())
+    for servico in servicos:
+        cliente_servico = next((item for item in clientes if item['idpessoa'] == servico["idcadastro"]), None)
+        if cliente_servico:
+            servico["apelido"] = cliente_servico.get("apelido")
+        else:
+            print(servico["idservico"])
+    contexto = {"faturas": faturas, "servicos": servicos}
+    return contexto
