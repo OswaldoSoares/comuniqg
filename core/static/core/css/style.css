@@ -154,11 +154,11 @@ body {
     background-color: var(--color6)
 }
 
-.card {
-    color: var(--color7);
-    margin: 10px;
-    border-radius: 15px;
-}
+/* .card { */
+    /* color: var(--color7); */
+    /* margin: 10px; */
+    /* border-radius: 15px; */
+/* } */
 
 .card-title {
     background-color: var(--color1);
@@ -390,12 +390,12 @@ body {
     justify-content: start;
 }
 
-.card-faturar,
-.card-faturadas {
-    width: 420px;
-    margin: 0;
-    padding: 10px 5px;
-}
+/* .card-faturar, */
+/* .card-faturadas { */
+    /* width: 420px; */
+    /* margin: 0; */
+    /* padding: 10px 5px; */
+/* } */
 
 .card-pagamento-fatura,
 .card-selecionadas,
@@ -651,40 +651,40 @@ body {
     color: var(--color5)
 }
 
-.card-mensal {
-    width: 250px;
-    margin: 0;
-    padding: 10px 5px;
-}
+/* .card-mensal { */
+    /* width: 250px; */
+    /* margin: 0; */
+    /* padding: 10px 5px; */
+/* } */
 
-.card-mensal .card-title span {
-    padding: 0 10px;
-}
+/* .card-mensal .card-title span { */
+    /* padding: 0 10px; */
+/* } */
 
-.card-mensal .lista-mensal {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid var(--color6);
-}
+/* .card-mensal .lista-mensal { */
+    /* width: 100%; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* border-bottom: 1px solid var(--color6); */
+/* } */
 
-.card-mensal .lista-mensal .item-data {
-    width: 43%;
-    text-align: left;
-    padding-left: 5px;
-}
+/* .card-mensal .lista-mensal .item-data { */
+    /* width: 43%; */
+    /* text-align: left; */
+    /* padding-left: 5px; */
+/* } */
 
-.card-mensal .lista-mensal .item-valor {
-    width: 43%;
-    text-align: right;
-}
+/* .card-mensal .lista-mensal .item-valor { */
+    /* width: 43%; */
+    /* text-align: right; */
+/* } */
 
-.card-mensal .lista-mensal .item-botao {
-    width: 14%;
-    text-align: center;
-    padding: 0 5px;
-}
+/* .card-mensal .lista-mensal .item-botao { */
+    /* width: 14%; */
+    /* text-align: center; */
+    /* padding: 0 5px; */
+/* } */
 
 .card-mensal-detalhado {
     width: 750px;
