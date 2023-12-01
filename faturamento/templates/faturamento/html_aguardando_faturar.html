@@ -1,24 +1,62 @@
 {% load humanize %}
-<div class="card-title">
-    <span>FATURAR</span>
+<!-- Header -->
+<div class="card-header">
+	<div class="input-group">
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-left-up i-button-null" title=""></i>
+		</div>
+		<div class="div-form-control">
+	    	<span>FATURAR</span>
+		</div>
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-right-up i-button-null" title=""></i>
+		</div>
+	</div>
 </div>
-<div class="card-body js-card-body re-faturar">
+<!-- Body -->
+<div class="card-body">
     {% for fatura in faturar %}
-    <div class="lista-faturar">
-        <div class="cliente">
-            <span>{{ fatura.apelido }}</span>
-        </div>
-        <div class="valor-fatura">
-            <span>R$ {{ fatura.valorfatura|intcomma }}</span>
-        </div>
-        <div class="botoes">
-            <i class="bi bi-clipboard i-button js-cliente-faturar"
-            data-idobj="{{ fatura.idpessoa }}"
-            data-cliente="{{ fatura.apelido }}"></i>
-        </div>
-    </div>
-    {% endfor %}
+	<div class="card-body-item">
+		<div class="input-group">
+			<div class="input-group-addon addon-my-color">
+				<i class="icofont-check i-button-null" title=""></i>
+			</div>
+			<div class="div-flex div-form-control">
+				<div class="tamanho-75 text-left">
+					<span>
+                        {{ fatura.apelido }}
+					</span>
+				</div>
+				<div class="tamanho-25 text-right">
+					<span>
+                        R$ {{ fatura.valorfatura|intcomma }}
+					</span>
+				</div>
+			</div>
+			<div class="input-group-addon addon-my-color">
+				<i class="icofont-square i-button js-cliente-faturar"
+       title="" data-idobj="{{ fatura.idpessoa }}" data-cliente="{{ fatura.apelido }}"></i>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
 </div>
+<!-- Footer -->
 <div class="card-footer">
-    <span>R$ {{ total_faturar|intcomma }}</span>
+	<div class="input-group">
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-left-down i-button-null" title=""></i>
+		</div>
+		<div class="div-flex div-form-control">
+			<div class="tamanho-50 text-left">
+				<span>TOTAL A FATURAR</span>
+			</div>
+			<div class="tamanho-50 text-right">
+				<span>R$ {{ total_faturar|intcomma }}</span>
+			</div>
+		</div>
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-right-down i-button-null" title=""></i>
+		</div>
+	</div>
 </div>
