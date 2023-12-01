@@ -786,4 +786,59 @@ body {
   }
 }
 
+.tamanho-5 {
+  min-width: 5%;
+}
+
+.tamanho-10 {
+  min-width: 10%;
+}
+
+.tamanho-15 {
+  min-width: 15%;
+}
+
+.tamanho-20 {
+  min-width: 20%;
+}
+
+.tamanho-25 {
+  min-width: 25%;
+}
+
+.tamanho-30 {
+  min-width: 30%;
+}
+
+.tamanho-35 {
+  min-width: 35%;
+}
+
+.tamanho-40 {
+  min-width: 40%;
+}
+
+.tamanho-50 {
+  min-width: 50%;
+}
+
+.tamanho-60 {
+  min-width: 60%;
+}
+
+.tamanho-65 {
+  min-width: 65% !important;
+}
+
+.tamanho-75 {
+  min-width: 75%;
+}
+
+.tamanho-80 {
+  min-width: 80%;
+}
+
+.tamanho-100 {
+  min-width: 100%;
+}
 
