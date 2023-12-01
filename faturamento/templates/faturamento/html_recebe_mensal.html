@@ -1,35 +1,74 @@
 {% load humanize %}
-<div class="card-title">
-    <i class="bi bi-chevron-double-left i-button js-mes-ano"
-    data-periodo="-12" data-dia={{ mes|date:'d/m/Y' }}></i>
-    <i class="bi bi-chevron-left i-button js-mes-ano"
-    data-periodo="-1" data-dia={{ mes|date:'d/m/Y' }}></i>
-    <span>{{ mes|date:'F/Y'|upper }}</span>
-    <i class="bi bi-chevron-right i-button js-mes-ano"
-    data-periodo="1" data-dia={{ mes|date:'d/m/Y' }}></i>
-    <i class="bi bi-chevron-double-right i-button js-mes-ano"
-    data-periodo="12" data-dia={{ mes|date:'d/m/Y' }}></i>
+<!-- Header -->
+<div class="card-header">
+	<div class="input-group">
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-double-left i-button js-mes-ano"
+      data-periodo="-12" data-dia={{ mes|date:'d/m/Y' }} title="Ano Anterior"></i>
+		</div>
+        <div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-left i-button js-mes-ano"
+      data-periodo="-1" data-dia={{ mes|date:'d/m/Y' }} title="Mês Anterior"></i>
+		</div>
+		<div class="div-form-control">
+	    	<span>{{ mes|date:'F/Y'|upper }}</span>
+		</div>
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-right i-button js-mes-ano"
+      data-periodo="1" data-dia={{ mes|date:'d/m/Y' }} title="Mês Posterior"></i>
+		</div>
+        <div class="input-group-addon addon-my-color">
+			<i class="icofont-swoosh-right i-button js-mes-ano"
+      data-periodo="12" data-dia={{ mes|date:'d/m/Y' }} title="Ano Posterior"></i>
+		</div>
+	</div>
 </div>
-<div class="card-body js-card-body re-mensal">
+<!-- Body -->
+<div class="card-body">
     {% for diapgto in mensal %}
     {% if diapgto.total > 0 %}
-    <div class="lista-mensal">
-        <div class="item-data">
-            <span data-dia={{ diapgto.dia|date:'d/m/Y' }}>
-                {{ diapgto.dia|date:'d/m/Y' }}
-            </span>
-        </div>
-        <div class="item-valor">
-            <span>R$ {{ diapgto.total|intcomma }}</span>
-        </div>
-        <div class="item-botao">
-            <i class="bi bi-clipboard i-button js-seleciona-data"
-            data-dia={{ diapgto.dia|date:'d/m/Y' }}></i>
-        </div>
-    </div>
+	<div class="card-body-item">
+		<div class="input-group">
+			<div class="input-group-addon addon-my-color">
+				<i class="icofont-check i-button-null" title=""></i>
+			</div>
+			<div class="div-flex div-form-control">
+				<div class="tamanho-50 text-left">
+					<span>
+                        {{ diapgto.dia|date:'d/m/Y' }}
+					</span>
+				</div>
+				<div class="tamanho-50 text-right">
+					<span>
+                        R$ {{ diapgto.total|intcomma }}
+					</span>
+				</div>
+			</div>
+			<div class="input-group-addon addon-my-color">
+				<i class="icofont-square i-button js-seleciona-data"
+       title="Detalhes do dia" data-dia={{ diapgto.dia|date:'d/m/Y' }}></i>
+			</div>
+		</div>
+	</div>
     {% endif %}
-    {% endfor %}
+	{% endfor %}
 </div>
+<!-- Footer -->
 <div class="card-footer">
-    <span>R$ {{ total|intcomma }}</span>
+	<div class="input-group">
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-left-down i-button-null" title=""></i>
+		</div>
+		<div class="div-flex div-form-control">
+			<div class="tamanho-50 text-left">
+				<span>TOTAL RECEBIDO NO MÊS</span>
+			</div>
+			<div class="tamanho-50 text-right">
+				<span>R$ {{ total|intcomma }}</span>
+			</div>
+		</div>
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-right-down i-button-null" title=""></i>
+		</div>
+	</div>
 </div>
