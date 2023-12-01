@@ -1,8 +1,10 @@
 {% if quantidade > 0 %}
 {% load humanize %}
-<div class="card-title">
+<!-- Header -->
+<div class="card-header">
     <span>{{ apelido }}</span>
 </div>
+<!-- Body -->
 <div class="card-body js-card-body re-faturas">
     {% for fatura in faturas %}
     <div class="lista-selecionadas">
@@ -22,6 +24,7 @@
     </div>
     {% endfor %}
 </div>
+<!-- Footer -->
 <div class="card-footer">
     <span>{{ quantidade }} FATURA{{ quantidade|pluralize|upper }} - R$ {{ total_receber|intcomma }}</span>
 </div>
