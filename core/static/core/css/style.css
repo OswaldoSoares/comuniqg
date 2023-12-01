@@ -948,3 +948,20 @@ body {
   font-size: 1.4rem;
 }
 
+.test-red {
+  background-color: red !important;
+  /* min-width: 60%; */
+}
+
+.test-yellow {
+  background-color: yellow !important;
+}
+
+.test-green {
+  background-color: green !important;
+}
+
+.test-blue {
+  background-color: blue !important;
+}
+
