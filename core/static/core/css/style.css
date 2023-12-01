@@ -918,3 +918,18 @@ body {
   font-size: 2.2rem;
 }
 
+.card-body {
+  background-color: var(--color2);
+  width: 100%;
+  height: auto;
+  min-height: 3rem;
+}
+
+.card-body-item {
+  border-bottom: 2px solid var(--color3);
+}
+
+.card-body span {
+  color: var(--color7);
+}
+
