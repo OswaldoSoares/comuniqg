@@ -865,3 +865,21 @@ body {
   max-width: 1.5rem;
 }
 
+.div-flex {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.8rem;
+}
+
+.div-flex p {
+  padding-top: 1rem;
+}
+
+.div-form-control {
+  width: 100%;
+  line-height: 2.3rem;
+}
+
