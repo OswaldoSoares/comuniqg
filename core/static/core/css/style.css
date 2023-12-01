@@ -933,3 +933,18 @@ body {
   color: var(--color7);
 }
 
+.card-footer {
+  background-color: var(--color1);
+  color: var(--color8);
+  height: 3rem;
+  font-size: 1.4rem;
+  border-radius: 0 0 1rem 1rem;
+  text-align: center;
+  vertical-align: middle;
+  margin-bottom: 5px;
+}
+
+.card-footer span {
+  font-size: 1.4rem;
+}
+
