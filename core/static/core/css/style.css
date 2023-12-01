@@ -114,6 +114,10 @@ body {
     cursor: pointer;
 }
 
+.i-button-null {
+  color: var(--color8);
+}
+
 
 /* MENU EXTRA START */
 
