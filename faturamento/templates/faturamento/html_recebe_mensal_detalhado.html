@@ -1,87 +1,135 @@
 {% load humanize %}
-<div class="card-title">
-    <i class="bi bi-chevron-double-left i-button js-mes-ano-detalhado"
-    data-periodo="-12" data-dia={{ mes|date:'d/m/Y' }}></i>
-    <i class="bi bi-chevron-left i-button js-mes-ano-detalhado"
-    data-periodo="-1" data-dia={{ mes|date:'d/m/Y' }}></i>
-    <span>{{ mes|date:'F/Y'|upper }}</span>
-    <i class="bi bi-chevron-right i-button js-mes-ano-detalhado"
-    data-periodo="1" data-dia={{ mes|date:'d/m/Y' }}></i>
-    <i class="bi bi-chevron-double-right i-button js-mes-ano-detalhado"
-    data-periodo="12" data-dia={{ mes|date:'d/m/Y' }}></i>
+<!-- Header -->
+<div class="card-header">
+	<div class="input-group">
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-circled-left i-button js-mes-ano-detalhado"
+      data-periodo="-12" data-dia={{ mes|date:'d/m/Y' }} title="Ano Anterior"></i>
+		</div>
+        <div class="input-group-addon addon-my-color">
+			<i class="icofont-arrow-left i-button js-mes-ano-detalhado"
+      data-periodo="-1" data-dia={{ mes|date:'d/m/Y' }} title="Mês Anterior"></i>
+		</div>
+		<div class="div-form-control">
+	    	<span>{{ mes|date:'F/Y'|upper }}</span>
+		</div>
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-arrow-right i-button js-mes-ano-detalhado"
+      data-periodo="1" data-dia={{ mes|date:'d/m/Y' }} title="Mês Posterior"></i>
+		</div>
+        <div class="input-group-addon addon-my-color">
+			<i class="icofont-circled-right i-button js-mes-ano-detalhado"
+      data-periodo="12" data-dia={{ mes|date:'d/m/Y' }} title="Ano Posterior"></i>
+		</div>
+	</div>
 </div>
-<div class="card-body js-card-body re-mensal-detalhado">
-    <div class="lista-mensal-detalhado">
-        <div class="item-data">
-        </div>
-        <div class="item-dinheiro item-titulo">
-            <span class="i-button js-detalhado-filtro"
-            data-filtro="DINHEIRO">DINHEIRO</span>
-        </div>
-        <div class="item-debito item-titulo">
-            <span class="i-button js-detalhado-filtro"
-            data-filtro="DEBITO">DÉBITO</span>
-        </div>
-        <div class="item-credito item-titulo">
-            <span class="i-button js-detalhado-filtro"
-            data-filtro="CREDITO">CRÉDITO</span>
-        </div>
-        <div class="item-pix item-titulo">
-            <span class="i-button js-detalhado-filtro"
-            data-filtro="PIX">PIX</span>
-        </div>
-        <div class="item-deposito item-titulo">
-            <span class="i-button js-detalhado-filtro"
-            data-filtro="DEPOSITO">DEPÓSITO</span>
-        </div>
-        <div class="item-valor item-titulo">
-            <span class="i-button js-detalhado-filtro"
-            data-filtro="total">TOTAL</span>
-        </div>
-        <div class="item-botao">
-        </div>
-    </div>
+<!-- Body -->
+<div class="card-body">
+    <div class="card-body-item">
+		<div class="input-group">
+			<div class="input-group-addon addon-my-color">
+				<i class="icofont-check i-button-null" title=""></i>
+			</div>
+			<div class="div-flex div-form-control">
+				<div class="tamanho-10 text-center">
+                    <span>DATA</span>
+				</div>
+				<div class="tamanho-15 text-center">
+                    <span>DINHEIRO</span>
+				</div>
+	    		<div class="tamanho-15 text-center">
+                    <span>DÉBITO</span>
+				</div>
+                <div class="tamanho-15 text-center">
+                    <span>CRÉDITO</span>
+				</div>
+                <div class="tamanho-15 text-center">
+                    <span>PIX</span>
+				</div>
+                <div class="tamanho-15 text-center">
+                    <span>DEPÓSITO</span>
+				</div>
+                <div class="tamanho-15 text-center">
+                    <span>TOTAL</span>
+				</div>
+			</div>
+			<div class="input-group-addon addon-my-color">
+                <i class="icofont-check i-button-null"></i>
+			</div>
+		</div>
+	</div>
     {% for diapgto in mensal %}
     {% if diapgto.total > 0 %}
-    <div class="lista-mensal-detalhado">
-        <div class="item-data">
-            <span data-dia={{ diapgto.dia|date:'d/m/Y' }}>
-                {{ diapgto.dia|date:'d/m/Y' }}
-            </span>
-        </div>
-        <div class="item-dinheiro">
-            <span>R$ {{ diapgto.dinheiro|intcomma }}</span>
-        </div>
-        <div class="item-debito">
-            <span>R$ {{ diapgto.debito|intcomma }}</span>
-        </div>
-        <div class="item-credito">
-            <span>R$ {{ diapgto.credito|intcomma }}</span>
-        </div>
-        <div class="item-pix">
-            <span>R$ 0,00</span>
-        </div>
-        <div class="item-deposito">
-            <span>R$ {{ diapgto.deposito|intcomma }}</span>
-        </div>
-        <div class="item-valor">
-            <span>R$ {{ diapgto.total|intcomma }}</span>
-        </div>
-        <div class="item-botao">
-            <i class="bi bi-clipboard i-button js-seleciona-data"
-            data-dia={{ diapgto.dia|date:'d/m/Y' }}></i>
-        </div>
-    </div>
+	<div class="card-body-item">
+		<div class="input-group">
+			<div class="input-group-addon addon-my-color">
+				<i class="icofont-check i-button-null" title=""></i>
+			</div>
+			<div class="div-flex div-form-control">
+				<div class="tamanho-10 text-center">
+                    <span data-dia={{ diapgto.dia|date:'d/m/Y' }}>
+                        {{ diapgto.dia|date:'d/m/Y' }}
+                    </span>
+				</div>
+				<div class="tamanho-15 text-right">
+                    <span>R$ {{ diapgto.dinheiro|intcomma }}</span>
+				</div>
+	    		<div class="tamanho-15 text-right">
+                    <span>R$ {{ diapgto.debito|intcomma }}</span>
+				</div>
+                <div class="tamanho-15 text-right">
+                    <span>R$ {{ diapgto.credito|intcomma }}</span>
+				</div>
+                <div class="tamanho-15 text-right">
+                    <span>R$ 0,00</span>
+				</div>
+                <div class="tamanho-15 text-right">
+                    <span>R$ {{ diapgto.deposito|intcomma }}</span>
+				</div>
+                <div class="tamanho-15 text-right">
+                    <span>R$ {{ diapgto.total|intcomma }}</span>
+				</div>
+			</div>
+			<div class="input-group-addon addon-my-color">
+                <i class="icofont-square i-button js-seleciona-data"
+                   data-dia={{ diapgto.dia|date:'d/m/Y' }}></i>
+			</div>
+		</div>
+	</div>
     {% endif %}
-    {% endfor %}
+	{% endfor %}
 </div>
+<!-- Footer -->
 <div class="card-footer">
-    <span class="item-data"></span>
-    <span class="item-valor">R$ {{ dinheiro|intcomma }}</span>
-    <span class="item-valor">R$ {{ debito|intcomma }}</span>
-    <span class="item-valor">R$ {{ credito|intcomma }}</span>
-    <span class="item-valor">R$ 0,00</span>
-    <span class="item-valor">R$ {{ deposito|intcomma }}</span>
-    <span class="item-valor">R$ {{ total|intcomma }}</span>
-    <span class="item-botao"></span>
+	<div class="input-group">
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-left-down i-button-null" title=""></i>
+		</div>
+		<div class="div-flex div-form-control">
+			<div class="tamanho-10 text-center">
+                <span>TOTAIS</span>
+			</div>
+			<div class="tamanho-15 text-right">
+                <span>R$ {{ dinheiro|intcomma }}</span>
+			</div>
+	    	<div class="tamanho-15 text-right">
+                <span>R$ {{ debito|intcomma }}</span>
+			</div>
+            <div class="tamanho-15 text-right">
+                <span>R$ {{ credito|intcomma }}</span>
+			</div>
+            <div class="tamanho-15 text-right">
+				<span>R$ 0,00</span>
+			</div>
+            <div class="tamanho-15 text-right">
+                <span>R$ {{ deposito|intcomma }}</span>
+			</div>
+			<div class="tamanho-15 text-right">
+                <span>R$ {{ total|intcomma }}</span>
+			</div>
+		</div>
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-right-down i-button-null" title=""></i>
+		</div>
+    </div>
 </div>
