@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    $('.div-selecionadas-servico').hide()
+    $('.div-pagamento').hide()
+    $('.div-obra-solicitante').hide()
+
     $(document).on('click', '.js-cliente-faturada', function() {
         var v_idobj = $(this).data('idobj')
         $.ajax({
