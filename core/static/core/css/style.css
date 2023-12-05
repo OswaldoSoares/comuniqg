@@ -971,7 +971,7 @@ body {
   border-radius: 0 0 1rem 1rem;
   text-align: center;
   vertical-align: middle;
-  margin-bottom: 5px;
+  /* margin-bottom: 5px; */
 }
 
 .card-footer span {
