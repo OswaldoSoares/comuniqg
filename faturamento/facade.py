@@ -625,6 +625,7 @@ def create_data_servico_faturada(request, contexto):
     data = dict()
     data = html_servico_faturada(request, contexto, data)
     data = html_pagamento_fatura(request, contexto, data)
+    data = html_pagamento_parcial(request, contexto, data)
     return JsonResponse(data)
 
 
@@ -662,6 +663,13 @@ def html_servico_faturada(request, contexto, data):
 def html_pagamento_fatura(request, contexto, data):
     data["html_pagamento_fatura"] = render_to_string(
         "faturamento/html_pagamento_fatura.html", contexto, request=request
+    )
+    return data
+
+
+def html_pagamento_parcial(request, contexto, data):
+    data["html_pagamento_parcial"] = render_to_string(
+        "faturamento/card_pagamento_parcial.html", contexto, request=request
     )
     return data
 
@@ -805,6 +813,7 @@ def create_contexto_fatura_selecionada(v_servicos, v_fatura):
         "os": len(v_servicos),
         "pagamentos": pagamentos,
         "hoje": hoje,
+        "total": total,
         "saldo": saldo,
     }
     return contexto
