@@ -1,26 +1,62 @@
 {% load humanize %}
-<div class="card-title">
-    <span>FATURA {{ fatura }}</span>
+<!-- Header -->
+<div class="card-header">
+    <div class="input-group">
+		<div class="input-group-addon addon-my-color">
+    	    <i class="icofont-simple-left-up i-button-null" title=""></i>
+    	</div>
+    	<div class="div-form-control">
+            <span>FATURA {{ fatura }}</span>
+    	</div>
+    	<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-right-up i-button-null" title=""></i>
+    	</div>
+    </div>
 </div>
-<div class="card-body js-card-body">
+<!-- Body -->
+<div class="card-body">
     {% for servico in servicos %}
-    <div class="lista-servicos">
-        <div class="servico">
-            <span>{{ servico.idservico }}</span>
-        </div>
-        <div class="data-servico">
-            <span>{{ servico.diaservico }}</span>
-        </div>
-        <div class="total-servico">
-            <span>R$ {{ servico.total|intcomma }}</span>
-        </div>
-        <div class="botoes">
-            <a class="bi bi-printer i-button" href="{% url 'print_servico' servico.idservico %}" target="_blank"></a>
-            <i class="bi bi-clipboard i-button js-minuta-fatura" data-idobj="{{ fatura.idfatura }}"></i>
-        </div>
+    <div class="card-body-item">
+		<div class="input-group">
+    		<div class="input-group-addon addon-my-color">
+    			<i class="icofont-check i-button-null" title=""></i>
+    		</div>
+			<div class="div-flex div-form-control">
+    			<div class="tamanho-30 text-left">
+                    <span>{{ servico.idservico }}</span>
+				</div>
+                <div class="tamanho-30 text-center">
+                    <span>{{ servico.diaservico }}</span>
+    			</div>
+                <div class="tamanho-40 text-right">
+                    <span>R$ {{ servico.total|intcomma }}</span>
+    			</div>
+		    </div>
+        	<div class="input-group-addon addon-my-color">
+                <a class="icofont-printer i-button"
+                   href="{% url 'print_servico' servico.idservico %}"
+                   target="_blank"
+                   title="Imprime Ordem de Serviço"></a>
+    		</div>
+    	</div>
     </div>
     {% endfor %}
 </div>
+<!-- Footer -->
 <div class="card-footer">
-    <span>{{ os }} ORDE{{ os|pluralize:"m,ns"|upper }} DE SERVIÇO</span>
-</div>
+    <div class="input-group">
+		<div class="input-group-addon addon-my-color">
+    		<i class="icofont-simple-left-down i-button-null" title=""></i>
+    	</div>
+    	<div class="div-flex div-form-control">
+			<div class="tamanho-100 text-center">
+                <span>
+                    {{ os }} ORDE{{ os|pluralize:"m,ns"|upper }} DE SERVIÇO
+                </span>
+    		</div>
+		</div>
+    	<div class="input-group-addon addon-my-color">
+		    <i class="icofont-simple-right-down i-button-null" title=""></i>
+		</div>
+    </div>
+ </div>
