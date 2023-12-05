@@ -1,0 +1,205 @@
+{% if pagamentos %}
+{% load humanize %}
+<!-- Header -->
+<div class="card-header">
+    <div class="input-group">
+		<div class="input-group-addon addon-my-color">
+    	    <i class="icofont-simple-left-up i-button-null" title=""></i>
+    	</div>
+    	<div class="div-form-control">
+            <span>PAGAMENTO PARCIAL</span>
+    	</div>
+    	<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-right-up i-button-null" title=""></i>
+    	</div>
+    </div>
+</div>
+<!-- Body -->
+<div class="card-body">
+    {% for pgtos in pagamentos %}
+    <div class="card-body-item">
+    	<div class="input-group">
+    		<div class="input-group-addon addon-my-color">
+    			<i class="icofont-check i-button-null" title=""></i>
+    		</div>
+    		<div class="div-flex div-form-control">
+     			<div class="tamanho-10 text-left">
+					<span>
+                        {{ forloop.counter }}
+    				</span>
+    			</div>
+      			<div class="tamanho-50 text-left">
+					<span>
+                        DATA PAGAMENTO
+    				</span>
+    			</div>
+                <div class="tamanho-40 text-right">
+                    <span>{{ pgtos.diapago }}</span>
+    			</div>
+		    </div>
+        	<div class="input-group-addon addon-my-color">
+                <i class="icofont-check i-button-null" title=""></i>
+			</div>
+		</div>
+    </div>
+    {% if pgtos.dinheiro %}
+    <div class="card-body-item">
+		<div class="input-group">
+    		<div class="input-group-addon addon-my-color">
+    			<i class="icofont-check i-button-null" title=""></i>
+    		</div>
+			<div class="div-flex div-form-control">
+                <div class="tamanho-10 text-left">
+				</div>
+                <div class="tamanho-50 text-left">
+    				<span>
+                        DINHEIRO
+    				</span>
+				</div>
+                <div class="tamanho-40 text-right">
+                    <span>R$ {{ pgtos.dinheiro|intcomma }}</span>
+    			</div>
+	    	</div>
+    		<div class="input-group-addon addon-my-color">
+                <i class="icofont-check i-button-null" title=""></i>
+    		</div>
+		</div>
+    </div>
+    {% endif %}
+    {% if pgtos.debito %}
+    <div class="card-body-item">
+    	<div class="input-group">
+    		<div class="input-group-addon addon-my-color">
+    			<i class="icofont-check i-button-null" title=""></i>
+    		</div>
+    		<div class="div-flex div-form-control">
+                <div class="tamanho-10 text-left">
+				</div>
+                <div class="tamanho-50 text-left">
+					<span>
+                        CARTÃO DÉBITO
+    				</span>
+    			</div>
+                <div class="tamanho-40 text-right">
+                    <span>R$ {{ pgtos.debito|intcomma }}</span>
+    			</div>
+	    	</div>
+        	<div class="input-group-addon addon-my-color">
+                <i class="icofont-check i-button-null" title=""></i>
+    		</div>
+    	</div>
+    </div>
+    {% endif %}
+    {% if pgtos.credito %}
+    <div class="card-body-item">
+    	<div class="input-group">
+    		<div class="input-group-addon addon-my-color">
+    			<i class="icofont-check i-button-null" title=""></i>
+    		</div>
+    		<div class="div-flex div-form-control">
+                <div class="tamanho-10 text-left">
+				</div>
+                <div class="tamanho-50 text-left">
+					<span>
+                        CARTÃO CRÉDITO
+    				</span>
+    			</div>
+                <div class="tamanho-40 text-right">
+                    <span>R$ {{ pgtos.credito|intcomma }}</span>
+    			</div>
+	    	</div>
+        	<div class="input-group-addon addon-my-color">
+                <i class="icofont-check i-button-null" title=""></i>
+    		</div>
+    	</div>
+    </div>
+    {% endif %}
+    {% if pgtos.pix %}
+    <div class="card-body-item">
+    	<div class="input-group">
+    		<div class="input-group-addon addon-my-color">
+    			<i class="icofont-check i-button-null" title=""></i>
+    		</div>
+    		<div class="div-flex div-form-control">
+                <div class="tamanho-10 text-left">
+				</div>
+                <div class="tamanho-50 text-left">
+    				<span>
+                        PIX
+    				</span>
+    			</div>
+                <div class="tamanho-40 text-right">
+                    <span>R$ 0,00 {{ pgtos.pix|intcomma }}</span>
+    			</div>
+	    	</div>
+        	<div class="input-group-addon addon-my-color">
+                <i class="icofont-check i-button-null" title=""></i>
+    		</div>
+    	</div>
+    </div>
+    {% endif %}
+    {% if pgtos.deposito %}
+    <div class="card-body-item">
+    	<div class="input-group">
+    		<div class="input-group-addon addon-my-color">
+    			<i class="icofont-check i-button-null" title=""></i>
+    		</div>
+    		<div class="div-flex div-form-control">
+                <div class="tamanho-10 text-left">
+				</div>
+                <div class="tamanho-50 text-left">
+					<span>
+                        DEPÓSITO BANCÁRIO
+    				</span>
+    			</div>
+                <div class="tamanho-40 text-right">
+                    <span>R$ {{ pgtos.deposito|intcomma }}</span>
+    			</div>
+	    	</div>
+        	<div class="input-group-addon addon-my-color">
+                <i class="icofont-check i-button-null" title=""></i>
+    		</div>
+    	</div>
+    </div>
+    {% endif %}
+    <div class="card-body-item">
+    	<div class="input-group">
+    		<div class="input-group-addon addon-my-color">
+				<i class="icofont-check i-button-null" title=""></i>
+    		</div>
+    		<div class="div-flex div-form-control">
+                <div class="tamanho-10 text-left">
+				</div>
+                <div class="tamanho-50 text-left">
+    			</div>
+                <div class="tamanho-40 text-right font-bold">
+                    <span>R$ {{ pgtos.total }}</span>
+    			</div>
+	    	</div>
+    		<div class="input-group-addon addon-my-color">
+                <i class="icofont-check i-button-null" title=""></i>
+    		</div>
+		</div>
+    </div>
+    {% endfor %}
+</div>
+<!-- Footer -->
+<div class="card-footer">
+    <div class="input-group">
+		<div class="input-group-addon addon-my-color">
+    		<i class="icofont-simple-left-down i-button-null" title=""></i>
+    	</div>
+    	<div class="div-flex div-form-control">
+			<div class="tamanho-75 text-left">
+                <span>TOTAL PAGO PARCIALMENTE</span>
+    		</div>
+            <div class="tamanho-25 text-right">
+                <span>R$ {{ total }}</span>
+    		</div>
+		</div>
+    	<div class="input-group-addon addon-my-color">
+		    <i class="icofont-simple-right-down i-button-null" title=""></i>
+		</div>
+    </div>
+ </div>
+{% endif %}
