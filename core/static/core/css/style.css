@@ -118,6 +118,17 @@ body {
   color: var(--color8);
 }
 
+.i-button-rodape {
+  background-color: transparent;
+  border: 0;
+  font-size: 1.4rem;
+  font-weight: bold;
+  /* padding-top: 2px; */
+}
+
+.i-button-transparent {
+  color: var(--color1);
+}
 
 /* MENU EXTRA START */
 
