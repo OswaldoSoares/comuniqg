@@ -3,38 +3,37 @@
 {% load humanize %}
 {% block main %}
 <main class="section-grid grid-three faturamento">
-    <section class="grid-column">
-        <div class="card card-faturadas">
-            {% include 'faturamento/html_fatura_agrupada.html' %}
-        </div>
-    </section>
-    <section class="grid-column">
-        <div class="card card-faturar">
-            {% include 'faturamento/html_aguardando_faturar.html' %}
-        </div>
-    </section>
-    <section class="grid-collumn">
-        <div class="card card-mensal">
-            {% include 'faturamento/html_recebe_mensal.html' %}
-        </div>
-    <div class="card card-selecionadas">
+    <div class="card card-faturadas">
+        {% include 'faturamento/html_fatura_agrupada.html' %}
     </div>
-    <div class="card card-pagamento-fatura">
+    <div class="card card-faturar">
+        {% include 'faturamento/html_aguardando_faturar.html' %}
     </div>
-       <div class="card card-servico">
+    <div class="card card-mensal">
+        {% include 'faturamento/html_recebe_mensal.html' %}
     </div>
-    <div>
+    <div class="card card-mensal-detalhado">
+    </div>
+    <div class="card card-pagamentos-dia">
+    </div>
+    <div class="div-selecionadas-servico">
+        <div class="card card-selecionadas">
+        </div>
+        <div class="card card-servico">
+        </div>
+    </div>
+    <div class="div-pagamento">
+        <div class="card card-pagamento-fatura">
+        </div>
+        <div class="card card-pagamento-parcial">
+        </div>
+    </div>
+    <div class="div-obra-solicitante">
         <div class="card card-obras">
         </div>
         <div class="card card-solicitantes">
         </div>
     </div>
-    <div class="card card-mensal-detalhado">
-    </div>
-    <div class="card card-pagamentos-dia">
-        {% comment %} {% include 'faturamento/html_pagamentos_dia.html' %} {% endcomment %}
-    </div>
-    </section>
 </main>
 {{ tempo }}
 {% endblock %}
