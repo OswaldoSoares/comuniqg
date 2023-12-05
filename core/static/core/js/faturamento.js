@@ -15,6 +15,7 @@ $(document).ready(function() {
                 $('.card-selecionadas').hide()
                 $('.card-servico').hide()
                 $('.card-pagamento-fatura').hide()
+                $('.card-pagamento-parcial').hide()
                 $('.card-faturar').hide()
                 $('.card-mensal').hide()
                 $('.text-loader').text('AGUARDE CARREGANDO FATURAS...')
@@ -22,6 +23,7 @@ $(document).ready(function() {
                 $('.js-card-body').css('height', '');
             },
             success: function(data) {
+                $('.div-selecionadas-servico').show()
                 $('.card-selecionadas').html(data['html_cliente_faturada'])
                 $('.card-selecionadas').show()
                 bodyHeight()
@@ -47,6 +49,7 @@ $(document).ready(function() {
                 $('.card-selecionadas').hide()
                 $('.card-servico').hide()
                 $('.card-pagamento-fatura').hide()
+                $('.card-pagamento-parcial').hide()
                 $('.card-faturadas').hide()
                 $('.card-faturar').hide()
                 $('.card-mensal').hide()
@@ -55,6 +58,8 @@ $(document).ready(function() {
                 $('.js-card-body').css('height', '');
             },
             success: function(data) {
+                $('.div-selecionadas-servico').show()
+                $('.div-obra-solicitante').show()
                 $('.card-servico').html(data['html_servico_faturar_cliente'])
                 $('.apelido-cliente').html(v_apelido)
                 $('.card-servico').show()
@@ -176,10 +181,13 @@ $(document).ready(function() {
                 $('.box-loader').show()
             },
             success: function(data) {
+                $('.div-pagamento').show()
                 $('.card-servico').html(data['html_servico_faturada'])
                 $('.card-servico').show()
                 $('.card-pagamento-fatura').html(data['html_pagamento_fatura'])
                 $('.card-pagamento-fatura').show()
+                $('.card-pagamento-parcial').html(data['html_pagamento_parcial'])
+                $('.card-pagamento-parcial').show()
                 bodyHeight()
                 $('.box-loader').hide()
                 $('.text-loader').text('AGUARDE...')
@@ -202,6 +210,7 @@ $(document).ready(function() {
                 $('.card-selecionadas').hide()
                 $('.card-faturar').hide()
                 $('.card-pagamento-fatura').hide()
+                $('.card-pagamento-parcial').hide()
                 $('.text-loader').text('AGUARDE CARREGANDO FATURAS...')
                 $(".box-loader").show();
             },
@@ -482,6 +491,7 @@ $(document).ready(function() {
     $('.card-selecionadas').hide()
     $('.card-servico').hide()
     $('.card-pagamento-fatura').hide()
+    $('.card-pagamento-parcial').hide()
     $('.card-mensal-detalhado').hide()
     $('.card-pagamentos-dia').hide()
     $('.card-obras').hide()
