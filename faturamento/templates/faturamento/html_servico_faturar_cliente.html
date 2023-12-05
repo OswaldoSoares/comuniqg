@@ -1,47 +1,90 @@
 {% load humanize %}
 <form method="post" action="" class="js-faturar-selecionadas">
 {% csrf_token %}
-    <div class="card-title">
-        <span class="apelido-cliente">SERVICOS FATURAR</span>
+<!-- Header -->
+    <div class="card-header">
+        <div class="input-group">
+		    <div class="input-group-addon addon-my-color">
+    	        <i class="icofont-simple-left-up i-button-null" title=""></i>
+        	</div>
+        	<div class="div-form-control">
+                <span class="apelido-cliente"></span>
+        	</div>
+        	<div class="input-group-addon addon-my-color">
+		    	<i class="icofont-simple-right-up i-button-null" title=""></i>
+        	</div>
+        </div>
     </div>
-    <div class="card-body js-card-body re-faturar">
+    <!-- Body -->
+    <div class="card-body">
         {% for servico in servicos %}
-        <div class="lista-servicos">
-            <div class="servico">
-                <span>{{ servico.idservico }}</span>
-            </div>
-            <div class="data-servico">
-                <span>{{ servico.diaservico }}</span>
-            </div>
-            <div class="total-servico">
-                <span>R$ {{ servico.total|intcomma }}</span>
-            </div>
-            <div class="botoes">
-                <a class="bi bi-printer i-button"  target="_blank"
-                href="{% url 'print_servico' servico.idservico %}"></a>
-                <i class="bi bi-square i-button js-servico-faturar"
-                data-obra="{{ servico.obra_lower }}"
-                data-solicitante="{{ servico.solicitante_lower }}"
-                data-valor-os="{{ servico.total }}"
-                data-idobj="{{ servico.idservico }}"></i>
-                <input class="check-hidden" type="checkbox" name="selecionadas"
-                value="{{ servico.idservico }}:{{ servico.total }}" id="os_{{ servico.idservico }}">
-            </div>
+        <div class="card-body-item">
+    		<div class="input-group">
+        		<div class="input-group-addon addon-my-color">
+        			<i class="icofont-check i-button-null" title=""></i>
+        		</div>
+    			<div class="div-flex div-form-control">
+        			<div class="tamanho-30 text-left">
+                        <span>{{ servico.idservico }}</span>
+    				</div>
+                    <div class="tamanho-30 text-center">
+                        <span>{{ servico.diaservico }}</span>
+        			</div>
+                    <div class="tamanho-40 text-right">
+                        <span>R$ {{ servico.total|intcomma }}</span>
+        			</div>
+    		    </div>
+            	<div class="input-group-addon addon-my-color">
+                    <a class="bi bi-printer i-button"
+                       href="{% url 'print_servico' servico.idservico %}"
+                       target="_blank"
+                       title="Imprime Ordem de Serviço"></a>
+        		</div>
+                <div class="input-group-addon addon-my-color">
+                    <i class="icofont-square i-button js-servico-faturar"
+                       data-obra="{{ servico.obra_lower }}"
+                       data-solicitante="{{ servico.solicitante_lower }}"
+                       data-valor-os="{{ servico.total }}"
+                       data-idobj="{{ servico.idservico }}"></i>
+                    <input class="check-hidden"
+                           type="checkbox"
+                           name="selecionadas"
+                           value="{{ servico.idservico }}:{{ servico.total }}"
+                           id="os_{{ servico.idservico }}">
+        		</div>
+        	</div>
         </div>
         {% endfor %}
         <input type="hidden" name="idobj" value="{{ idcliente }}">
     </div>
+    <!-- Footer -->
     <div class="card-footer">
-        <div class="lista-servicos-faturar-footer">
-            <div class="quantidade">
-                <span class="quantidade-servico-selecionado">0 SERVIÇO</span>
-            </div>
-            <div class="valor">
-                <span class="valor-servico-selecionado">R$ 0,00</span>
-            </div>
-            <div class="botoes">
-                <button type="submit" class="bi bi-currency-dollar i-button  botao-faturar botao-hidden"></button>
-            </div>
+        <div class="input-group">
+    		<div class="input-group-addon addon-my-color">
+        		<i class="icofont-simple-left-down i-button-null" title=""></i>
+        	</div>
+        	<div class="div-flex div-form-control">
+                <div class="tamanho-30 text-left">
+                    <button type="submit"
+                            class="bi bi-currency-dollar
+                            i-button
+                            i-button-rodape
+                            botao-faturar
+                            botao-hidden">FATURAR</button>
+        		</div>
+                <div class="tamanho-30 text-center">
+                    <span class="quantidade-servico-selecionado">0 SERVIÇO</span>
+        		</div>
+                <div class="tamanho-40 text-right">
+                    <span class="valor-servico-selecionado">R$ 0,00</span>
+        		</div>
+    		</div>
+         	<div class="input-group-addon addon-my-color">
+    		    <i class="icofont-simple-right-down i-button-null i-button-transparent" title=""></i>
+    		</div>
+          	<div class="input-group-addon addon-my-color">
+    		    <i class="icofont-simple-right-down i-button-null" title=""></i>
+    		</div>
         </div>
-    </div>
+     </div>
 </form>
