@@ -1,84 +1,258 @@
 {% load humanize %}
-<div class="card-title">
-    <span>PAGAMENTOS</span>
-</div>
-<div class="card-body js-card-body re-pagamento">
-    <div class="lista-pagamentos">
-        <form class="js-paga-fatura" method="post" action="{% url 'paga_fatura' %}">
-        {% csrf_token %}
-            <div class="item-pagamento dia">
-                <span>Data Pagamento:</span>
-                <input class="" type="date" value="{{ hoje }}" name='dia'>
-            </div>
-            <div class="item-pagamento dinheiro">
-                <i class="i-button js-bt-dinheiro">Dinheiro</i>
-                <input class="js-dinheiro" type="number" step="0.01" value="0.00" name="dinheiro">
-            </div>
-            <div class="item-pagamento debito">
-                <i class="i-button js-bt-debito">Cartão de Débito</i>
-                <input class="js-debito" type="number" step="0.01" value="0.00" name="debito">
-            </div>
-            <div class="item-pagamento credito">
-                <i class="i-button js-bt-credito">Cartão de Crédito</i>
-                <input class="js-credito" type="number" step="0.01" value="0.00" name="credito">
-            </div>
-            <div class="item-pagamento pix">
-                <i class="i-button js-bt-pix">Pix</i>
-                <input class="js-pix" type="number" step="0.01" value="0.00" name="pix" disabled>
-            </div>
-            <div class="item-pagamento deposito">
-                <i class="i-button js-bt-deposito">Depósito</i>
-                <input class="js-deposito" type="number" step="0.01" value="0.00" name="deposito">
-            </div>
-            <div class="item-pagamento desconto">
-                <span class="i-button js-bt-desconto">Desconto</span>
-                <input class="js-desconto" type="number" step="0.01" value="0.00" name="desconto" disabled>
-            </div>
-            <div class="item-pagamento saldo">
-                <span>A Receber</span>
-                <input class="js-receber" type="number" step="0.01"
-                value="{{ saldo|stringformat:'.2f' }}" disabled>
-            </div>
-            <div class="item-pagamento botao">
-                <button type="submit" class="bi bi-currency-dollar i-button"></button>
-            </div>
-            <input class="js-saldo" type="hidden" name="saldo"
-            value="{{ saldo|stringformat:'.2f' }}">
-            <input type="hidden" name="idfatura" value="{{ fatura }}">
-            <input type="hidden" name="idcliente" value="{{ idpessoal }}">
-        </form>
+<form class="js-paga-fatura" method="post" action="{% url 'paga_fatura' %}">
+{% csrf_token %}
+    <!-- Header -->
+    <div class="card-header">
+    	<div class="input-group">
+    		<div class="input-group-addon addon-my-color">
+    	    	<i class="icofont-simple-left-up i-button-null" title=""></i>
+    		</div>
+    		<div class="div-form-control">
+                <span>PAGAMENTO</span>
+    		</div>
+    		<div class="input-group-addon addon-my-color">
+    			<i class="icofont-simple-right-up i-button-null" title=""></i>
+    		</div>
+    	</div>
     </div>
-    {% for pgtos in pagamentos %}
-    <div class="lista-pagamentos">
-        <div class="item-pagamento dia destaque">
-            <span>Data Pagamento:</span>
-            <span>{{ pgtos.diapago }}</span>
-        </div>
-        <div class="item-pagamento dinheiro">
-            <span>Dinheiro</span>
-            <span>R$ {{ pgtos.dinheiro|intcomma }}</span>
-        </div>
-        <div class="item-pagamento debito">
-            <span>Cartão de Débito</span>
-            <span>R$ {{ pgtos.debito|intcomma }}</span>
-        </div>
-        <div class="item-pagamento credito">
-            <span>Cartão de Crédito</span>
-            <span>R$ {{ pgtos.credito|intcomma }}</span>
-        </div>
-        <div class="item-pagamento pix">
-            <span>Pix</span>
-            <span>R$ 0,00 {{ pgtos.pix|intcomma }}</span>
-        </div>
-        <div class="item-pagamento deposito">
-            <span>Depósito</span>
-            <span>R$ {{ pgtos.deposito|intcomma }}</span>
-        </div>
-        <div class="item-pagamento total destaque">
-            <span>Valor Pago</span>
-            <span>R$ {{ pgtos.total|intcomma }}</span>
-        </div>
+    <!-- Body -->
+    <div class="card-body">
+    	<div class="card-body-item">
+    		<div class="input-group">
+    			<div class="input-group-addon addon-my-color">
+    				<i class="icofont-check i-button-null" title=""></i>
+    			</div>
+    			<div class="div-flex div-form-control">
+    				<div class="tamanho-60 text-left">
+    					<span>
+                            DATA PAGAMENTO
+    					</span>
+    				</div>
+                    <div class="tamanho-40">
+                        <input class="form-control"
+                               type="date"
+                               value="{{ hoje }}"
+                               name='dia'>
+    				</div>
+		    	</div>
+        		<div class="input-group-addon addon-my-color">
+                    <i class="icofont-square i-button-null js-servico-fatura"
+                       data-idobj="{{ fatura.idfatura }}"
+                       title=""></i>
+    			</div>
+    		</div>
+    	</div>
+        <div class="card-body-item">
+    		<div class="input-group">
+    			<div class="input-group-addon addon-my-color">
+    				<i class="icofont-check i-button-null" title=""></i>
+    			</div>
+    			<div class="div-flex div-form-control">
+    				<div class="tamanho-60 text-left">
+    					<span>
+                            DINHEIRO
+    					</span>
+    				</div>
+                    <div class="tamanho-40">
+                        <input class="form-control js-dinheiro"
+                               type="number"
+                               step="0.01"
+                               value="0.00"
+                               name="dinheiro">
+    				</div>
+		    	</div>
+        		<div class="input-group-addon addon-my-color">
+                    <i class="icofont-square i-button js-bt-dinheiro"
+                       data-idobj="{{ fatura.idfatura }}"
+                       title="Pagamento em Dinheiro"></i>
+    			</div>
+    		</div>
+    	</div>
+        <div class="card-body-item">
+    		<div class="input-group">
+    			<div class="input-group-addon addon-my-color">
+    				<i class="icofont-check i-button-null" title=""></i>
+    			</div>
+    			<div class="div-flex div-form-control">
+    				<div class="tamanho-60 text-left">
+    					<span>
+                            CARTÃO DÉBITO
+    					</span>
+    				</div>
+                    <div class="tamanho-40">
+                        <input class="form-control js-debito"
+                               type="number"
+                               step="0.01"
+                               value="0.00"
+                               name="debito">
+    				</div>
+		    	</div>
+        		<div class="input-group-addon addon-my-color">
+                    <i class="icofont-square i-button js-bt-debito"
+                       data-idobj="{{ fatura.idfatura }}"
+                       title="Pagamento no Débito"></i>
+    			</div>
+    		</div>
+    	</div>
+        <div class="card-body-item">
+    		<div class="input-group">
+    			<div class="input-group-addon addon-my-color">
+    				<i class="icofont-check i-button-null" title=""></i>
+    			</div>
+    			<div class="div-flex div-form-control">
+    				<div class="tamanho-60 text-left">
+    					<span>
+                            CARTÃO CRÉDITO
+    					</span>
+    				</div>
+                    <div class="tamanho-40">
+                        <input class="form-control js-credito"
+                               type="number"
+                               step="0.01"
+                               value="0.00"
+                               name="credito">
+    				</div>
+		    	</div>
+        		<div class="input-group-addon addon-my-color">
+                    <i class="icofont-square i-button js-bt-credito"
+                       data-idobj="{{ fatura.idfatura }}"
+                       title="Pagamento no Crédito"></i>
+    			</div>
+    		</div>
+    	</div>
+        <div class="card-body-item">
+    		<div class="input-group">
+    			<div class="input-group-addon addon-my-color">
+    				<i class="icofont-check i-button-null" title=""></i>
+    			</div>
+    			<div class="div-flex div-form-control">
+    				<div class="tamanho-60 text-left">
+    					<span>
+                            PIX
+    					</span>
+    				</div>
+                    <div class="tamanho-40">
+                        <input class="form-control js-pix"
+                               type="number"
+                               step="0.01"
+                               value="0.00"
+                               name="pix"
+                               disabled>
+    				</div>
+		    	</div>
+        		<div class="input-group-addon addon-my-color">
+                    <i class="icofont-square i-button-null js-bt-pix"
+                       data-idobj="{{ fatura.idfatura }}"
+                       title=""></i>
+    			</div>
+    		</div>
+    	</div>
+        <div class="card-body-item">
+    		<div class="input-group">
+    			<div class="input-group-addon addon-my-color">
+    				<i class="icofont-check i-button-null" title=""></i>
+    			</div>
+    			<div class="div-flex div-form-control">
+    				<div class="tamanho-60 text-left">
+    					<span>
+                            DEPÓSITO BANCÁRIO
+    					</span>
+    				</div>
+                    <div class="tamanho-40">
+                        <input class="form-control js-deposito"
+                               type="number"
+                               step="0.01"
+                               value="0.00"
+                               name="deposito">
+    				</div>
+		    	</div>
+        		<div class="input-group-addon addon-my-color">
+                    <i class="icofont-square i-button js-bt-deposito"
+                       data-idobj="{{ fatura.idfatura }}"
+                       title="Pagamento no Déposito Bancário"></i>
+    			</div>
+    		</div>
+    	</div>
+        <div class="card-body-item">
+    		<div class="input-group">
+    			<div class="input-group-addon addon-my-color">
+    				<i class="icofont-check i-button-null" title=""></i>
+    			</div>
+    			<div class="div-flex div-form-control">
+    				<div class="tamanho-60 text-left">
+    					<span>
+                            DESCONTO
+    					</span>
+    				</div>
+                    <div class="tamanho-40">
+                        <input class="form-control js-desconto"
+                               type="number"
+                               step="0.01"
+                               value="0.00"
+                               name="desconto"
+                               disabled>
+    				</div>
+		    	</div>
+        		<div class="input-group-addon addon-my-color">
+                    <i class="icofont-square i-button-null js-bt-desconto"
+                       data-idobj="{{ fatura.idfatura }}"
+                       title=""></i>
+    			</div>
+    		</div>
+    	</div>
+        <div class="card-body-item">
+    		<div class="input-group">
+    			<div class="input-group-addon addon-my-color">
+    				<i class="icofont-check i-button-null" title=""></i>
+    			</div>
+    			<div class="div-flex div-form-control">
+    				<div class="tamanho-60 text-left">
+    					<span>
+                            A RECEBER
+    					</span>
+    				</div>
+                    <div class="tamanho-40">
+                        <input class="form-control js-receber"
+                               type="number"
+                               step="0.01"
+                               value="{{ saldo|stringformat:'.2f' }}"
+                               disabled>
+    				</div>
+		    	</div>
+        		<div class="input-group-addon addon-my-color">
+                    <i class="icofont-square i-button-null js-servico-fatura"
+                       data-idobj="{{ fatura.idfatura }}"
+                       title=""></i>
+    			</div>
+    		</div>
+    	</div>
     </div>
-    {% endfor %}
-</div>
-<div class="card-footer"></div>
+    <!-- Footer -->
+    <div class="card-footer">
+    	<div class="input-group">
+    		<div class="input-group-addon addon-my-color">
+    			<i class="icofont-simple-left-down i-button-null" title=""></i>
+    		</div>
+    		<div class="div-flex div-form-control">
+    			<div class="tamanho-100 text-center">
+                    <button type="submit"
+                            class="icofont-dollar i-button i-button-rodape"
+                            title="Gera Pagamento"></button>
+    			</div>
+    		</div>
+    		<div class="input-group-addon addon-my-color">
+			    <i class="icofont-simple-right-down i-button-null" title=""></i>
+    		</div>
+    	</div>
+    </div>
+    <input class="js-saldo"
+           type="hidden"
+           name="saldo"
+           value="{{ saldo|stringformat:'.2f' }}">
+    <input type="hidden"
+           name="idfatura"
+           value="{{ fatura }}">
+    <input type="hidden"
+           name="idcliente"
+           value="{{ idpessoal }}">
+</form>
