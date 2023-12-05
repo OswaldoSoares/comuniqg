@@ -762,15 +762,30 @@ body {
 }
 
 .section-grid {
-  /* background-color: #a94442; */
-  padding: 5px;
+  padding: 2px;
   display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 5px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 2;
+  grid-gap: 4px;
 }
 
 .grid-column {
   width: 100%;
+}
+
+.card-faturadas {
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+.card-faturar {
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+.card-mensal-detalhado {
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 
 @media only screen and (min-width: 715px) {
