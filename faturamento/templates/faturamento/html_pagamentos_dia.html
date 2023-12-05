@@ -1,34 +1,60 @@
 {% load humanize %}
-<div class="card-title">
-    <span id="id_pgto" data-dia="{{ dia }}">{{ dia }}</span>
+<!-- Header -->
+<div class="card-header">
+	<div class="input-group">
+		<div class="input-group-addon addon-my-color">
+    	    <i class="icofont-simple-left-up i-button-null" title=""></i>
+		</div>
+		<div class="div-form-control">
+            <span id="id_pgto" data-dia="{{ dia }}">{{ dia }}</span>
+		</div>
+		<div class="input-group-addon addon-my-color">
+    	    <i class="icofont-simple-right-up i-button-null" title=""></i>
+		</div>
+	</div>
 </div>
-<div class="card-body js-card-body re-pagamentos-dia">
-    {% if pagamentos %}
-        {% for pgto in pagamentos %}
-        <div class="lista-pgto-dia">
-            <div class="item-apelido">
-                <span>{{ pgto.cliente }}</span>
-            </div>
-            <div class="item-fatura">
-                <span>{{ pgto.fatura }}</span>
-            </div>
-            <div class="item-valor">
-                <span>R$ {{ pgto.total|intcomma }}</span>
-            </div>
-            <div class="item-botao">
-                {% comment %} <i class="bi bi-clipboard i-button js-seleciona-data"
-                data-dia={{ diapgto.dia|date:'d/m/Y' }}></i> {% endcomment %}
-            </div>
-        </div>
-        {% endfor %}
-    {% else %}
-        <div class="lista-pgto-dia">
-            <div class="item-titulo">
-                <span>R$ 0,00</span>
-            </div>
-        </div>
-    {% endif %}
+<!-- Body -->
+<div class="card-body">
+    {% for pgto in pagamentos %}
+	<div class="card-body-item">
+		<div class="input-group">
+			<div class="input-group-addon addon-my-color">
+				<i class="icofont-check i-button-null" title=""></i>
+			</div>
+			<div class="div-flex div-form-control">
+				<div class="tamanho-50 text-left">
+                    <span>{{ pgto.cliente }}</span>
+				</div>
+				<div class="tamanho-25 text-center">
+                    <span>{{ pgto.fatura }}</span>
+				</div>
+	    		<div class="tamanho-25 text-right">
+                    <span>R$ {{ pgto.total|intcomma }}</span>
+				</div>
+			</div>
+			<div class="input-group-addon addon-my-color">
+				<i class="icofont-check i-button-null" title=""></i>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
 </div>
+<!-- Footer -->
 <div class="card-footer">
-    <span>R$ {{ total_filtro|intcomma }}</span>
+	<div class="input-group">
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-left-down i-button-null" title=""></i>
+		</div>
+		<div class="div-flex div-form-control">
+			<div class="tamanho-50 text-left">
+				<span>TOTAL RECEBIDO NO DIA</span>
+			</div>
+			<div class="tamanho-50 text-right">
+                <span>R$ {{ total_filtro|intcomma }}</span>
+			</div>
+		</div>
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-right-down i-button-null" title=""></i>
+		</div>
+    </div>
 </div>
