@@ -2,30 +2,70 @@
 {% load humanize %}
 <!-- Header -->
 <div class="card-header">
-    <span>{{ apelido }}</span>
+	<div class="input-group">
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-left-up i-button-null" title=""></i>
+		</div>
+		<div class="div-form-control">
+            <span>{{ apelido }}</span>
+		</div>
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-right-up i-button-null" title=""></i>
+		</div>
+	</div>
 </div>
 <!-- Body -->
-<div class="card-body js-card-body re-faturas">
+<div class="card-body">
     {% for fatura in faturas %}
-    <div class="lista-selecionadas">
-        <div class="fatura">
-            <span>{{ fatura.idfatura }}</span>
-        </div>
-        <div class="valor-fatura">
-            <span>R$ {{ fatura.valorfatura|intcomma }}</span>
-        </div>
-        <div class="valor-pago">
-            <span>R$ {{ fatura.valorpago|intcomma }}</span>
-        </div>
-        <div class="botoes">
-            <a class="bi bi-printer i-button" href={% url 'print_fatura' fatura.idfatura %} target="_blank"></a>
-            <i class="bi bi-clipboard i-button js-servico-fatura" data-idobj="{{ fatura.idfatura }}"></i>
-        </div>
-    </div>
-    {% endfor %}
+	<div class="card-body-item">
+		<div class="input-group">
+			<div class="input-group-addon addon-my-color">
+				<i class="icofont-check i-button-null" title=""></i>
+			</div>
+			<div class="div-flex div-form-control">
+				<div class="tamanho-50 text-left">
+					<span>
+                        {{ fatura.idfatura }}
+					</span>
+				</div>
+                <div class="tamanho-25 text-right">
+					<span>
+                        R$ {{ fatura.valorfatura|intcomma }}
+					</span>
+				</div>
+                <div class="tamanho-25 text-right">
+					<span>
+                        R$ {{ fatura.valorpago|intcomma }}
+					</span>
+				</div>
+			</div>
+			<div class="input-group-addon addon-my-color">
+                <a class="icofont-printer i-button" href={% url 'print_fatura' fatura.idfatura %} target="_blank"></a>
+			</div>
+    		<div class="input-group-addon addon-my-color">
+                <i class="icofont-square i-button js-servico-fatura" data-idobj="{{ fatura.idfatura }}"></i>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
 </div>
 <!-- Footer -->
 <div class="card-footer">
-    <span>{{ quantidade }} FATURA{{ quantidade|pluralize|upper }} - R$ {{ total_receber|intcomma }}</span>
+	<div class="input-group">
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-left-down i-button-null" title=""></i>
+		</div>
+		<div class="div-flex div-form-control">
+			<div class="tamanho-50 text-left">
+                <span>{{ quantidade }} FATURA{{ quantidade|pluralize|upper }}</span>
+			</div>
+			<div class="tamanho-50 text-right">
+				<span>R$ {{ total_receber|intcomma }}</span>
+			</div>
+		</div>
+		<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-right-down i-button-null" title=""></i>
+		</div>
+	</div>
 </div>
 {% endif %}
