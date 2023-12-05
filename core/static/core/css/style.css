@@ -366,24 +366,6 @@ body {
 
 .faturamento {
     margin-top: 10px;
-    display: flex;
-    align-items: start;
-    justify-content: start;
-}
-
-.card-pagamento-fatura,
-.card-selecionadas,
-.card-servico {
-    width: 300px;
-    margin: 0;
-    padding: 10px 5px;
-}
-
-.card-obras,
-.card-solicitantes {
-    width: 300px;
-    margin: 0;
-    padding: 10px 5px;
 }
 
 .lista-faturadas,
