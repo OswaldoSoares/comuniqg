@@ -342,11 +342,11 @@ $(document).ready(function() {
         var valor_servico_selecionado = 0
         var valor_str = "R$ 0,00"
         if ($(elemento).is(":checked")) {
-            $(this).removeClass('bi-check-square').addClass('bi-square');
+            $(this).removeClass('icofont-checked').addClass('icofont-square');
             $(elemento).attr('checked', false);
             quantidade_servico_selecionado -= 1;
         } else {
-            $(this).removeClass('bi-square').addClass('bi-check-square');
+            $(this).removeClass('icofont-square').addClass('icofont-checked');
             $(elemento).attr('checked', true);
             quantidade_servico_selecionado += 1;
         }
@@ -410,31 +410,31 @@ $(document).ready(function() {
         var obra = $(this).data('obra-seleciona')
         if (quantidade_solicitante_selecionado > 0) {
             $("[data-solicitante]").each(function() {
-                if (($(this).is(".bi-check-square"))) {
+                if (($(this).is(".icofont-checked"))) {
                     $(this).trigger('click')
                 };
             });
             $("[data-solicitante-seleciona]").each(function() {
-                if (($(this).is(".bi-check-square"))) {
+                if (($(this).is(".icofont-checked"))) {
                     $(this).trigger('click')
                 };
             });
         }
         $("[data-obra]").each(function() {
             if ($(this).data("obra") == obra) {
-                if ((elemento.is(".bi-check-square")) && ($(this).is(".bi-check-square"))) {
+                if ((elemento.is(".icofont-checked")) && ($(this).is(".icofont-checked"))) {
                     $(this).trigger('click')
                 };
-                if ((elemento.is(".bi-square")) && ($(this).is(".bi-square"))) {
+                if ((elemento.is(".icofont-square")) && ($(this).is(".icofont-square"))) {
                     $(this).trigger('click')
                 };
             };
         });
-        if (elemento.is(".bi-check-square")) {
-            $(this).removeClass('bi-check-square').addClass('bi-square');
+        if (elemento.is(".icofont-checked")) {
+            $(this).removeClass('icofont-checked').addClass('icofont-square');
             quantidade_obra_selecionada -= 1;
         } else {
-            $(this).removeClass('bi-square').addClass('bi-check-square');
+            $(this).removeClass('icofont-square').addClass('icofont-checked');
             quantidade_obra_selecionada += 1;
         }
         if (quantidade_obra_selecionada == 0) {
@@ -451,31 +451,31 @@ $(document).ready(function() {
         var solicitante = $(this).data('solicitante-seleciona');
         if (quantidade_obra_selecionada > 0) {
             $("[data-obra]").each(function() {
-                if (($(this).is(".bi-check-square"))) {
+                if (($(this).is(".icofont-checked"))) {
                     $(this).trigger('click')
                 };
             });
             $("[data-obra-seleciona]").each(function() {
-                if (($(this).is(".bi-check-square"))) {
+                if (($(this).is(".icofont-checked"))) {
                     $(this).trigger('click')
                 };
             });
         }
         $("[data-solicitante]").each(function() {
             if ($(this).data("solicitante") == solicitante) {
-                if ((elemento.is(".bi-check-square")) && ($(this).is(".bi-check-square"))) {
+                if ((elemento.is(".icofont-checked")) && ($(this).is(".icofont-checked"))) {
                     $(this).trigger('click')
                 };
-                if ((elemento.is(".bi-square")) && ($(this).is(".bi-square"))) {
+                if ((elemento.is(".icofont-square")) && ($(this).is(".icofont-square"))) {
                     $(this).trigger('click')
                 };
             };
         });
-        if (elemento.is(".bi-check-square")) {
-            $(this).removeClass('bi-check-square').addClass('bi-square');
+        if (elemento.is(".icofont-checked")) {
+            $(this).removeClass('icofont-checked').addClass('icofont-square');
             quantidade_solicitante_selecionado -= 1;
         } else {
-            $(this).removeClass('bi-square').addClass('bi-check-square');
+            $(this).removeClass('icofont-square').addClass('icofont-checked');
             quantidade_solicitante_selecionado += 1;
         }
         if (quantidade_solicitante_selecionado == 0) {
