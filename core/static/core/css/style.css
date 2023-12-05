@@ -607,133 +607,62 @@ body {
     color: var(--color5)
 }
 
-.card-mensal-detalhado {
-    width: 750px;
-    margin: 0;
-    padding: 10px 5px;
-}
 
-.card-mensal-detalhado .card-title span {
-    padding: 0 10px;
-}
+/* .card-pagamentos-dia { */
+    /* width: 400px; */
+    /* margin: 0; */
+    /* padding: 10px 5px; */
+/* } */
 
-.card-mensal-detalhado .lista-mensal-detalhado {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid var(--color6);
-}
+/* .card-pagamentos-dia .card-title span { */
+    /* padding: 0 10px; */
+/* } */
 
-.card-mensal-detalhado .lista-mensal-detalhado .item-data {
-    width: 12%;
-    text-align: center;
-}
+/* .card-pagamentos-dia .lista-pgto-dia { */
+    /* width: 100%; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* border-bottom: 1px solid var(--color6); */
+/* } */
 
-.card-mensal-detalhado .lista-mensal-detalhado .item-dinheiro {
-    background-color: #404040;
-    width: 14%;
-    text-align: right;
-    padding-right: 5px;
-}
+/* .card-pagamentos-dia .lista-pgto-dia .item-apelido { */
+    /* width: 50%; */
+    /* text-align: left; */
+    /* padding-left: 5px; */
+/* } */
 
-.card-mensal-detalhado .lista-mensal-detalhado .item-debito {
-    width: 14%;
-    text-align: right;
-    padding-right: 5px;
-}
+/* .card-pagamentos-dia .lista-pgto-dia .item-fatura { */
+    /* width: 15%; */
+    /* text-align: center; */
+    /* padding-right: 5px; */
+/* } */
 
-.card-mensal-detalhado .lista-mensal-detalhado .item-credito {
-    background-color: #404040;
-    width: 14%;
-    text-align: right;
-    padding-right: 5px;
-}
+/* .card-pagamentos-dia .lista-pgto-dia .item-valor { */
+    /* width: 25%; */
+    /* text-align: right; */
+    /* padding-right: 5px; */
+/* } */
 
-.card-mensal-detalhado .lista-mensal-detalhado .item-pix {
-    width: 14%;
-    text-align: right;
-    padding-right: 5px;
-}
+/* .card-pagamentos-dia .lista-pgto-dia .item-botao { */
+    /* width: 10%; */
+    /* text-align: center; */
+    /* padding: 0 5px; */
+/* } */
 
-.card-mensal-detalhado .lista-mensal-detalhado .item-deposito {
-    background-color: #404040;
-    width: 14%;
-    text-align: right;
-    padding-right: 5px;
-}
+/* .card-mensal-detalhado .card-footer .item-data { */
+    /* width: 12%; */
+/* } */
 
-.card-mensal-detalhado .lista-mensal-detalhado .item-valor {
-    width: 14%;
-    text-align: right;
-    padding-right: 5px;
-}
+/* .card-mensal-detalhado .card-footer .item-valor { */
+    /* width: 14%; */
+    /* text-align: right; */
+    /* padding-right: 5px; */
+/* } */
 
-.card-mensal-detalhado .lista-mensal-detalhado .item-titulo {
-    text-align: center;
-}
-
-.card-mensal-detalhado .lista-mensal-detalhado .item-botao {
-    width: 4%;
-    text-align: center;
-    padding: 0 5px;
-}
-
-.card-pagamentos-dia {
-    width: 400px;
-    margin: 0;
-    padding: 10px 5px;
-}
-
-.card-pagamentos-dia .card-title span {
-    padding: 0 10px;
-}
-
-.card-pagamentos-dia .lista-pgto-dia {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid var(--color6);
-}
-
-.card-pagamentos-dia .lista-pgto-dia .item-apelido {
-    width: 50%;
-    text-align: left;
-    padding-left: 5px;
-}
-
-.card-pagamentos-dia .lista-pgto-dia .item-fatura {
-    width: 15%;
-    text-align: center;
-    padding-right: 5px;
-}
-
-.card-pagamentos-dia .lista-pgto-dia .item-valor {
-    width: 25%;
-    text-align: right;
-    padding-right: 5px;
-}
-
-.card-pagamentos-dia .lista-pgto-dia .item-botao {
-    width: 10%;
-    text-align: center;
-    padding: 0 5px;
-}
-
-.card-mensal-detalhado .card-footer .item-data {
-    width: 12%;
-}
-
-.card-mensal-detalhado .card-footer .item-valor {
-    width: 14%;
-    text-align: right;
-    padding-right: 5px;
-}
-
-.card-mensal-detalhado .card-footer .item-botao {
-    width: 4%;
-}
+/* .card-mensal-detalhado .card-footer .item-botao { */
+    /* width: 4%; */
+/* } */
 
 .check-hidden {
     display: none !important;
