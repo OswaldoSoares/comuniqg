@@ -1,23 +1,55 @@
-<div class="card-title">
-    <span>OBRAS</span>
+<!-- Header -->
+<div class="card-header">
+    <div class="input-group">
+		<div class="input-group-addon addon-my-color">
+    	    <i class="icofont-simple-left-up i-button-null" title=""></i>
+    	</div>
+    	<div class="div-form-control">
+            <span>OBRAS</span>
+    	</div>
+    	<div class="input-group-addon addon-my-color">
+			<i class="icofont-simple-right-up i-button-null" title=""></i>
+    	</div>
+    </div>
 </div>
+<!-- Body -->
 <div class="card-body">
-    {% for i in obras %}
-    <div class="lista-obras">
-        <div class="obras">
-            {% if i.obra == "" %}
-            <span>NÃO INFORMADA</span>
-            {% else %}
-            <span>{{ i.obra }}</span>
-            {% endif %}
-        </div>
-        <div class="botoes">
-            <i class="bi bi-square i-button js-seleciona-obra"
-            data-obra-seleciona="{{ i.lower }}"></i>
-        </div>
+    {% for obra in obras %}
+    <div class="card-body-item">
+		<div class="input-group">
+    		<div class="input-group-addon addon-my-color">
+    			<i class="icofont-check i-button-null" title=""></i>
+    		</div>
+			<div class="div-flex div-form-control">
+    			<div class="tamanho-100 text-left">
+                    {% if obra.obra == "" %}
+                        <span>NÃO INFORMADA</span>
+                    {% else %}
+                        <span>{{ obra.obra }}</span>
+                    {% endif %}
+				</div>
+		    </div>
+        	<div class="input-group-addon addon-my-color">
+                <i class="icofont-square i-button js-seleciona-obra"
+                   data-obra-seleciona="{{ obra.lower }}"></i>
+    		</div>
+    	</div>
     </div>
     {% endfor %}
 </div>
+<!-- Footer -->
 <div class="card-footer">
-    <span class="quantidade-obra-selecionada">NENHUMA OBRA SELECIONADA</span>
+    <div class="input-group">
+		<div class="input-group-addon addon-my-color">
+    		<i class="icofont-simple-left-down i-button-null" title=""></i>
+    	</div>
+    	<div class="div-flex div-form-control">
+			<div class="tamanho-100 text-center">
+                <span class="quantidade-obra-selecionada">NENHUMA OBRA SELECIONADA</span>
+    		</div>
+		</div>
+    	<div class="input-group-addon addon-my-color">
+		    <i class="icofont-simple-right-down i-button-null" title=""></i>
+		</div>
+    </div>
 </div>
