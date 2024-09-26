@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     "produtos",
     "servicos",
     "tabelas",
+    # other apps
+    "rolepermissions",
 ]
 
 MIDDLEWARE = [
