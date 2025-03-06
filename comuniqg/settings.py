@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     "produtos",
     "servicos",
     "tabelas",
+    # other apps
+    "rolepermissions",
 ]
 
 MIDDLEWARE = [
@@ -102,6 +104,8 @@ USE_L10N = True
 USE_TZ = True
 
 br_formats.DATE_FORMAT = "d/m/Y"
+
+ROLEPERMISSIONS_MODULE = "comuniqg.roles"
 
 STATIC_URL = "static/"
 STATIC_ROOT = config("STATIC_ROOT_CONFIG")
