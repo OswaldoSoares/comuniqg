@@ -143,9 +143,9 @@ def get_cliente(v_idpessoa):
 
 
 def get_cliente_faturada(v_idpessoa):
-    faturas = Receber.objects.filter(status="A RECEBER")
+    faturas_antigo = Receber.objects.filter(status="A RECEBER")
     lista = []
-    for itens in faturas:
+    for itens in faturas_antigo:
         os = Servico.objects.filter(idfatura=itens.idfatura, idcadastro=v_idpessoa)
         if os:
             apelido = get_apelido(v_idpessoa)
