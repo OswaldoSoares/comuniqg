@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rolepermissions.decorators import has_permission_decorator
 
 from servicos import facade
 
