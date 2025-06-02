@@ -1,0 +1,78 @@
+[project]
+name = "comuniqg"
+version = "0.1.0"
+description = "Controle ComuniQG"
+authors = [
+    {name = "Oswaldo Soares"}
+]
+readme = "README.md"
+requires-python = ">=3.11,<4"
+dependencies = [
+    "mysqlclient (>=2.2.7,<3.0.0)",
+    "asgiref (==3.4.1)",
+    "atomicwrites (==1.4.0)",
+    "django (==3.1.3)",
+    "django-decouple (==2.1)",
+    "django-role-permissions (==3.2.0)",
+    "gunicorn (==20.1.0)",
+    "packaging (==21.3)",
+    "pillow (==10.0.0)",
+    "pyparsing (==3.0.7)",
+    "python-dateutil (==2.8.2)",
+    "pytz (==2022.1)",
+    "reportlab (==4.0.4)",
+    "six (==1.16.0)",
+    "sqlparse (==0.4.2)",
+    "tomlkit (==0.13.2)",
+    "tzdata (==2021.5)",
+]
+
+[tool.poetry.group.test.dependencies]
+attrs = "21.4.0"
+iniconfig = "1.1.1"
+pytest = "7.1.1"
+pytest-django = "4.5.2"
+pluggy = "1.0.0"
+py = "1.11.0"
+tomli = "2.0.1"
+
+[tool.poetry.group.debug.dependencies]
+asttokens = "2.4.1"
+colorama = "0.4.5"
+decorator = "5.1.1"
+dill = "0.3.9"
+executing = "2.0.1"
+pure-eval = "0.2.2"
+stack-data = "0.6.3"
+
+[tool.poetry.group.repl.dependencies]
+ipython = "8.18.0"
+jedi = "0.19.1"
+matplotlib-inline = "0.1.6"
+parso = "0.8.3"
+pexpect = "4.9.0"
+platformdirs = "4.3.6"
+prompt-toolkit = "3.0.41"
+ptyprocess = "0.7.0"
+Pygments = "2.17.2"
+traitlets = "5.13.0"
+wcwidth = "0.2.12"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.12"
+
+[tool.ruff]
+line-length = 79
+extend-exclude = ['migrations']
+
+[tool.ruff.lint]
+preview = true
+select = ["I", "F", "E", "W", "PL", "PT"]
+
+[tool.ruff.format]
+preview = true
+quote-style = "double"
