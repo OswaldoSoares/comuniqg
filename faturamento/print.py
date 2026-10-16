@@ -45,7 +45,7 @@ def fatura_pdf(v_fatura):
     response['Content-Disposition'] = f'filename={arquivo}'
     buffer = BytesIO()
     pdf = canvas.Canvas(buffer)
-    #------------------------------ Start of printing
+    # ------------------------------ Start of printing
     cabecalho(pdf, s_fatura)
     ln = 258
     servicos = s_fatura['servicos']
@@ -88,11 +88,12 @@ def fatura_pdf(v_fatura):
             pdf.drawRightString(mp(168), mp(ln), c_br(valor))
             pdf.drawRightString(mp(200), mp(ln), c_br(total))
             ln -= 4
-        pdf.drawString((mp(10), mp(ln), f"SOLICITADO POR: {x['solicitante']}")
+        pdf.drawString(mp(10), mp(ln), f"SOLICITADO POR: {x['solicitante']}")
+        ln -= 4
     pagina = str(pdf.getPageNumber()).zfill(2)
     pdf.drawCentredString(mp(105), mp(11), pagina)
     pdf.showPage()
-    #------------------------------ End of print
+    # ------------------------------ End of print
     pdf.setTitle('FATURA')
     pdf.save()
     buffer.seek(0)
