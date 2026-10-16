@@ -342,6 +342,7 @@ def get_servico(v_fatura):
             "diaservico": itens.diaservico,
             "total": itens.total,
             "idpessoa": itens.idcadastro,
+            "solicitante": itens.solicitante,
         }
         for itens in servicos
     ]
