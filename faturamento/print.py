@@ -88,6 +88,7 @@ def fatura_pdf(v_fatura):
             pdf.drawRightString(mp(168), mp(ln), c_br(valor))
             pdf.drawRightString(mp(200), mp(ln), c_br(total))
             ln -= 4
+        pdf.drawString((mp(10), mp(ln), f"SOLICITADO POR: {x['solicitante']}")
     pagina = str(pdf.getPageNumber()).zfill(2)
     pdf.drawCentredString(mp(105), mp(11), pagina)
     pdf.showPage()
