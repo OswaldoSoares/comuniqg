@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 from django.contrib.auth import forms
 
 from .models import Account
@@ -16,7 +18,7 @@ class AccountCreationForm(forms.UserCreationForm):
 class LoginForm(forms.AuthenticationForm):
     """Formulário de login por e-mail (USERNAME_FIELD do Account)."""
 
-    error_messages = {
+    error_messages: ClassVar[dict] = {
         "invalid_login": "E-MAIL OU SENHA INVÁLIDOS.",
         "inactive": "USUÁRIO INATIVO.",
     }
