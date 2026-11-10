@@ -1,0 +1,64 @@
+{% load humanize %}
+{% if pessoa %}
+<section class="ui-card pessoa-detalhe">
+    <header class="ui-card-header">
+        <div>
+            <h2 class="ui-card-titulo">
+                {{ pessoa.apelido }}
+                <span class="ui-badge pessoa-{{ pessoa.funcao|lower }}">{{ pessoa.funcao }}</span>
+            </h2>
+            <p class="ui-card-subtitulo">{{ pessoa.nome }}</p>
+        </div>
+        <div class="ui-card-acoes">
+            <button type="button" class="ui-btn-icone js-pessoa-abrir"
+                    data-url="{% url 'pessoa_form' %}"
+                    data-id_pessoa="{{ pessoa.pk }}"
+                    data-title="ALTERAR {{ pessoa.funcao }} {{ pessoa.apelido }}"
+                    title="Alterar" aria-label="Alterar">
+                <i class="bi bi-pencil"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="ui-kpis">
+        <div class="ui-kpi">
+            <span class="ui-kpi-rotulo">{{ movimento.rotulo }}</span>
+            <span class="ui-kpi-valor">{{ movimento.quantidade|intcomma }}</span>
+        </div>
+        <div class="ui-kpi">
+            <span class="ui-kpi-rotulo">{{ movimento.ultimo_rotulo }}</span>
+            <span class="ui-kpi-valor">{{ movimento.ultimo|date:"d/m/Y"|default:"-" }}</span>
+        </div>
+    </div>
+
+    <h3 class="ui-secao-titulo">Dados cadastrais</h3>
+    <dl class="pessoa-dados">
+        {% for rotulo, valor in dados %}
+            <div><dt>{{ rotulo }}</dt><dd>{{ valor|default:"-" }}</dd></div>
+        {% endfor %}
+    </dl>
+
+    {% if pessoa.obs %}
+        <h3 class="ui-secao-titulo">Observação</h3>
+        <p class="pessoa-obs">{{ pessoa.obs|linebreaksbr }}</p>
+    {% endif %}
+
+    <h3 class="ui-secao-titulo">Contatos</h3>
+    {% for contato in contatos %}
+        <div class="pessoa-contato">
+            <p class="ui-forte">{{ contato.nome|default:"Sem nome" }}</p>
+            {% if contato.fones %}<p class="pessoa-fone">{{ contato.fones|join:" · " }}</p>{% endif %}
+            {% if contato.email %}<p class="pessoa-fone">{{ contato.email }}</p>{% endif %}
+        </div>
+    {% empty %}
+        <p class="pessoa-fone">Nenhum contato cadastrado.</p>
+    {% endfor %}
+</section>
+{% else %}
+<section class="ui-card">
+    <div class="ui-vazio">
+        <i class="bi bi-person-lines-fill"></i>
+        <p>Selecione um cadastro na lista para ver os detalhes.</p>
+    </div>
+</section>
+{% endif %}

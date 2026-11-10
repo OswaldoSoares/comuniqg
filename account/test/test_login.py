@@ -29,6 +29,7 @@ TELAS_INTERNAS = [
     ("index_dashboard", None),
     ("index_clientes", None),
     ("pessoas_lista", None),
+    ("pessoa_consulta", None),
     ("pessoa_form", None),
 ]
 

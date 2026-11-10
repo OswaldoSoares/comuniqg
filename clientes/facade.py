@@ -1,12 +1,12 @@
-from django.db.models import Q, Value
+from django.db.models import Count, Max, Q, Value
 from django.db.models.functions import Replace
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
 from clientes import html_data
-from clientes.forms import MASCARA_ZERADA, CadastraPessoa, so_digitos
+from clientes.forms import CadastraPessoa, preenchido, so_digitos
 from core.tools import get_mensagem
-from databaseold.models import Pessoa
+from databaseold.models import Contato, Pagar, Pessoa, Servico
 
 FILTROS = [
     ("CLIENTE", "Clientes"),
@@ -51,35 +51,118 @@ def get_pessoas(filtro=FILTRO_PADRAO, busca=""):
     return pessoas.order_by("apelido", "idpessoa")
 
 
-def documento(pessoa):
-    """CNPJ ou CPF preenchido (o que não for a máscara zerada)."""
-    if pessoa.cnpj and pessoa.cnpj != MASCARA_ZERADA["cnpj"]:
-        return pessoa.cnpj
-    if pessoa.cpf and pessoa.cpf != MASCARA_ZERADA["cpf"]:
-        return pessoa.cpf
-    return ""
-
-
-def create_contexto_pessoas(filtro=FILTRO_PADRAO, busca=""):
+def create_contexto_pessoas(filtro=FILTRO_PADRAO, busca="", id_pessoa=None):
     pessoas = list(get_pessoas(filtro, busca))
-    for pessoa in pessoas:
-        pessoa.documento = documento(pessoa)
     return {
         "pessoas": pessoas,
         "filtros": FILTROS,
         "filtro": filtro,
         "busca": busca,
         "total": len(pessoas),
+        "id_pessoa": id_pessoa,
     }
 
 
-def create_data_pessoas(request, filtro, busca="", mensagem=None):
-    """Resposta JSON com o card da lista de pessoas."""
-    contexto = create_contexto_pessoas(filtro, busca)
+def obter_id(valor):
+    """Id numérico vindo da tela, ou None."""
+    try:
+        return int(valor)
+    except (TypeError, ValueError):
+        return None
+
+
+def _dados_pessoa(pessoa):
+    cidade = preenchido(pessoa.cidade)
+    if cidade and preenchido(pessoa.estado):
+        cidade = f"{cidade}/{pessoa.estado}"
+    return [
+        ("CNPJ", preenchido(pessoa.cnpj)),
+        ("Inscrição estadual", preenchido(pessoa.ie)),
+        ("CPF", preenchido(pessoa.cpf)),
+        ("RG", preenchido(pessoa.rg)),
+        ("Endereço", preenchido(pessoa.endereco)),
+        ("Bairro", preenchido(pessoa.bairro)),
+        ("Cidade", cidade),
+        ("CEP", preenchido(pessoa.cep)),
+        ("Site", preenchido(pessoa.site)),
+    ]
+
+
+def _contatos(id_pessoa):
+    contatos = []
+    for contato in Contato.objects.filter(idpessoa=id_pessoa).order_by(
+        "contato", "idcontato"
+    ):
+        fones = [
+            preenchido(fone)
+            for fone in (
+                contato.telefone1,
+                contato.telefone2,
+                contato.celular1,
+                contato.celular2,
+            )
+        ]
+        contatos.append(
+            {
+                "nome": preenchido(contato.contato),
+                "fones": [fone for fone in fones if fone],
+                "email": preenchido(contato.email),
+            }
+        )
+    return contatos
+
+
+def _movimento(pessoa):
+    """Serviços do cliente ou contas a pagar do fornecedor."""
+    if pessoa.funcao == "FORNECEDOR":
+        totais = Pagar.objects.filter(idpessoa=pessoa.pk).aggregate(
+            quantidade=Count("idpagar"), ultimo=Max("diaservico")
+        )
+        return {
+            "rotulo": "Contas a pagar",
+            "ultimo_rotulo": "Última conta",
+            **totais,
+        }
+    totais = Servico.objects.filter(idcadastro=pessoa.pk).aggregate(
+        quantidade=Count("idservico"), ultimo=Max("diaservico")
+    )
+    return {"rotulo": "Serviços", "ultimo_rotulo": "Último serviço", **totais}
+
+
+def create_contexto_pessoa(id_pessoa):
+    """Dados da pessoa selecionada para o card de detalhes."""
+    pessoa = get_object_or_404(Pessoa, pk=id_pessoa)
+    return {
+        "pessoa": pessoa,
+        "dados": _dados_pessoa(pessoa),
+        "contatos": _contatos(pessoa.pk),
+        "movimento": _movimento(pessoa),
+    }
+
+
+def create_data_pessoas(
+    request, filtro, busca="", id_pessoa=None, mensagem=None
+):
+    """Resposta JSON com a lista e o card da pessoa selecionada.
+
+    Sem pessoa selecionada, o card de detalhes volta vazio.
+    """
+    contexto = create_contexto_pessoas(filtro, busca, id_pessoa)
     data = html_data.html_card_pessoas(request, contexto, {})
-    data.update({"filtro": filtro, "busca": busca})
+    contexto_pessoa = create_contexto_pessoa(id_pessoa) if id_pessoa else {}
+    data = html_data.html_card_pessoa(request, contexto_pessoa, data)
+    data.update(
+        {"filtro": filtro, "busca": busca, "id_pessoa": id_pessoa or ""}
+    )
     if mensagem:
         data.update(mensagem)
+    return JsonResponse(data)
+
+
+def create_data_pessoa(request, id_pessoa):
+    data = html_data.html_card_pessoa(
+        request, create_contexto_pessoa(id_pessoa), {}
+    )
     return JsonResponse(data)
 
 
@@ -111,8 +194,9 @@ def save_pessoa(request):
     mensagem = get_mensagem(
         codigo, funcao=pessoa.funcao, apelido=pessoa.apelido
     )
-    # Mostra a lista onde a pessoa salva aparece, sem a busca anterior
+    # Mostra a lista onde a pessoa salva aparece, sem a busca anterior,
+    # com ela selecionada no card de detalhes
     filtro = obter_filtro(request.POST.get("filtro"))
     if filtro != "TODOS":
         filtro = pessoa.funcao
-    return create_data_pessoas(request, filtro, "", mensagem)
+    return create_data_pessoas(request, filtro, "", pessoa.pk, mensagem)
