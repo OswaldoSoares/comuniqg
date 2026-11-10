@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from rolepermissions.decorators import has_permission_decorator
 
@@ -14,6 +15,7 @@ def index_servico(request):
     )
 
 
+@login_required
 def print_servico(request, idservico):
     response = servico_pdf(idservico)
     return response

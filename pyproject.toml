@@ -68,13 +68,15 @@ ruff = "^0.11.12"
 djlint = "^1.36.4"
 
 [tool.ruff]
-line-length = 79
-extend-exclude = ['migrations']
+line-length = 80
+# Produção roda Python 3.6.9; py37 é a versão mais antiga aceita pelo ruff
+target-version = "py37"
+extend-exclude = ["migrations"]
 
 [tool.ruff.lint]
-preview = true
-select = ["I", "F", "E", "W", "PL", "PT"]
+# Mesmas regras do projeto efetiva
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "C4", "RUF"]
 
 [tool.ruff.format]
-preview = true
 quote-style = "double"
+indent-style = "space"

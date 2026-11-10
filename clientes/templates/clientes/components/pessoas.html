@@ -1,0 +1,41 @@
+<p class="pessoas-total">
+    {{ total }} cadastro{{ total|pluralize }}{% if busca %} encontrado{{ total|pluralize }} para "{{ busca }}"{% endif %}
+</p>
+{% if pessoas %}
+    <div class="ui-tabela-wrap">
+        <table class="ui-tabela ui-tabela-cards">
+            <thead>
+                <tr>
+                    <th>Apelido</th>
+                    <th>Nome</th>
+                    <th>Função</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pessoa in pessoas %}
+                    <tr class="ui-clicavel js-pessoa-selecionar{% if pessoa.pk == id_pessoa %} ui-linha-ativa{% endif %}"
+                        data-url="{% url 'pessoa_consulta' %}"
+                        data-id_pessoa="{{ pessoa.pk }}">
+                        <td data-label="Apelido" class="ui-forte">{{ pessoa.apelido }}</td>
+                        <td data-label="Nome">{{ pessoa.nome }}</td>
+                        <td data-label="Função">
+                            <span class="ui-badge pessoa-{{ pessoa.funcao|lower }}">{{ pessoa.funcao }}</span>
+                        </td>
+                        <td class="ui-acoes">
+                            <button type="button" class="ui-btn-icone js-pessoa-selecionar-botao"
+                                    title="Abrir" aria-label="Abrir {{ pessoa.apelido }}">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="ui-vazio">
+        <i class="bi bi-people"></i>
+        <p>Nenhum cadastro encontrado.</p>
+    </div>
+{% endif %}

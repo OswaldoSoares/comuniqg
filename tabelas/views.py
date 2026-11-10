@@ -1,8 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from tabelas.facade import carrega_cliente_tabela, carrega_produto_tabela, context, delete_cliente_tabela, delete_itens_zerados, form_exclui, form_tabela, html_tabela_propria, return_json 
 from tabelas.forms import FormAlteraValorProduto
 
 
+@login_required
 def altera_valor_produto(request):
     v_form = FormAlteraValorProduto
     v_idobj = request.GET.get('idobj')
@@ -13,6 +15,7 @@ def altera_valor_produto(request):
     return data
 
 
+@login_required
 def carrega_tabela(request):
     v_idobj = request.GET.get('idobj')
     data = dict()
@@ -21,6 +24,7 @@ def carrega_tabela(request):
     return data
 
 
+@login_required
 def delete_tabela(request):
     v_idcadastro = request.GET.get('idobj')
     data = dict()
@@ -31,6 +35,7 @@ def delete_tabela(request):
     return data
 
 
+@login_required
 def delete_tabela_item(request):
     v_idobj = request.GET.get('idobj')
     v_view = 'delete_tabela_item'
@@ -39,6 +44,7 @@ def delete_tabela_item(request):
     return data
 
 
+@login_required
 def delete_zerado(request):
     v_idobj = request.GET.get('idobj')
     data = delete_itens_zerados(request, v_idobj)
@@ -46,6 +52,7 @@ def delete_zerado(request):
     return data
     
 
+@login_required
 def index_tabela(request):
     contexto = context()
     contexto_tipotb = {'tipotb': 'PRODUTO'}
@@ -53,6 +60,7 @@ def index_tabela(request):
     return render(request, 'tabelas/index.html', contexto)
 
 
+@login_required
 def nova_tabela_propria(request):
     v_form = None
     v_idobj = ''
@@ -65,6 +73,7 @@ def nova_tabela_propria(request):
     return data
 
 
+@login_required
 def novo_item_tabela(request):
     v_form = None
     v_idobj = request.GET.get('idobj')

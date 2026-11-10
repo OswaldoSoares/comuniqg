@@ -1,4 +1,3 @@
-from ntpath import join
 from pathlib import Path
 
 from decouple import config
@@ -8,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config("SECRET_KEY")
 
-DEBUG = config("DEBUG")
+DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = [host.strip() for host in config("ALLOWED_HOSTS").split(",")]
 
@@ -72,9 +71,6 @@ DATABASES = {
         "HOST": config("HOST"),
         "PORT": config("PORT"),
         "NAME": config("NAME"),
-        "options": {
-            "init_command": "SET foreing_key_checks = 0",
-        },
     }
 }
 
@@ -106,6 +102,11 @@ USE_TZ = True
 br_formats.DATE_FORMAT = "d/m/Y"
 
 ROLEPERMISSIONS_MODULE = "comuniqg.roles"
+ROLEPERMISSIONS_REDIRECT_TO_LOGIN = True
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "index_servico"
+LOGOUT_REDIRECT_URL = "index_core"
 
 STATIC_URL = "static/"
 STATIC_ROOT = config("STATIC_ROOT_CONFIG")

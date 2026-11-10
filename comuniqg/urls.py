@@ -29,7 +29,7 @@ from tabelas import urls as tabelas_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path('account/', include(account_urls)),
+    path("account/", include(account_urls)),
     path('clientes/', include(clientes_urls)),
     path("dashboard/", include(dashboard_urls)),
     path("faturamento/", include(faturamento_urls)),
