@@ -4,4 +4,13 @@
 # Ex.: "clca0001" = clientes / cadastro, mensagem 1.
 # "mensagem" aceita parâmetros no formato {nome}, passados ao get_mensagem.
 # "tipo" é o estilo do toast: success, info, warning ou error.
-mensagens = {}
+mensagens = {
+    "clca0001": {
+        "mensagem": "{funcao} {apelido} ADICIONADO COM SUCESSO.",
+        "tipo": "success",
+    },
+    "clca0002": {
+        "mensagem": "{funcao} {apelido} ALTERADO COM SUCESSO.",
+        "tipo": "success",
+    },
+}

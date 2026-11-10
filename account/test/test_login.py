@@ -28,6 +28,8 @@ TELAS_INTERNAS = [
     ("print_servico", [1]),
     ("index_dashboard", None),
     ("index_clientes", None),
+    ("pessoas_lista", None),
+    ("pessoa_form", None),
 ]
 
 

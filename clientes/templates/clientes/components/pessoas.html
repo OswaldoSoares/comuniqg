@@ -1,0 +1,46 @@
+<p class="pessoas-total">
+    {{ total }} cadastro{{ total|pluralize }}{% if busca %} encontrado{{ total|pluralize }} para "{{ busca }}"{% endif %}
+</p>
+{% if pessoas %}
+    <div class="ui-tabela-wrap">
+        <table class="ui-tabela ui-tabela-cards">
+            <thead>
+                <tr>
+                    <th>Apelido</th>
+                    <th>Nome</th>
+                    <th>Função</th>
+                    <th>Documento</th>
+                    <th>Cidade</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pessoa in pessoas %}
+                    <tr>
+                        <td data-label="Apelido" class="ui-forte">{{ pessoa.apelido }}</td>
+                        <td data-label="Nome">{{ pessoa.nome }}</td>
+                        <td data-label="Função">
+                            <span class="ui-badge pessoa-{{ pessoa.funcao|lower }}">{{ pessoa.funcao }}</span>
+                        </td>
+                        <td data-label="Documento">{{ pessoa.documento|default:"—" }}</td>
+                        <td data-label="Cidade">{% if pessoa.cidade %}{{ pessoa.cidade }}{% if pessoa.estado %}/{{ pessoa.estado }}{% endif %}{% else %}—{% endif %}</td>
+                        <td class="ui-acoes">
+                            <button type="button" class="ui-btn-icone js-pessoa-abrir"
+                                    data-url="{% url 'pessoa_form' %}"
+                                    data-id_pessoa="{{ pessoa.idpessoa }}"
+                                    data-title="ALTERAR {{ pessoa.funcao }} {{ pessoa.apelido }}"
+                                    title="Alterar" aria-label="Alterar {{ pessoa.apelido }}">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="ui-vazio">
+        <i class="bi bi-people"></i>
+        <p>Nenhum cadastro encontrado.</p>
+    </div>
+{% endif %}

@@ -4,16 +4,45 @@
 {% block main %}
 <link rel="stylesheet" href="{% static 'core/css/clientes.css' %}">
 <main class="clientes-pagina">
-    <section class="ui-card card-pessoas">
+    <section class="ui-card card-pessoas js-pessoas"
+             data-url-lista="{% url 'pessoas_lista' %}"
+             data-filtro="{{ filtro }}">
         <header class="ui-card-header">
             <div>
                 <h2 class="ui-card-titulo">Clientes e fornecedores</h2>
                 <p class="ui-card-subtitulo">Cadastro compartilhado com o sistema desktop</p>
             </div>
+            <div class="ui-card-acoes">
+                <button type="button" class="ui-btn ui-btn-primario js-pessoa-abrir"
+                        data-url="{% url 'pessoa_form' %}"
+                        data-title="NOVO CADASTRO">
+                    <i class="bi bi-plus-lg"></i> Novo cadastro
+                </button>
+            </div>
         </header>
-        <div class="ui-vazio">
-            <i class="bi bi-people"></i>
-            <p>Cadastro em construção.</p>
+
+        <div class="pessoas-barra">
+            <div class="pessoas-filtros" role="group" aria-label="Filtrar por função">
+                {% for valor, rotulo in filtros %}
+                    <button type="button"
+                            class="ui-btn ui-btn-secundario js-pessoa-filtro{% if valor == filtro %} pessoas-filtro-ativo{% endif %}"
+                            data-filtro="{{ valor }}"
+                            aria-pressed="{% if valor == filtro %}true{% else %}false{% endif %}">
+                        {{ rotulo }}
+                    </button>
+                {% endfor %}
+            </div>
+            <label class="pessoas-busca">
+                <i class="bi bi-search"></i>
+                <input type="search" class="form-control js-pessoa-busca"
+                       placeholder="Buscar por apelido, nome, CNPJ ou CPF"
+                       value="{{ busca|default:'' }}" autocomplete="off"
+                       aria-label="Buscar cadastro">
+            </label>
+        </div>
+
+        <div class="card-pessoas-lista">
+            {% include "clientes/components/pessoas.html" %}
         </div>
     </section>
 </main>
