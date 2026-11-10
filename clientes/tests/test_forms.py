@@ -11,7 +11,12 @@ CPF_VALIDO = "529.982.247-25"
 
 @pytest.fixture
 def dados():
-    return {"funcao": "CLIENTE", "apelido": "acme", "nome": "acme ltda"}
+    return {
+        "tipo": "J",
+        "funcao": "CLIENTE",
+        "apelido": "acme",
+        "nome": "acme ltda",
+    }
 
 
 @pytest.fixture
@@ -82,20 +87,81 @@ def test_texto_em_maiusculas_e_sem_espacos_extras(dados):
 
 def test_documentos_digitados_sem_mascara_sao_formatados(dados):
     dados.update(
-        {
-            "cnpj": "11222333000181",
-            "cpf": "52998224725",
-            "cep": "03604010",
-            "ie": "123456789012",
-        }
+        {"cnpj": "11222333000181", "cep": "03604010", "ie": "123456789012"}
     )
     form = CadastraPessoa(dados)
     assert form.is_valid(), form.errors
     pessoa = form.save()
     assert pessoa.cnpj == CNPJ_VALIDO
-    assert pessoa.cpf == CPF_VALIDO
     assert pessoa.cep == "03604-010"
     assert pessoa.ie == "123.456.789.012"
+
+
+def test_cpf_digitado_sem_mascara_e_formatado(dados):
+    dados.update({"tipo": "F", "cpf": "52998224725"})
+    form = CadastraPessoa(dados)
+    assert form.is_valid(), form.errors
+    assert form.save().cpf == CPF_VALIDO
+
+
+def test_juridica_grava_cpf_e_rg_zerados(dados):
+    # Campos do outro tipo ficam escondidos; se vierem, não são gravados
+    dados.update({"cnpj": CNPJ_VALIDO, "cpf": "111.111.111-11", "rg": "123"})
+    form = CadastraPessoa(dados)
+    assert form.is_valid(), form.errors
+    pessoa = form.save()
+    assert pessoa.cnpj == CNPJ_VALIDO
+    assert pessoa.cpf == MASCARA_ZERADA["cpf"]
+    assert pessoa.rg == MASCARA_ZERADA["rg"]
+
+
+def test_fisica_grava_cnpj_e_ie_zerados(dados):
+    dados.update(
+        {
+            "tipo": "F",
+            "cpf": CPF_VALIDO,
+            "rg": "12.345.678-9",
+            "cnpj": "11.111.111/1111-11",
+            "ie": "isento",
+        }
+    )
+    form = CadastraPessoa(dados)
+    assert form.is_valid(), form.errors
+    pessoa = form.save()
+    assert pessoa.cpf == CPF_VALIDO
+    assert pessoa.rg == "12.345.678-9"
+    assert pessoa.cnpj == MASCARA_ZERADA["cnpj"]
+    assert pessoa.ie == MASCARA_ZERADA["ie"]
+
+
+def test_tipo_e_obrigatorio(dados):
+    del dados["tipo"]
+    assert "tipo" in CadastraPessoa(dados).errors
+
+
+def test_novo_cadastro_comeca_como_juridica():
+    assert CadastraPessoa().initial["tipo"] == "J"
+
+
+@pytest.mark.parametrize(
+    "documentos, funcao, esperado",
+    [
+        ({"cnpj": CNPJ_VALIDO}, "CLIENTE", "J"),
+        ({"ie": "ISENTO"}, "FORNECEDOR", "J"),
+        ({"cpf": CPF_VALIDO}, "CLIENTE", "F"),
+        ({"rg": "12.345.678-9"}, "CLIENTE", "F"),
+        ({}, "CLIENTE", "J"),
+        ({}, "FORNECEDOR", "F"),
+    ],
+)
+def test_edicao_deduz_o_tipo_pelos_documentos(
+    pessoa, documentos, funcao, esperado
+):
+    pessoa.cnpj = MASCARA_ZERADA["cnpj"]
+    pessoa.funcao = funcao
+    for campo, valor in documentos.items():
+        setattr(pessoa, campo, valor)
+    assert CadastraPessoa(instance=pessoa).initial["tipo"] == esperado
 
 
 @pytest.mark.parametrize(
@@ -109,6 +175,8 @@ def test_documentos_digitados_sem_mascara_sao_formatados(dados):
     ],
 )
 def test_documento_invalido(dados, campo, valor):
+    if campo == "cpf":
+        dados["tipo"] = "F"
     dados[campo] = valor
     assert campo in CadastraPessoa(dados).errors
 
@@ -133,7 +201,7 @@ def test_cnpj_repetido_nao_entra(dados, pessoa):
 def test_cpf_repetido_nao_entra(dados, pessoa):
     pessoa.cpf = CPF_VALIDO
     pessoa.save()
-    dados["cpf"] = CPF_VALIDO
+    dados.update({"tipo": "F", "cpf": CPF_VALIDO})
     assert "cpf" in CadastraPessoa(dados).errors
 
 
@@ -145,6 +213,7 @@ def test_mascaras_zeradas_nao_contam_como_repetidas(dados, pessoa):
 
 def test_edicao_mantem_apelido_e_cnpj_da_propria_pessoa(pessoa):
     dados = {
+        "tipo": "J",
         "funcao": "FORNECEDOR",
         "apelido": "existente",
         "nome": "novo nome",
@@ -169,7 +238,7 @@ def test_edicao_nao_altera_ativo(pessoa):
     Pessoa.objects.filter(pk=pessoa.pk).update(ativo="N")
     pessoa.refresh_from_db()
     form = CadastraPessoa(
-        {"funcao": "CLIENTE", "apelido": "EXISTENTE", "nome": "X"},
+        {"tipo": "J", "funcao": "CLIENTE", "apelido": "EXISTENTE", "nome": "X"},
         instance=pessoa,
     )
     assert form.is_valid(), form.errors
@@ -183,7 +252,8 @@ def test_novo_cadastro_sugere_sao_paulo():
 
 
 @pytest.mark.parametrize(
-    "texto", ["ACME 🚀", "ACME – LTDA", "“ACME”"]  # noqa: RUF001
+    "texto",
+    ["ACME 🚀", "ACME – LTDA", "“ACME”"],  # noqa: RUF001
 )
 def test_caractere_fora_do_latin1_e_recusado(dados, texto):
     dados["nome"] = texto

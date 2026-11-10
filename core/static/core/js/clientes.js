@@ -78,6 +78,15 @@ function pessoaMascaras(modal) {
     });
 }
 
+// Mostra só os documentos do tipo escolhido: CNPJ e IE (jurídica)
+// ou CPF e RG (física)
+function pessoaTipo(modal) {
+    var tipo = modal.find("[name=tipo]").val();
+    modal.find(".js-pessoa-tipo").each(function() {
+        $(this).prop("hidden", $(this).data("tipo") !== tipo);
+    });
+}
+
 // Foca o primeiro campo com erro ou, se não houver erro, o primeiro campo
 function pessoaFocaCampo(modal) {
     var form = modal.find(".modal-body form");
@@ -91,6 +100,10 @@ function pessoaFocaCampo(modal) {
 function pessoaSubmit(modal) {
     var form = modal.find(".modal-body form");
     pessoaMascaras(modal);
+    pessoaTipo(modal);
+    form.on("change", "[name=tipo]", function() {
+        pessoaTipo(modal);
+    });
     modal.find(".modal-footer .btn-save").off("click").on("click", function() {
         form.trigger("submit");
     });

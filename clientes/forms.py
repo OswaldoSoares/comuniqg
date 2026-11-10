@@ -17,6 +17,13 @@ MASCARA_ZERADA = {
 
 FUNCOES = [("CLIENTE", "CLIENTE"), ("FORNECEDOR", "FORNECEDOR")]
 
+# A tabela pessoa não tem coluna de tipo: ele vem dos documentos
+# preenchidos e só decide quais campos o formulário mostra e grava.
+JURIDICA = "J"
+FISICA = "F"
+TIPOS = [(JURIDICA, "JURÍDICA"), (FISICA, "FÍSICA")]
+DOCUMENTOS = {JURIDICA: ["cnpj", "ie"], FISICA: ["cpf", "rg"]}
+
 UFS = [
     "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS",
     "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC",
@@ -27,6 +34,22 @@ CAMPOS_OPCIONAIS = [
     "cnpj", "ie", "cpf", "rg", "endereco", "bairro", "cidade", "estado",
     "cep", "site", "obs",
 ]
+
+
+def preenchido(valor):
+    """Valor gravado pelo usuário; a máscara zerada do Delphi vira ''."""
+    valor = (valor or "").strip()
+    return valor if valor.strip(" .-/()0") else ""
+
+
+def tipo_da_pessoa(pessoa):
+    """Jurídica ou física pelos documentos; sem nenhum, pela função
+    (clientes costumam ser empresas e fornecedores, pessoas)."""
+    if any(preenchido(getattr(pessoa, c)) for c in DOCUMENTOS[JURIDICA]):
+        return JURIDICA
+    if any(preenchido(getattr(pessoa, c)) for c in DOCUMENTOS[FISICA]):
+        return FISICA
+    return FISICA if pessoa.funcao == "FORNECEDOR" else JURIDICA
 
 
 def so_digitos(valor):
@@ -68,11 +91,14 @@ def formata_cpf(d):
 class CadastraPessoa(forms.ModelForm):
     """Cliente ou fornecedor na tabela pessoa, no formato do app Delphi."""
 
+    tipo = forms.ChoiceField(label="PESSOA", choices=TIPOS)
     funcao = forms.ChoiceField(label="FUNÇÃO", choices=FUNCOES)
     estado = forms.ChoiceField(
         label="UF", choices=[("", "")] + [(uf, uf) for uf in UFS],
         required=False,
     )
+
+    field_order = ["tipo"]  # noqa: RUF012 (limpo antes dos documentos)
 
     class Meta:
         model = Pessoa
@@ -124,6 +150,9 @@ class CadastraPessoa(forms.ModelForm):
         if self.instance.pk is None:
             self.initial.setdefault("cidade", "SÃO PAULO")
             self.initial.setdefault("estado", "SP")
+            self.initial.setdefault("tipo", JURIDICA)
+        else:
+            self.initial.setdefault("tipo", tipo_da_pessoa(self.instance))
 
     # --- regras gerais -----------------------------------------------------
 
@@ -137,6 +166,12 @@ class CadastraPessoa(forms.ModelForm):
                 "Caractere não permitido: " + " ".join(invalidos)
             )
         return valor.upper() if maiusculas else valor.lower()
+
+    def _fora_do_tipo(self, campo):
+        """Documento do outro tipo: não aparece na tela e é gravado
+        como a máscara zerada."""
+        tipo = self.cleaned_data.get("tipo")
+        return bool(tipo) and campo not in DOCUMENTOS[tipo]
 
     def _documento_repetido(self, campo, valor):
         return (
@@ -162,6 +197,8 @@ class CadastraPessoa(forms.ModelForm):
         return self._texto("nome")
 
     def clean_cnpj(self):
+        if self._fora_do_tipo("cnpj"):
+            return MASCARA_ZERADA["cnpj"]
         digitos = so_digitos(self.cleaned_data.get("cnpj"))
         if not digitos:
             return MASCARA_ZERADA["cnpj"]
@@ -173,6 +210,8 @@ class CadastraPessoa(forms.ModelForm):
         return cnpj
 
     def clean_cpf(self):
+        if self._fora_do_tipo("cpf"):
+            return MASCARA_ZERADA["cpf"]
         digitos = so_digitos(self.cleaned_data.get("cpf"))
         if not digitos:
             return MASCARA_ZERADA["cpf"]
@@ -184,6 +223,8 @@ class CadastraPessoa(forms.ModelForm):
         return cpf
 
     def clean_ie(self):
+        if self._fora_do_tipo("ie"):
+            return MASCARA_ZERADA["ie"]
         ie = self._texto("ie")
         digitos = so_digitos(ie)
         if not ie or (digitos == ie and set(digitos) == {"0"}):
@@ -193,6 +234,8 @@ class CadastraPessoa(forms.ModelForm):
         return ie
 
     def clean_rg(self):
+        if self._fora_do_tipo("rg"):
+            return MASCARA_ZERADA["rg"]
         rg = self._texto("rg")
         return rg or MASCARA_ZERADA["rg"]
 

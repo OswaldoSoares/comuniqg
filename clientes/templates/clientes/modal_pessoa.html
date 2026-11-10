@@ -3,14 +3,16 @@
     {% if pessoa %}
         <input type="hidden" name="id_pessoa" value="{{ pessoa.idpessoa }}">
     {% endif %}
+    {% include "clientes/components/campo.html" with campo=form.tipo largura=3 %}
     {% include "clientes/components/campo.html" with campo=form.funcao largura=3 %}
-    {% include "clientes/components/campo.html" with campo=form.apelido largura=3 %}
-    {% include "clientes/components/campo.html" with campo=form.nome largura=6 %}
+    {% include "clientes/components/campo.html" with campo=form.apelido largura=6 %}
 
-    {% include "clientes/components/campo.html" with campo=form.cnpj largura=3 %}
-    {% include "clientes/components/campo.html" with campo=form.ie largura=3 %}
-    {% include "clientes/components/campo.html" with campo=form.cpf largura=3 %}
-    {% include "clientes/components/campo.html" with campo=form.rg largura=3 %}
+    {% include "clientes/components/campo.html" with campo=form.nome largura=6 %}
+    {# Documentos: o clientes.js mostra só os do tipo escolhido #}
+    {% include "clientes/components/campo.html" with campo=form.cnpj largura=3 tipo="J" %}
+    {% include "clientes/components/campo.html" with campo=form.ie largura=3 tipo="J" %}
+    {% include "clientes/components/campo.html" with campo=form.cpf largura=3 tipo="F" %}
+    {% include "clientes/components/campo.html" with campo=form.rg largura=3 tipo="F" %}
 
     {% include "clientes/components/campo.html" with campo=form.endereco largura=6 %}
     {% include "clientes/components/campo.html" with campo=form.bairro largura=3 %}
