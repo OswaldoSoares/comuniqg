@@ -6,3 +6,90 @@
     margin: 16px auto;
     padding: 0 16px;
 }
+
+/* Filtro e busca */
+.pessoas-barra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.pessoas-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ui-btn.pessoas-filtro-ativo,
+.ui-btn.pessoas-filtro-ativo:hover,
+.ui-btn.pessoas-filtro-ativo:focus {
+    background-color: rgba(255, 212, 51, 0.12);
+    color: var(--ui-destaque);
+}
+
+.pessoas-busca {
+    position: relative;
+    flex: 1 1 240px;
+    margin: 0;
+    font-weight: normal;
+}
+
+.pessoas-busca i {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: #777;
+    pointer-events: none;
+}
+
+.pessoas-busca .form-control {
+    height: 38px;
+    padding-left: 34px;
+    border-radius: var(--ui-raio-sm);
+}
+
+.pessoas-total {
+    margin: 0 0 8px;
+    font-size: 13px;
+    color: var(--ui-texto-2);
+}
+
+/* Selo da função: a cor acompanha o texto, nunca sozinha */
+.pessoa-cliente {
+    --ui-badge-cor: var(--ui-destaque);
+}
+
+.pessoa-fornecedor {
+    --ui-badge-cor: #5bc0de;
+}
+
+/* Formulário do modal em 12 colunas; uma coluna no celular */
+.pessoa-form {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 12px 16px;
+}
+
+.pessoa-campo-2 { grid-column: span 2; }
+.pessoa-campo-3 { grid-column: span 3; }
+.pessoa-campo-4 { grid-column: span 4; }
+.pessoa-campo-6 { grid-column: span 6; }
+.pessoa-campo-12 { grid-column: span 12; }
+
+.pessoa-form textarea.form-control {
+    height: auto;
+    resize: vertical;
+}
+
+@media (max-width: 600px) {
+    .pessoa-form {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pessoa-form .pessoa-campo {
+        grid-column: auto;
+    }
+}
