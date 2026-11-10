@@ -1,5 +1,20 @@
 {% extends 'core/base_restrito.html' %}
+{% load static %}
 
 {% block main %}
-<p>CADASTRO DE CLIENTES E FORNECEDORES EM CONSTRUÇÃO.</p>
+<link rel="stylesheet" href="{% static 'core/css/clientes.css' %}">
+<main class="clientes-pagina">
+    <section class="ui-card card-pessoas">
+        <header class="ui-card-header">
+            <div>
+                <h2 class="ui-card-titulo">Clientes e fornecedores</h2>
+                <p class="ui-card-subtitulo">Cadastro compartilhado com o sistema desktop</p>
+            </div>
+        </header>
+        <div class="ui-vazio">
+            <i class="bi bi-people"></i>
+            <p>Cadastro em construção.</p>
+        </div>
+    </section>
+</main>
 {% endblock %}
