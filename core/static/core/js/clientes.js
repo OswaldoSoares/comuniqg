@@ -1,5 +1,27 @@
 // Cadastro de clientes e fornecedores (clientes/index.html)
 
+// Como executarAjax (ajax.js), mas sem voltar ao topo da página,
+// para não perder a posição na lista ao abrir um cadastro
+function pessoasAjax(url, type, data, sucessoCallback) {
+    $.ajax({
+        type: type,
+        url: url,
+        data: data,
+        beforeSend: function() {
+            $(".box-loader").show();
+        },
+        success: function(response) {
+            $(".box-loader").hide();
+            sucessoCallback(response);
+        },
+        error: function(error) {
+            console.log("ERROR: ", error);
+            $(".box-loader").hide();
+            mostrarToast("Não foi possível concluir a operação.", "error");
+        }
+    });
+}
+
 // Sessão expirada: o Django devolve a tela de login (HTML) em vez do JSON.
 // Recarregar a página leva ao login e, depois dele, de volta para cá.
 function pessoasSessaoExpirada(data) {
@@ -23,8 +45,21 @@ function pessoasMarcaFiltro(filtro) {
     });
 }
 
+// Pessoa aberta no card de detalhes
+function pessoasSelecionada() {
+    return $(".js-pessoas").attr("data-id_pessoa") || "";
+}
+
 function pessoasAtualiza(data) {
-    $(".card-pessoas-lista").html(data["html-card-pessoas"]);
+    if (data["html-card-pessoas"]) {
+        $(".card-pessoas-lista").html(data["html-card-pessoas"]);
+    }
+    if ("id_pessoa" in data) {
+        $(".js-pessoas").attr("data-id_pessoa", data["id_pessoa"]);
+    }
+    if (data["html-card-pessoa"]) {
+        $(".card-pessoa").html(data["html-card-pessoa"]);
+    }
     if (data["filtro"]) {
         pessoasMarcaFiltro(data["filtro"]);
     }
@@ -45,7 +80,11 @@ function pessoasCarrega() {
     $.ajax({
         type: "GET",
         url: $(".js-pessoas").data("url-lista"),
-        data: {filtro: pessoasFiltro(), busca: $(".js-pessoa-busca").val()},
+        data: {
+            filtro: pessoasFiltro(),
+            busca: $(".js-pessoa-busca").val(),
+            id_pessoa: pessoasSelecionada(),
+        },
         success: function(data) {
             if (numero !== pessoasRequisicao || pessoasSessaoExpirada(data)) {
                 return;
@@ -58,7 +97,9 @@ function pessoasCarrega() {
     });
 }
 
+// Ao trocar o filtro a seleção é desfeita e o card de detalhes volta vazio
 $(document).on("click", ".js-pessoa-filtro", function() {
+    $(".js-pessoas").attr("data-id_pessoa", "");
     pessoasMarcaFiltro($(this).data("filtro"));
     pessoasCarrega();
 });
@@ -68,6 +109,25 @@ var pessoasEspera = null;
 $(document).on("input", ".js-pessoa-busca", function() {
     clearTimeout(pessoasEspera);
     pessoasEspera = setTimeout(pessoasCarrega, 350);
+});
+
+// Abre a pessoa no card de detalhes (clique na linha ou no botão)
+$(document).on("click", ".js-pessoa-selecionar", function() {
+    var linha = $(this);
+    var id = linha.data("id_pessoa");
+    pessoasAjax(linha.data("url"), "GET", {id_pessoa: id}, function(data) {
+        if (pessoasSessaoExpirada(data)) {
+            return;
+        }
+        $(".js-pessoa-selecionar").removeClass("ui-linha-ativa");
+        linha.addClass("ui-linha-ativa");
+        $(".js-pessoas").attr("data-id_pessoa", id);
+        pessoasAtualiza(data);
+        // Em telas estreitas o card de detalhes fica abaixo da lista
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $("html, body").animate({scrollTop: $(".card-pessoa").offset().top - 10}, 200);
+        }
+    });
 });
 
 // Modal de novo e alterar
@@ -110,7 +170,7 @@ function pessoaSubmit(modal) {
     form.on("submit", function(event) {
         event.preventDefault();
         var dados = form.serialize() + "&" + $.param({filtro: pessoasFiltro()});
-        executarAjax(form.attr("action"), "POST", dados, function(data) {
+        pessoasAjax(form.attr("action"), "POST", dados, function(data) {
             if (pessoasSessaoExpirada(data)) {
                 return;
             }
@@ -133,7 +193,7 @@ $(document).on("click", ".js-pessoa-abrir", function() {
     if (botao.data("id_pessoa")) {
         requestData["id_pessoa"] = botao.data("id_pessoa");
     }
-    executarAjax(botao.data("url"), "GET", requestData, function(data) {
+    pessoasAjax(botao.data("url"), "GET", requestData, function(data) {
         if (pessoasSessaoExpirada(data)) {
             return;
         }

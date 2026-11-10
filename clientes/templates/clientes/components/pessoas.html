@@ -9,28 +9,23 @@
                     <th>Apelido</th>
                     <th>Nome</th>
                     <th>Função</th>
-                    <th>Documento</th>
-                    <th>Cidade</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 {% for pessoa in pessoas %}
-                    <tr>
+                    <tr class="ui-clicavel js-pessoa-selecionar{% if pessoa.pk == id_pessoa %} ui-linha-ativa{% endif %}"
+                        data-url="{% url 'pessoa_consulta' %}"
+                        data-id_pessoa="{{ pessoa.pk }}">
                         <td data-label="Apelido" class="ui-forte">{{ pessoa.apelido }}</td>
                         <td data-label="Nome">{{ pessoa.nome }}</td>
                         <td data-label="Função">
                             <span class="ui-badge pessoa-{{ pessoa.funcao|lower }}">{{ pessoa.funcao }}</span>
                         </td>
-                        <td data-label="Documento">{{ pessoa.documento|default:"—" }}</td>
-                        <td data-label="Cidade">{% if pessoa.cidade %}{{ pessoa.cidade }}{% if pessoa.estado %}/{{ pessoa.estado }}{% endif %}{% else %}—{% endif %}</td>
                         <td class="ui-acoes">
-                            <button type="button" class="ui-btn-icone js-pessoa-abrir"
-                                    data-url="{% url 'pessoa_form' %}"
-                                    data-id_pessoa="{{ pessoa.idpessoa }}"
-                                    data-title="ALTERAR {{ pessoa.funcao }} {{ pessoa.apelido }}"
-                                    title="Alterar" aria-label="Alterar {{ pessoa.apelido }}">
-                                <i class="bi bi-pencil"></i>
+                            <button type="button" class="ui-btn-icone js-pessoa-selecionar-botao"
+                                    title="Abrir" aria-label="Abrir {{ pessoa.apelido }}">
+                                <i class="bi bi-chevron-right"></i>
                             </button>
                         </td>
                     </tr>

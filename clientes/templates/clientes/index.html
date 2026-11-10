@@ -4,9 +4,11 @@
 {% block main %}
 <link rel="stylesheet" href="{% static 'core/css/clientes.css' %}">
 <main class="clientes-pagina">
+<div class="clientes-coluna">
     <section class="ui-card card-pessoas js-pessoas"
              data-url-lista="{% url 'pessoas_lista' %}"
-             data-filtro="{{ filtro }}">
+             data-filtro="{{ filtro }}"
+             data-id_pessoa="{{ id_pessoa|default:'' }}">
         <header class="ui-card-header">
             <div>
                 <h2 class="ui-card-titulo">Clientes e fornecedores</h2>
@@ -45,6 +47,12 @@
             {% include "clientes/components/pessoas.html" %}
         </div>
     </section>
+</div>
+<div class="clientes-coluna">
+    <article class="card-pessoa">
+        {% include "clientes/components/pessoa.html" %}
+    </article>
+</div>
 </main>
 {% endblock %}
 

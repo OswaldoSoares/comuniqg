@@ -173,6 +173,24 @@ def test_tela_do_cadastro_abre(client_logado, pessoas):
     assert "GRAFICA" not in conteudo
 
 
+def test_lista_mostra_so_apelido_nome_e_funcao(client_logado, pessoas):
+    conteudo = client_logado.get(reverse("index_clientes")).content.decode()
+    assert "11.222.333/0001-81" not in conteudo
+    assert "<th>Documento</th>" not in conteudo
+    assert "<th>Cidade</th>" not in conteudo
+    assert "Selecione um cadastro na lista" in conteudo
+
+
+def test_tela_abre_com_a_pessoa_do_link(client_logado, pessoas):
+    acme = pessoas[0]
+    response = client_logado.get(
+        reverse("index_clientes"), {"id_pessoa": acme.pk}
+    )
+    conteudo = response.content.decode()
+    assert "11.222.333/0001-81" in conteudo
+    assert "ui-linha-ativa" in conteudo
+
+
 def test_consulta_devolve_o_card_da_pessoa(client_logado, pessoas):
     acme = pessoas[0]
     data = client_logado.get(
@@ -185,6 +203,17 @@ def test_consulta_devolve_o_card_da_pessoa(client_logado, pessoas):
 def test_consulta_de_pessoa_inexistente_da_404(client_logado):
     response = client_logado.get(reverse("pessoa_consulta"), {"id_pessoa": 999})
     assert response.status_code == 404
+
+
+def test_lista_mantem_a_pessoa_selecionada(client_logado, pessoas):
+    acme = pessoas[0]
+    data = client_logado.get(
+        reverse("pessoas_lista"),
+        {"filtro": "CLIENTE", "busca": "", "id_pessoa": acme.pk},
+    ).json()
+    assert data["id_pessoa"] == acme.pk
+    assert "ui-linha-ativa" in data["html-card-pessoas"]
+    assert "11.222.333/0001-81" in data["html-card-pessoa"]
 
 
 def test_lista_por_ajax(client_logado, pessoas):
