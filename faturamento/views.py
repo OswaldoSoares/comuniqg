@@ -1,6 +1,7 @@
 from decimal import Decimal
 import time
 
+from django.contrib.auth.decorators import login_required
 from django.db import connection, reset_queries
 
 from django.shortcuts import render
@@ -9,6 +10,7 @@ from faturamento import facade
 from faturamento.print import fatura_pdf
 
 
+@login_required
 def index_faturamento(request):
     start = time.time()
     start_queries = len(connection.queries)
@@ -23,6 +25,7 @@ def index_faturamento(request):
     return render(request, "faturamento/index.html", contexto)
 
 
+@login_required
 def cliente_faturada(request):
     v_idobj = request.GET.get("idobj")
     faturas = facade.get_cliente_faturada(v_idobj)
@@ -31,6 +34,7 @@ def cliente_faturada(request):
     return data
 
 
+@login_required
 def cliente_faturar(request):
     v_idobj = request.GET.get("idobj")
     servicos = facade.get_servico_faturar(v_idobj)
@@ -39,11 +43,13 @@ def cliente_faturar(request):
     return data
 
 
+@login_required
 def print_fatura(request, idfatura):
     response = fatura_pdf(idfatura)
     return response
 
 
+@login_required
 def servico_fatura(request):
     v_fatura = request.GET.get("idobj")
     v_servicos = facade.get_servico(v_fatura)
@@ -52,6 +58,7 @@ def servico_fatura(request):
     return data
 
 
+@login_required
 def paga_fatura(request):
     v_dia = request.POST.get("dia")
     v_din = Decimal(request.POST.get("dinheiro"))
@@ -75,6 +82,7 @@ def paga_fatura(request):
     return data
 
 
+@login_required
 def seleciona_mes_recebido(request):
     dia = request.GET.get("dia")
     meses = int(request.GET.get("periodo"))
@@ -91,6 +99,7 @@ def seleciona_mes_recebido(request):
     return data
 
 
+@login_required
 def seleciona_dia_recebido(request):
     dia = request.GET.get("dia")
     mes, ano = facade.mes_ano(dia)
@@ -103,6 +112,7 @@ def seleciona_dia_recebido(request):
     return data
 
 
+@login_required
 def seleciona_filtro_pagamento(request):
     dia = request.GET.get("dia")
     filtro = request.GET.get("filtro")
@@ -112,6 +122,7 @@ def seleciona_filtro_pagamento(request):
     return data
 
 
+@login_required
 def faturar_selecionadas(request):
     selecionadas = request.POST.getlist("selecionadas")
     if selecionadas:
