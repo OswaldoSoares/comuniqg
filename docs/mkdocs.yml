@@ -1,0 +1,73 @@
+site_name: Documentação Sistema ComuniQG
+theme:
+  name: material
+  language: pt-BR
+  palette:
+    - scheme: default
+      primary: orange
+      toggle:
+        icon: material/weather-night
+        name: Modo Escuro
+    - scheme: slate
+      primary: deep orange
+      toggle:
+        icon: material/weather-sunny
+        name: Modo Claro
+  features:
+    - content.code.copy
+
+nav:
+  - Início: index.md
+  - Banco legado: banco-legado.md
+  - Padrão visual: padrao-visual.md
+  - Módulos:
+      - Core:
+          - Tools:
+              - core/tools/get_mensagem.md
+      - Account:
+          - Forms:
+              - account/forms/LoginForm.md
+      - Clientes e fornecedores:
+          - clientes/index.md
+          - Facade:
+              - clientes/facade/obter_filtro.md
+              - clientes/facade/_sem_pontuacao.md
+              - clientes/facade/get_pessoas.md
+              - clientes/facade/create_contexto_pessoas.md
+              - clientes/facade/obter_id.md
+              - clientes/facade/_dados_pessoa.md
+              - clientes/facade/_contatos.md
+              - clientes/facade/_movimento.md
+              - clientes/facade/create_contexto_pessoa.md
+              - clientes/facade/create_data_pessoas.md
+              - clientes/facade/create_data_pessoa.md
+              - clientes/facade/get_pessoa_or_none.md
+              - clientes/facade/modal_pessoa.md
+              - clientes/facade/save_pessoa.md
+          - Forms:
+              - clientes/forms/preenchido.md
+              - clientes/forms/tipo_da_pessoa.md
+              - clientes/forms/so_digitos.md
+              - clientes/forms/_digito_verificador.md
+              - clientes/forms/cnpj_valido.md
+              - clientes/forms/cpf_valido.md
+              - clientes/forms/formata_cnpj.md
+              - clientes/forms/formata_cpf.md
+              - clientes/forms/CadastraPessoa.md
+          - Views:
+              - clientes/views/index_clientes.md
+              - clientes/views/pessoas_lista.md
+              - clientes/views/pessoa_consulta.md
+              - clientes/views/pessoa_form.md
+          - HTML data:
+              - clientes/html_data/html_card_pessoas.md
+              - clientes/html_data/html_card_pessoa.md
+              - clientes/html_data/html_modal_pessoa.md
+          - JavaScript: clientes/javascript.md
+
+markdown_extensions:
+  - tables
+  - pymdownx.emoji
+  - pymdownx.mark
+  - pymdownx.highlight
+  - pymdownx.superfences
