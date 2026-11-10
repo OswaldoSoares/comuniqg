@@ -8,36 +8,46 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/ui.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
     <title>ComuniQG - Login</title>
 </head>
-<body class="body-login">
-    <main class="card-login">
-        <a href="{% url 'index_core' %}" class="card-login-logo">
+<body class="login-body">
+    <main class="ui-card login-card">
+        <a href="{% url 'index_core' %}" class="login-logo">
             <img src="{% static 'core/img/logo_txt_branco.png' %}" alt="Logo ComuniQG">
         </a>
-        <form method="post" action="{% url 'login' %}">
+        <header class="ui-card-header">
+            <div>
+                <h1 class="ui-card-titulo">Área restrita</h1>
+                <p class="ui-card-subtitulo">Entre com seu e-mail e senha</p>
+            </div>
+        </header>
+        <form class="ui-form" method="post" action="{% url 'login' %}">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ next }}">
-            <h1 class="card-login-titulo">ÁREA RESTRITA</h1>
             {% if form.non_field_errors %}
-                <ul class="errorlist">
+                <ul class="errorlist login-erro">
                     {% for error in form.non_field_errors %}
-                        <li><strong>{{ error|escape }}</strong></li>
+                        <li><i class="bi bi-exclamation-circle"></i> {{ error|escape }}</li>
                     {% endfor %}
                 </ul>
             {% endif %}
             <div class="form-group">
-                <label for="{{ form.username.id_for_label }}">{{ form.username.label }}:</label>
+                <label for="{{ form.username.id_for_label }}" class="form-label">{{ form.username.label }}:</label>
                 {{ form.username }}
             </div>
             <div class="form-group">
-                <label for="{{ form.password.id_for_label }}">{{ form.password.label }}:</label>
+                <label for="{{ form.password.id_for_label }}" class="form-label">{{ form.password.label }}:</label>
                 {{ form.password }}
             </div>
-            <button type="submit" class="btn btn-block btn-login">
+            <button type="submit" class="ui-btn ui-btn-primario login-botao">
                 <i class="bi bi-box-arrow-in-right"></i> ENTRAR
             </button>
         </form>
     </main>
+    <script>
+        document.getElementById("{{ form.username.id_for_label }}").focus();
+    </script>
 </body>
 </html>
