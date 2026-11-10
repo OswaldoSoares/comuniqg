@@ -124,14 +124,27 @@ $(document).on("click", ".js-pessoa-abrir", function() {
         if (pessoasSessaoExpirada(data)) {
             return;
         }
-        modal.find(".modal-title").text(botao.data("title"));
-        modal.find(".modal-footer .btn-save").text("SALVAR");
+        // Ícones só neste modal; os outros trocam título e botão com .text()
+        var icone = botao.data("id_pessoa") ? "bi-pencil-square" : "bi-person-plus";
+        modal.find(".modal-title").empty().append(
+            $("<i>").addClass("bi " + icone),
+            $("<span>").text(botao.data("title"))
+        );
+        modal.find(".modal-footer .btn-save").empty().append(
+            $("<i>").addClass("bi bi-check-lg"),
+            $("<span>").text("SALVAR")
+        );
         modal.find(".modal-body").html(data["modal_html"]);
         pessoaSubmit(modal);
         // O Bootstrap foca o próprio modal ao terminar de abrir,
         // então o foco no campo só pode ser dado depois disso
         modal.off("shown.bs.modal.pessoa").one("shown.bs.modal.pessoa", function() {
             pessoaFocaCampo(modal);
+        });
+        // Layout largo e centralizado só para este modal (clientes.css)
+        modal.addClass("modal-pessoa");
+        modal.off("hidden.bs.modal.pessoa").one("hidden.bs.modal.pessoa", function() {
+            modal.removeClass("modal-pessoa");
         });
         modal.modal("show");
     });

@@ -70,7 +70,7 @@
 .pessoa-form {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 12px 16px;
+    gap: 18px 20px;
 }
 
 .pessoa-campo-2 { grid-column: span 2; }
@@ -84,7 +84,205 @@
     resize: vertical;
 }
 
+/*
+ * Modal do cadastro: centralizado e largo. O style.css fixa 500px e
+ * margin-top 20% para todos os modais; aqui vale só com .modal-pessoa,
+ * que o clientes.js põe ao abrir e tira ao fechar.
+ */
+.modal.modal-pessoa.in {
+    display: flex !important;
+    padding: 16px;
+}
+
+.modal-pessoa .modal-dialog {
+    width: 960px;
+    max-width: 100%;
+    margin: auto;
+}
+
+/* Visual ui-*: superfície escura, faixa de destaque no topo */
+.modal-pessoa .modal-content {
+    overflow: hidden;
+    border: 1px solid var(--ui-linha);
+    border-top: 3px solid var(--ui-destaque);
+    border-radius: var(--ui-raio);
+    background-color: var(--ui-superficie);
+    color: var(--ui-texto);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+}
+
+.modal-pessoa .modal-header {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--ui-linha);
+    border-radius: 0;
+    background: linear-gradient(135deg, var(--ui-superficie-2), var(--ui-superficie));
+    color: var(--ui-texto);
+    font-style: normal;
+    text-align: left;
+}
+
+.modal-pessoa .modal-header::before,
+.modal-pessoa .modal-header::after {
+    display: none;
+}
+
+.modal-pessoa .modal-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+
+.modal-pessoa .modal-title .bi {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--ui-raio-sm);
+    background-color: rgba(255, 212, 51, 0.14);
+    color: var(--ui-destaque);
+    font-size: 18px;
+}
+
+.modal-pessoa .modal-header .close {
+    margin: 0;
+    color: var(--ui-texto-2);
+    font-size: 28px;
+    opacity: 1;
+    text-shadow: none;
+    transition: color 0.15s ease;
+}
+
+.modal-pessoa .modal-header .close:hover,
+.modal-pessoa .modal-header .close:focus {
+    color: var(--ui-destaque);
+    outline: none;
+}
+
+.modal-pessoa .modal-body {
+    padding: 24px 28px 28px;
+    background-color: var(--ui-superficie);
+    color: var(--ui-texto);
+    font-style: normal;
+    font-weight: normal;
+}
+
+.modal-pessoa .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 28px;
+    border-top: 1px solid var(--ui-linha);
+    border-radius: 0;
+    background-color: var(--ui-superficie-2);
+}
+
+.modal-pessoa .modal-footer::before,
+.modal-pessoa .modal-footer::after {
+    display: none;
+}
+
+/* Botões do rodapé no formato ui-btn */
+.modal-pessoa .modal-footer .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 120px;
+    justify-content: center;
+    margin: 0;
+    padding: 11px 22px;
+    border: none;
+    border-radius: var(--ui-raio-sm);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    transition: filter 0.15s ease, transform 0.15s ease, background-color 0.15s ease;
+}
+
+.modal-pessoa .modal-footer .close-button {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--ui-texto);
+}
+
+.modal-pessoa .modal-footer .close-button:hover,
+.modal-pessoa .modal-footer .close-button:focus {
+    background-color: rgba(255, 255, 255, 0.14);
+    color: var(--ui-texto);
+    outline: none;
+}
+
+.modal-pessoa .modal-footer .btn-save {
+    background-color: var(--ui-destaque);
+    color: var(--ui-destaque-texto);
+    box-shadow: 0 6px 18px rgba(255, 212, 51, 0.25);
+}
+
+.modal-pessoa .modal-footer .btn-save:hover,
+.modal-pessoa .modal-footer .btn-save:focus {
+    color: var(--ui-destaque-texto);
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    outline: none;
+}
+
+/* Campos escuros, borda amarela no foco */
+.modal-pessoa .ui-form .form-label {
+    display: block;
+    margin-bottom: 6px;
+    padding-top: 0;
+    color: var(--ui-texto-2);
+    font-size: 13px;
+}
+
+.modal-pessoa .ui-form .form-control {
+    height: 46px;
+    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background-color: #2b2b2b;
+    color: var(--ui-texto);
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    box-shadow: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.modal-pessoa .ui-form .form-control:focus {
+    border-color: var(--ui-destaque);
+    box-shadow: 0 0 0 3px rgba(255, 212, 51, 0.18);
+    outline: none;
+}
+
+.modal-pessoa .ui-form select.form-control option {
+    background-color: #2b2b2b;
+    color: var(--ui-texto);
+}
+
+.modal-pessoa .ui-form textarea.form-control {
+    height: auto;
+    min-height: 96px;
+}
+
+.modal-pessoa .ui-form .errorlist {
+    color: var(--ui-perigo);
+}
+
 @media (max-width: 600px) {
+    .modal.modal-pessoa.in {
+        padding: 8px;
+    }
+
+    .modal-pessoa .modal-body {
+        padding: 16px;
+    }
+
     .pessoa-form {
         grid-template-columns: minmax(0, 1fr);
     }
