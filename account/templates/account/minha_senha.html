@@ -1,0 +1,45 @@
+{% extends 'core/base_restrito.html' %}
+{% load static %}
+
+{% block main %}
+<link rel="stylesheet" href="{% static 'core/css/usuarios.css' %}">
+<main class="minha-senha">
+    <section class="ui-card">
+        <header class="ui-card-header">
+            <div>
+                <h2 class="ui-card-titulo"><i class="bi bi-key"></i> Minha senha</h2>
+                <p class="ui-card-subtitulo">{{ user.email }}</p>
+            </div>
+        </header>
+        <form class="ui-form ui-form-grid minha-senha-form" method="post" action="{% url 'minha_senha' %}">
+            {% csrf_token %}
+            {% include "core/components/campo.html" with campo=form.old_password largura=12 %}
+            {% include "core/components/campo.html" with campo=form.new_password1 largura=12 %}
+            {% include "core/components/campo.html" with campo=form.new_password2 largura=12 %}
+            <p class="ui-campo ui-campo-12 ui-ajuda">
+                Mínimo de 8 caracteres; não pode ser só números, uma senha comum ou parecida com o nome ou o e-mail.
+            </p>
+            <div class="ui-campo ui-campo-12 minha-senha-acoes">
+                <button type="submit" class="ui-btn ui-btn-primario">
+                    <i class="bi bi-check-lg"></i> SALVAR
+                </button>
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock %}
+
+{% block script %}
+<script>
+    // Foca o primeiro campo com erro ou, sem erro, a senha atual
+    (function() {
+        var erro = document.querySelector(".minha-senha-form .errorlist");
+        var campo = erro
+            ? erro.closest(".ui-campo").querySelector("input")
+            : document.getElementById("{{ form.old_password.id_for_label }}");
+        if (campo) {
+            campo.focus();
+        }
+    })();
+</script>
+{% endblock %}

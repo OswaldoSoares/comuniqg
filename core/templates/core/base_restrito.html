@@ -30,6 +30,7 @@
                 <a href=""><i class="bi bi-box i-button"><span>PRODUTOS</span></i></a>
                 <a href="{% url 'index_tabela' %}"><i class="bi bi-table i-button"><span>TABELAS</span></i></a>
                 <a href=""><i class="bi bi-gear i-button"><span>PARAMETROS</span></i></a>
+                <a href="{% url 'minha_senha' %}"><i class="bi bi-key i-button"><span>MINHA SENHA</span></i></a>
                 {% if user.is_superuser %}
                 <a href="{% url 'index_usuarios' %}"><i class="bi bi-person-badge i-button"><span>USUÁRIOS</span></i></a>
                 {% endif %}

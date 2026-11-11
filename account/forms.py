@@ -187,3 +187,19 @@ class SenhaUsuarioForm(_SenhaDupla):
         self.usuario.set_password(self.cleaned_data["senha1"])
         self.usuario.save(update_fields=["password"])
         return self.usuario
+
+
+class MinhaSenhaForm(auth_forms.PasswordChangeForm):
+    """O próprio usuário troca a senha: atual e nova (duas vezes)."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        rotulos = {
+            "old_password": "SENHA ATUAL",
+            "new_password1": "NOVA SENHA",
+            "new_password2": "CONFIRME A NOVA SENHA",
+        }
+        for nome, rotulo in rotulos.items():
+            self.fields[nome].label = rotulo
+            self.fields[nome].help_text = ""
+            self.fields[nome].widget.attrs["class"] = "form-control"

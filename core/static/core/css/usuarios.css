@@ -11,3 +11,54 @@
     margin-left: 6px;
     font-weight: 400;
 }
+
+/* Minha senha (account/minha_senha.html): card estreito e centralizado */
+.minha-senha {
+    width: 100%;
+    max-width: 480px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+.minha-senha .ui-card-titulo .bi {
+    color: var(--ui-destaque);
+    margin-right: 6px;
+}
+
+/* Campos no padrão do modal ui (fundo escuro, borda amarela no foco) */
+.minha-senha-form .form-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--ui-texto-2);
+    font-size: 13px;
+}
+
+.minha-senha-form .form-control {
+    height: 46px;
+    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--ui-raio-sm);
+    background-color: #2b2b2b;
+    color: var(--ui-texto);
+    font-size: 15px;
+    box-shadow: none;
+}
+
+.minha-senha-form .form-control:focus {
+    border-color: var(--ui-destaque);
+    box-shadow: 0 0 0 3px rgba(255, 212, 51, 0.18);
+    outline: none;
+}
+
+.minha-senha-form .errorlist {
+    color: var(--ui-perigo);
+}
+
+.minha-senha-acoes {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.minha-senha-ok {
+    color: #199e70;
+}
