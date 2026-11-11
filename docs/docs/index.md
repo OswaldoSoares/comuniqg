@@ -18,6 +18,13 @@ Sistema web (Django) que substitui aos poucos o aplicativo desktop em Delphi. Os
 - [Clientes e fornecedores](clientes/index.md): o cadastro da tabela `pessoa`.
 - [Usuários](account/usuarios.md): login por e-mail e como criar usuários (admin ou terminal).
 
+## Produção
+
+- Servidor com **Python 3.6.9**, projeto em `/comuniqg`, ambiente em `/comuniqg/venv`.
+- **Não rode `pip install -r requirements.txt` no servidor**: ele tem versões de desenvolvimento que não existem para Python 3.6 (pylint 3, Pillow 10, ipython 8). Instale só o pacote que faltar, na versão do `requirements.txt`.
+- Pacotes do sistema em produção: Django 3.1.3, django-decouple 2.1, **django-role-permissions 3.2.0** (compatível com Python 3.6), mysqlclient, Pillow 8.4, reportlab 3.6 e gunicorn 20.1.
+- Comandos do `manage.py` com `PYTHONIOENCODING=utf-8` na frente, porque o terminal do servidor é latin-1.
+
 ## Comandos
 
 ```bash
