@@ -25,7 +25,11 @@ nav:
           - Tools:
               - core/tools/get_mensagem.md
       - Account:
+          - Usuários: account/usuarios.md
+          - Models:
+              - account/models/AccountManager.md
           - Forms:
+              - account/forms/AccountCreationForm.md
               - account/forms/LoginForm.md
       - Clientes e fornecedores:
           - clientes/index.md

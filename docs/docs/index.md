@@ -16,7 +16,7 @@ Sistema web (Django) que substitui aos poucos o aplicativo desktop em Delphi. Os
 ## Módulos documentados
 
 - [Clientes e fornecedores](clientes/index.md): o cadastro da tabela `pessoa`.
-- Login por e-mail: [`LoginForm`](account/forms/LoginForm.md).
+- [Usuários](account/usuarios.md): login por e-mail e como criar usuários (admin ou terminal).
 
 ## Comandos
 
