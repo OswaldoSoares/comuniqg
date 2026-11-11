@@ -1,6 +1,9 @@
-<div class="pessoa-campo pessoa-campo-{{ largura }}{% if tipo %} js-pessoa-tipo{% endif %}"{% if tipo %} data-tipo="{{ tipo }}"{% endif %}>
+{# Um campo do formulário do modal (ui-form-grid). #}
+{# largura: colunas de 12; grupo (opcional): o JS da tela mostra/esconde por data-grupo #}
+<div class="ui-campo ui-campo-{{ largura }}{% if grupo %} js-campo-grupo{% endif %}"{% if grupo %} data-grupo="{{ grupo }}"{% endif %}>
     <label for="{{ campo.id_for_label }}" class="form-label">{{ campo.label }}{% if campo.field.required %} *{% endif %}:</label>
     {{ campo }}
+    {% if campo.help_text %}<p class="ui-ajuda">{{ campo.help_text }}</p>{% endif %}
     {% if campo.errors %}
         <ul class="errorlist">
             {% for error in campo.errors %}

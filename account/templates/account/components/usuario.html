@@ -1,0 +1,70 @@
+{% if usuario %}
+<section class="ui-card ui-detalhe">
+    <header class="ui-card-header">
+        <div>
+            <h2 class="ui-card-titulo">
+                {{ usuario.get_full_name|default:usuario.email }}
+                {% if usuario.is_active %}
+                    <span class="ui-badge usuario-ativo">Ativo</span>
+                {% else %}
+                    <span class="ui-badge">Inativo</span>
+                {% endif %}
+            </h2>
+            <p class="ui-card-subtitulo">{{ usuario.email }}{% if eu %} · você{% endif %}</p>
+        </div>
+        <div class="ui-card-acoes">
+            <button type="button" class="ui-btn-icone js-usuario-abrir"
+                    data-url="{% url 'usuario_form' %}"
+                    data-id_usuario="{{ usuario.pk }}"
+                    data-title="ALTERAR USUÁRIO {{ usuario.email }}"
+                    data-icone="bi-pencil-square"
+                    title="Alterar" aria-label="Alterar">
+                <i class="bi bi-pencil"></i>
+            </button>
+            <button type="button" class="ui-btn-icone js-usuario-abrir"
+                    data-url="{% url 'usuario_senha' %}"
+                    data-id_usuario="{{ usuario.pk }}"
+                    data-title="NOVA SENHA PARA {{ usuario.email }}"
+                    data-icone="bi-key"
+                    title="Nova senha" aria-label="Nova senha">
+                <i class="bi bi-key"></i>
+            </button>
+            {% if not eu %}
+                {% if usuario.is_active %}
+                    <button type="button" class="ui-btn-icone js-usuario-situacao"
+                            data-url="{% url 'usuario_situacao' %}"
+                            data-id_usuario="{{ usuario.pk }}"
+                            data-confirmar="Inativar {{ usuario.email }}? Ele não vai conseguir mais entrar no sistema."
+                            title="Inativar" aria-label="Inativar">
+                        <i class="bi bi-toggle-on"></i>
+                    </button>
+                {% else %}
+                    <button type="button" class="ui-btn-icone js-usuario-situacao"
+                            data-url="{% url 'usuario_situacao' %}"
+                            data-id_usuario="{{ usuario.pk }}"
+                            title="Ativar" aria-label="Ativar">
+                        <i class="bi bi-toggle-off"></i>
+                    </button>
+                {% endif %}
+            {% endif %}
+        </div>
+    </header>
+
+    <h3 class="ui-secao-titulo">Dados do usuário</h3>
+    <dl class="ui-dados">
+        <div><dt>Nome</dt><dd>{{ usuario.first_name|default:"-" }}</dd></div>
+        <div><dt>Sobrenome</dt><dd>{{ usuario.last_name|default:"-" }}</dd></div>
+        <div><dt>E-mail</dt><dd>{{ usuario.email }}</dd></div>
+        <div><dt>Administrador</dt><dd>{{ usuario.is_superuser|yesno:"Sim,Não" }}</dd></div>
+        <div><dt>Cadastrado em</dt><dd>{{ usuario.date_joined|date:"d/m/Y" }}</dd></div>
+        <div><dt>Último acesso</dt><dd>{{ usuario.last_login|date:"d/m/Y H:i"|default:"Nunca entrou" }}</dd></div>
+    </dl>
+</section>
+{% else %}
+<section class="ui-card">
+    <div class="ui-vazio">
+        <i class="bi bi-person-badge"></i>
+        <p>Selecione um usuário na lista para ver os detalhes.</p>
+    </div>
+</section>
+{% endif %}

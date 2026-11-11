@@ -1,0 +1,11 @@
+<form class="ui-form ui-form-grid" method="post" action="{% url 'usuario_senha' %}">
+    {% csrf_token %}
+    <input type="hidden" name="id_usuario" value="{{ usuario.pk }}">
+    {% include "core/components/campo.html" with campo=form.senha1 largura=6 %}
+    {% include "core/components/campo.html" with campo=form.senha2 largura=6 %}
+    <p class="ui-campo ui-campo-12 ui-ajuda">
+        Mínimo de 8 caracteres; não pode ser só números, uma senha comum ou parecida com o nome ou o e-mail.
+        A senha atual deixa de valer na hora.
+    </p>
+    <button type="submit" class="ui-submit-oculto" tabindex="-1" aria-hidden="true"></button>
+</form>

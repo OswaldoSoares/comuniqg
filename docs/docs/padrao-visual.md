@@ -50,15 +50,32 @@ Padrão copiado do projeto efetiva para modernizar o sistema aos poucos. A refer
 - Focar o primeiro campo no evento `shown.bs.modal` (antes disso o Bootstrap rouba o foco).
 - Datas com `type="date"` (formato `%Y-%m-%d` no widget): o cliente prefere escolher no calendário, mesmo com o Tab passando por dia/mês/ano.
 - Em erro de validação, focar o primeiro campo com erro.
-- O `style.css` antigo fixa `.modal-dialog` em 500px com `margin-top: 20%` para todos os modais. Para um modal no visual `ui-*`, o JS da tela põe uma classe própria no `#MyModal` ao abrir e tira ao fechar (ex.: `modal-pessoa` em `clientes.js`). Assim os modais antigos não mudam.
-- Ícones no título e no botão salvar podem ser postos com `.empty().append(...)`: as outras telas trocam o texto com `.text()`, o que apaga o ícone.
+- O `style.css` antigo fixa `.modal-dialog` em 500px com `margin-top: 20%` para todos os modais. Para um modal no visual `ui-*`, use `uiModalAbre` ([`ui.js`](core/ui-js.md)): ele põe a classe `modal-ui` no `#MyModal` ao abrir e tira ao fechar, então os modais antigos não mudam.
+- `uiModalAbre` põe ícones no título e no botão salvar com `.empty().append(...)`: as telas antigas trocam o texto com `.text()`, o que apaga o ícone.
+
+## Telas de cadastro
+
+Base comum das telas de cadastro (clientes, usuários) em `core/static/core/css/ui-cadastro.css` e `core/static/core/js/ui.js`, carregados no `base_restrito.html`.
+
+| Classe | Para que serve |
+|---|---|
+| `ui-lista-detalhe`, `ui-coluna` | lista à esquerda (3/5) e detalhes à direita (2/5); uma coluna abaixo de 1200px |
+| `ui-barra-filtros`, `ui-filtros`, `ui-filtro-ativo` | botões de filtro acima da lista |
+| `ui-busca` | campo de busca com ícone de lupa |
+| `ui-total` | "N cadastros encontrados" acima da tabela |
+| `ui-detalhe`, `ui-dados` | card de detalhes e a lista de rótulo/valor (3 colunas; 2 no celular) |
+| `ui-obs` | texto longo no card de detalhes |
+| `ui-form-grid`, `ui-campo`, `ui-campo-2` a `ui-campo-12` | formulário em 12 colunas (uma no celular) |
+| `ui-ajuda` | texto de ajuda abaixo de um campo |
+| `modal-ui` | modal centralizado, 960px, campos escuros e botões ui (posto por `uiModalAbre`) |
+
+Cada campo do modal usa `{% include "core/components/campo.html" with campo=form.x largura=6 %}`. Com `grupo="J"`, o campo ganha `js-campo-grupo` e `data-grupo`, para o JS da tela mostrar ou esconder um grupo de campos.
 
 ## Regras
 
 - Número em formato brasileiro: `{% load humanize %}` e `{{ valor|intcomma }}` em campos `Decimal`.
 - Cor nunca sozinha: badges e barras sempre com o texto/valor ao lado.
 - Cores de categorias (ex.: combustíveis) devem ser validadas para daltonismo antes de usar.
-- Card em largura total: no CSS do módulo, `.card-xxx.article-card { width: 100%; max-width: 1100px; }`.
 
 ## Exemplo
 

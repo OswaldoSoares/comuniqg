@@ -1,0 +1,19 @@
+{% extends 'core/base_restrito.html' %}
+{% load static %}
+
+{% block main %}
+<link rel="stylesheet" href="{% static 'core/css/usuarios.css' %}">
+<main class="minha-senha">
+    <section class="ui-card">
+        <div class="ui-vazio">
+            <i class="bi bi-check-circle minha-senha-ok"></i>
+            <p>Senha alterada. Use a nova senha no próximo login.</p>
+        </div>
+        <div class="minha-senha-acoes">
+            <a href="{% url 'index_servico' %}" class="ui-btn ui-btn-primario">
+                <i class="bi bi-arrow-left"></i> VOLTAR AO SISTEMA
+            </a>
+        </div>
+    </section>
+</main>
+{% endblock %}

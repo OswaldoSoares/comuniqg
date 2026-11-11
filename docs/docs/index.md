@@ -16,7 +16,25 @@ Sistema web (Django) que substitui aos poucos o aplicativo desktop em Delphi. Os
 ## Módulos documentados
 
 - [Clientes e fornecedores](clientes/index.md): o cadastro da tabela `pessoa`.
-- Login por e-mail: [`LoginForm`](account/forms/LoginForm.md).
+- [Usuários](account/usuarios.md): login por e-mail e como criar usuários (admin ou terminal).
+
+## Produção
+
+- Servidor com **Python 3.6.9**, projeto em `/comuniqg`, ambiente em `/comuniqg/venv`.
+- **Não rode `pip install -r requirements.txt` no servidor**: ele tem versões de desenvolvimento que não existem para Python 3.6 (pylint 3, Pillow 10, ipython 8). Instale só o pacote que faltar, na versão do `requirements.txt`.
+- Pacotes do sistema em produção: Django 3.1.3, django-decouple 2.1, **django-role-permissions 3.2.0** (compatível com Python 3.6), mysqlclient, Pillow 8.4 e reportlab 3.6.
+- Comandos do `manage.py` com `PYTHONIOENCODING=utf-8` na frente, porque o terminal do servidor é latin-1.
+- O sistema é servido pelo **Apache2 com mod_wsgi** em modo daemon (`/etc/apache2/sites-available/000-default.conf`), não pelo gunicorn do `Procfile`. Logs em `/comuniqg/site/logs/`.
+- O Apache serve `/static` e `/media` direto de `/comuniqg/site/public/`, sem passar pelo Django. Por isso, a cada publicação que mexa em CSS, JS ou imagens, rode o `collectstatic`, senão as telas ficam sem os arquivos novos.
+
+Para publicar, depois de atualizar o código em `/comuniqg` (com backup do banco antes, se houver migration):
+
+```bash
+cd /comuniqg && source venv/bin/activate
+PYTHONIOENCODING=utf-8 python manage.py migrate
+PYTHONIOENCODING=utf-8 python manage.py collectstatic --noinput
+touch comuniqg/wsgi.py   # o mod_wsgi recarrega o código
+```
 
 ## Comandos
 

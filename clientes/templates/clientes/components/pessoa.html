@@ -1,6 +1,6 @@
 {% load humanize %}
 {% if pessoa %}
-<section class="ui-card pessoa-detalhe">
+<section class="ui-card ui-detalhe">
     <header class="ui-card-header">
         <div>
             <h2 class="ui-card-titulo">
@@ -32,7 +32,7 @@
     </div>
 
     <h3 class="ui-secao-titulo">Dados cadastrais</h3>
-    <dl class="pessoa-dados">
+    <dl class="ui-dados">
         {% for rotulo, valor in dados %}
             <div><dt>{{ rotulo }}</dt><dd>{{ valor|default:"-" }}</dd></div>
         {% endfor %}
@@ -40,7 +40,7 @@
 
     {% if pessoa.obs %}
         <h3 class="ui-secao-titulo">Observação</h3>
-        <p class="pessoa-obs">{{ pessoa.obs|linebreaksbr }}</p>
+        <p class="ui-obs">{{ pessoa.obs|linebreaksbr }}</p>
     {% endif %}
 
     <h3 class="ui-secao-titulo">Contatos</h3>

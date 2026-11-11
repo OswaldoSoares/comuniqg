@@ -1,6 +1,7 @@
 import pytest
 from django.urls import reverse
 
+from account.models import Account
 from conftest import EMAIL_TESTE, SENHA_TESTE
 
 pytestmark = pytest.mark.django_db
@@ -88,3 +89,16 @@ def test_tela_interna_exige_login(client, nome, args):
     response = client.get(url)
     assert response.status_code == 302
     assert response["Location"] == f"{reverse('login')}?next={url}"
+
+
+def test_usuario_comum_entra_nos_servicos(client, db):
+    # Antes a tela exigia o papel module_servicos e o usuário sem ele
+    # ficava num loop entre /servicos/ e o login
+    Account.objects.create_user("comum@empresa.com.br", SENHA_TESTE)
+    response = client.post(
+        reverse("login"),
+        {"username": "comum@empresa.com.br", "password": SENHA_TESTE},
+        follow=True,
+    )
+    assert response.status_code == 200
+    assert response.redirect_chain == [(reverse("index_servico"), 302)]

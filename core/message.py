@@ -13,4 +13,28 @@ mensagens = {
         "mensagem": "{funcao} {apelido} ALTERADO COM SUCESSO.",
         "tipo": "success",
     },
+    "acus0001": {
+        "mensagem": "USUÁRIO {email} ADICIONADO COM SUCESSO.",
+        "tipo": "success",
+    },
+    "acus0002": {
+        "mensagem": "USUÁRIO {email} ALTERADO COM SUCESSO.",
+        "tipo": "success",
+    },
+    "acus0003": {
+        "mensagem": "SENHA DE {email} ALTERADA COM SUCESSO.",
+        "tipo": "success",
+    },
+    "acus0004": {
+        "mensagem": "USUÁRIO {email} ATIVADO.",
+        "tipo": "success",
+    },
+    "acus0005": {
+        "mensagem": "USUÁRIO {email} INATIVADO. ELE NÃO CONSEGUE MAIS ENTRAR.",
+        "tipo": "warning",
+    },
+    "acus0006": {
+        "mensagem": "VOCÊ NÃO PODE INATIVAR O SEU PRÓPRIO USUÁRIO.",
+        "tipo": "error",
+    },
 }
