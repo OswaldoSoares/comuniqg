@@ -102,7 +102,9 @@ USE_TZ = True
 br_formats.DATE_FORMAT = "d/m/Y"
 
 ROLEPERMISSIONS_MODULE = "comuniqg.roles"
-ROLEPERMISSIONS_REDIRECT_TO_LOGIN = True
+# Sem a permissão, 403 em vez de mandar para o login: o login devolve quem
+# já está logado para a tela pedida e isso virava um loop de redirecionamento
+ROLEPERMISSIONS_REDIRECT_TO_LOGIN = False
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "index_servico"
