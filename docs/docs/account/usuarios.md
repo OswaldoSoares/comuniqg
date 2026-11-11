@@ -2,6 +2,13 @@
 
 O login é feito pelo **e-mail** e pela senha (`/account/login`). Não há tela de autocadastro: os usuários são criados por um administrador.
 
+## O que cada usuário acessa
+
+- **Usuário comum**: todas as telas do sistema (serviços, faturamento, cadastro, tabelas) e a [minha senha](#minha-senha).
+- **Administrador** (superusuário): também a [tela de usuários](#tela-de-usuarios) e o `/admin/`.
+
+As telas usam `login_required`; só a tela de usuários usa [`administrador_required`](decorators/administrador_required.md). O pacote django-role-permissions continua instalado, mas nenhuma tela usa papéis; com `ROLEPERMISSIONS_REDIRECT_TO_LOGIN = False`, uma permissão que falte devolve 403 em vez de mandar para o login.
+
 ## Tela de usuários
 
 Endereço `/account/usuarios/`, link **USUÁRIOS** no menu. Só administradores (superusuários) veem o link e abrem a tela; os outros recebem 403.
