@@ -27,22 +27,19 @@ Formulário da tela "Adicionar usuário" do admin: e-mail e senha.
 ## Código da Função
 
 ```{py3 linenums="1"}
-class AccountCreationForm(forms.UserCreationForm):
+class AccountCreationForm(auth_forms.UserCreationForm):
     """Adicionar usuário no admin: e-mail (o login) e senha.
 
     O username, herdado do Django, recebe o próprio e-mail.
     """
 
-    class Meta(forms.UserCreationForm.Meta):
+    class Meta(auth_forms.UserCreationForm.Meta):
         model = Account
         fields = ("email",)
         field_classes: ClassVar[dict] = {}
 
     def clean_email(self):
-        email = self.cleaned_data["email"].strip().lower()
-        if Account.objects.filter(email__iexact=email).exists():
-            raise ValidationError("Já existe um usuário com este e-mail.")
-        return email
+        return _email_livre(self.cleaned_data["email"])
 
     def save(self, commit=True):
         usuario = super().save(commit=False)

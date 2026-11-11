@@ -22,15 +22,52 @@ nav:
   - Padrão visual: padrao-visual.md
   - Módulos:
       - Core:
+          - JavaScript (ui.js): core/ui-js.md
           - Tools:
               - core/tools/get_mensagem.md
       - Account:
           - Usuários: account/usuarios.md
           - Models:
               - account/models/AccountManager.md
+          - Decorators:
+              - account/decorators/administrador_required.md
           - Forms:
+              - account/forms/_email_livre.md
+              - account/forms/UsuarioForm.md
+              - account/forms/NovoUsuarioForm.md
+              - account/forms/SenhaUsuarioForm.md
+              - account/forms/MinhaSenhaForm.md
               - account/forms/AccountCreationForm.md
               - account/forms/LoginForm.md
+          - Facade:
+              - account/facade/obter_filtro.md
+              - account/facade/obter_id.md
+              - account/facade/get_usuarios.md
+              - account/facade/create_contexto_usuarios.md
+              - account/facade/create_contexto_usuario.md
+              - account/facade/create_data_usuarios.md
+              - account/facade/create_data_usuario.md
+              - account/facade/get_usuario_or_none.md
+              - account/facade/_form_usuario.md
+              - account/facade/modal_usuario.md
+              - account/facade/_resposta_lista.md
+              - account/facade/save_usuario.md
+              - account/facade/modal_senha.md
+              - account/facade/save_senha.md
+              - account/facade/alterar_situacao_usuario.md
+          - Views:
+              - account/views/index_usuarios.md
+              - account/views/usuarios_lista.md
+              - account/views/usuario_consulta.md
+              - account/views/usuario_form.md
+              - account/views/usuario_senha.md
+              - account/views/usuario_situacao.md
+          - HTML data:
+              - account/html_data/html_card_usuarios.md
+              - account/html_data/html_card_usuario.md
+              - account/html_data/html_modal_usuario.md
+              - account/html_data/html_modal_senha.md
+          - JavaScript: account/javascript.md
       - Clientes e fornecedores:
           - clientes/index.md
           - Facade:

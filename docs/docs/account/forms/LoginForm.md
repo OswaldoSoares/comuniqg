@@ -24,7 +24,7 @@ Formulário de login por e-mail (o `Account` usa `USERNAME_FIELD = "email"`). Us
 ## Código da Função
 
 ```{py3 linenums="1"}
-class LoginForm(forms.AuthenticationForm):
+class LoginForm(auth_forms.AuthenticationForm):
     """Formulário de login por e-mail (USERNAME_FIELD do Account)."""
 
     error_messages: ClassVar[dict] = {
