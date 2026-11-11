@@ -1,28 +1,28 @@
-<form class="ui-form pessoa-form" method="post" action="{% url 'pessoa_form' %}">
+<form class="ui-form ui-form-grid" method="post" action="{% url 'pessoa_form' %}">
     {% csrf_token %}
     {% if pessoa %}
         <input type="hidden" name="id_pessoa" value="{{ pessoa.idpessoa }}">
     {% endif %}
-    {% include "clientes/components/campo.html" with campo=form.tipo largura=3 %}
-    {% include "clientes/components/campo.html" with campo=form.funcao largura=3 %}
-    {% include "clientes/components/campo.html" with campo=form.apelido largura=6 %}
+    {% include "core/components/campo.html" with campo=form.tipo largura=3 %}
+    {% include "core/components/campo.html" with campo=form.funcao largura=3 %}
+    {% include "core/components/campo.html" with campo=form.apelido largura=6 %}
 
-    {% include "clientes/components/campo.html" with campo=form.nome largura=6 %}
+    {% include "core/components/campo.html" with campo=form.nome largura=6 %}
     {# Documentos: o clientes.js mostra só os do tipo escolhido #}
-    {% include "clientes/components/campo.html" with campo=form.cnpj largura=3 tipo="J" %}
-    {% include "clientes/components/campo.html" with campo=form.ie largura=3 tipo="J" %}
-    {% include "clientes/components/campo.html" with campo=form.cpf largura=3 tipo="F" %}
-    {% include "clientes/components/campo.html" with campo=form.rg largura=3 tipo="F" %}
+    {% include "core/components/campo.html" with campo=form.cnpj largura=3 grupo="J" %}
+    {% include "core/components/campo.html" with campo=form.ie largura=3 grupo="J" %}
+    {% include "core/components/campo.html" with campo=form.cpf largura=3 grupo="F" %}
+    {% include "core/components/campo.html" with campo=form.rg largura=3 grupo="F" %}
 
-    {% include "clientes/components/campo.html" with campo=form.endereco largura=6 %}
-    {% include "clientes/components/campo.html" with campo=form.bairro largura=3 %}
-    {% include "clientes/components/campo.html" with campo=form.cep largura=3 %}
+    {% include "core/components/campo.html" with campo=form.endereco largura=6 %}
+    {% include "core/components/campo.html" with campo=form.bairro largura=3 %}
+    {% include "core/components/campo.html" with campo=form.cep largura=3 %}
 
-    {% include "clientes/components/campo.html" with campo=form.cidade largura=4 %}
-    {% include "clientes/components/campo.html" with campo=form.estado largura=2 %}
-    {% include "clientes/components/campo.html" with campo=form.site largura=6 %}
+    {% include "core/components/campo.html" with campo=form.cidade largura=4 %}
+    {% include "core/components/campo.html" with campo=form.estado largura=2 %}
+    {% include "core/components/campo.html" with campo=form.site largura=6 %}
 
-    {% include "clientes/components/campo.html" with campo=form.obs largura=12 %}
+    {% include "core/components/campo.html" with campo=form.obs largura=12 %}
     {# Permite salvar com Enter; o botão visível fica no rodapé do modal #}
     <button type="submit" class="ui-submit-oculto" tabindex="-1" aria-hidden="true"></button>
 </form>

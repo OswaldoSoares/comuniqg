@@ -1,36 +1,5 @@
-// Cadastro de clientes e fornecedores (clientes/index.html)
-
-// Como executarAjax (ajax.js), mas sem voltar ao topo da página,
-// para não perder a posição na lista ao abrir um cadastro
-function pessoasAjax(url, type, data, sucessoCallback) {
-    $.ajax({
-        type: type,
-        url: url,
-        data: data,
-        beforeSend: function() {
-            $(".box-loader").show();
-        },
-        success: function(response) {
-            $(".box-loader").hide();
-            sucessoCallback(response);
-        },
-        error: function(error) {
-            console.log("ERROR: ", error);
-            $(".box-loader").hide();
-            mostrarToast("Não foi possível concluir a operação.", "error");
-        }
-    });
-}
-
-// Sessão expirada: o Django devolve a tela de login (HTML) em vez do JSON.
-// Recarregar a página leva ao login e, depois dele, de volta para cá.
-function pessoasSessaoExpirada(data) {
-    if (typeof data !== "object") {
-        window.location.reload();
-        return true;
-    }
-    return false;
-}
+// Cadastro de clientes e fornecedores (clientes/index.html).
+// Ajax e modal vêm de ui.js.
 
 function pessoasFiltro() {
     return $(".js-pessoas").attr("data-filtro") || "";
@@ -40,7 +9,7 @@ function pessoasMarcaFiltro(filtro) {
     $(".js-pessoas").attr("data-filtro", filtro);
     $(".js-pessoa-filtro").each(function() {
         var ativo = $(this).data("filtro") === filtro;
-        $(this).toggleClass("pessoas-filtro-ativo", ativo);
+        $(this).toggleClass("ui-filtro-ativo", ativo);
         $(this).attr("aria-pressed", ativo ? "true" : "false");
     });
 }
@@ -86,7 +55,7 @@ function pessoasCarrega() {
             id_pessoa: pessoasSelecionada(),
         },
         success: function(data) {
-            if (numero !== pessoasRequisicao || pessoasSessaoExpirada(data)) {
+            if (numero !== pessoasRequisicao || uiSessaoExpirada(data)) {
                 return;
             }
             pessoasAtualiza(data);
@@ -115,8 +84,8 @@ $(document).on("input", ".js-pessoa-busca", function() {
 $(document).on("click", ".js-pessoa-selecionar", function() {
     var linha = $(this);
     var id = linha.data("id_pessoa");
-    pessoasAjax(linha.data("url"), "GET", {id_pessoa: id}, function(data) {
-        if (pessoasSessaoExpirada(data)) {
+    uiAjax(linha.data("url"), "GET", {id_pessoa: id}, function(data) {
+        if (uiSessaoExpirada(data)) {
             return;
         }
         $(".js-pessoa-selecionar").removeClass("ui-linha-ativa");
@@ -142,83 +111,39 @@ function pessoaMascaras(modal) {
 // ou CPF e RG (física)
 function pessoaTipo(modal) {
     var tipo = modal.find("[name=tipo]").val();
-    modal.find(".js-pessoa-tipo").each(function() {
-        $(this).prop("hidden", $(this).data("tipo") !== tipo);
+    modal.find(".js-campo-grupo").each(function() {
+        $(this).prop("hidden", $(this).data("grupo") !== tipo);
     });
 }
 
-// Foca o primeiro campo com erro ou, se não houver erro, o primeiro campo
-function pessoaFocaCampo(modal) {
-    var form = modal.find(".modal-body form");
-    var campos = form.find(".errorlist").first().closest(".pessoa-campo").find("input, select, textarea");
-    if (!campos.length) {
-        campos = form.find("input:visible, select:visible");
-    }
-    campos.first().trigger("focus");
-}
-
-function pessoaSubmit(modal) {
-    var form = modal.find(".modal-body form");
+// Máscaras e documentos do tipo; refeito quando o form volta com erro
+function pessoaPreparaForm(modal) {
     pessoaMascaras(modal);
     pessoaTipo(modal);
-    form.on("change", "[name=tipo]", function() {
+    modal.find("[name=tipo]").on("change", function() {
         pessoaTipo(modal);
-    });
-    modal.find(".modal-footer .btn-save").off("click").on("click", function() {
-        form.trigger("submit");
-    });
-    form.on("submit", function(event) {
-        event.preventDefault();
-        var dados = form.serialize() + "&" + $.param({filtro: pessoasFiltro()});
-        pessoasAjax(form.attr("action"), "POST", dados, function(data) {
-            if (pessoasSessaoExpirada(data)) {
-                return;
-            }
-            if (data["html_form"]) {
-                modal.find(".modal-body").html(data["html_form"]);
-                pessoaSubmit(modal);
-                pessoaFocaCampo(modal);
-            } else {
-                modal.modal("hide");
-                pessoasAtualiza(data);
-            }
-        });
     });
 }
 
 $(document).on("click", ".js-pessoa-abrir", function() {
     var botao = $(this);
-    var modal = $("#MyModal");
     var requestData = {};
     if (botao.data("id_pessoa")) {
         requestData["id_pessoa"] = botao.data("id_pessoa");
     }
-    pessoasAjax(botao.data("url"), "GET", requestData, function(data) {
-        if (pessoasSessaoExpirada(data)) {
+    uiAjax(botao.data("url"), "GET", requestData, function(data) {
+        if (uiSessaoExpirada(data)) {
             return;
         }
-        // Ícones só neste modal; os outros trocam título e botão com .text()
-        var icone = botao.data("id_pessoa") ? "bi-pencil-square" : "bi-person-plus";
-        modal.find(".modal-title").empty().append(
-            $("<i>").addClass("bi " + icone),
-            $("<span>").text(botao.data("title"))
-        );
-        modal.find(".modal-footer .btn-save").empty().append(
-            $("<i>").addClass("bi bi-check-lg"),
-            $("<span>").text("SALVAR")
-        );
-        modal.find(".modal-body").html(data["modal_html"]);
-        pessoaSubmit(modal);
-        // O Bootstrap foca o próprio modal ao terminar de abrir,
-        // então o foco no campo só pode ser dado depois disso
-        modal.off("shown.bs.modal.pessoa").one("shown.bs.modal.pessoa", function() {
-            pessoaFocaCampo(modal);
+        uiModalAbre({
+            titulo: botao.data("title"),
+            icone: botao.data("id_pessoa") ? "bi-pencil-square" : "bi-person-plus",
+            html: data["modal_html"],
+            aoCarregar: pessoaPreparaForm,
+            dadosExtras: function() {
+                return {filtro: pessoasFiltro()};
+            },
+            aoSalvar: pessoasAtualiza,
         });
-        // Layout largo e centralizado só para este modal (clientes.css)
-        modal.addClass("modal-pessoa");
-        modal.off("hidden.bs.modal.pessoa").one("hidden.bs.modal.pessoa", function() {
-            modal.removeClass("modal-pessoa");
-        });
-        modal.modal("show");
     });
 });

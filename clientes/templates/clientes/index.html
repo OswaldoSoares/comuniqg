@@ -3,8 +3,8 @@
 
 {% block main %}
 <link rel="stylesheet" href="{% static 'core/css/clientes.css' %}">
-<main class="clientes-pagina">
-<div class="clientes-coluna">
+<main class="ui-lista-detalhe">
+<div class="ui-coluna">
     <section class="ui-card card-pessoas js-pessoas"
              data-url-lista="{% url 'pessoas_lista' %}"
              data-filtro="{{ filtro }}"
@@ -23,18 +23,18 @@
             </div>
         </header>
 
-        <div class="pessoas-barra">
-            <div class="pessoas-filtros" role="group" aria-label="Filtrar por função">
+        <div class="ui-barra-filtros">
+            <div class="ui-filtros" role="group" aria-label="Filtrar por função">
                 {% for valor, rotulo in filtros %}
                     <button type="button"
-                            class="ui-btn ui-btn-secundario js-pessoa-filtro{% if valor == filtro %} pessoas-filtro-ativo{% endif %}"
+                            class="ui-btn ui-btn-secundario js-pessoa-filtro{% if valor == filtro %} ui-filtro-ativo{% endif %}"
                             data-filtro="{{ valor }}"
                             aria-pressed="{% if valor == filtro %}true{% else %}false{% endif %}">
                         {{ rotulo }}
                     </button>
                 {% endfor %}
             </div>
-            <label class="pessoas-busca">
+            <label class="ui-busca">
                 <i class="bi bi-search"></i>
                 <input type="search" class="form-control js-pessoa-busca"
                        placeholder="Buscar por apelido, nome, CNPJ ou CPF"
@@ -48,7 +48,7 @@
         </div>
     </section>
 </div>
-<div class="clientes-coluna">
+<div class="ui-coluna">
     <article class="card-pessoa">
         {% include "clientes/components/pessoa.html" %}
     </article>

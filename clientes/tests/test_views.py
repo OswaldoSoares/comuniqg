@@ -230,8 +230,8 @@ def test_get_form_novo_abre_o_modal(client_logado):
     data = client_logado.get(reverse("pessoa_form")).json()
     assert 'name="apelido"' in data["modal_html"]
     assert '<option value="J" selected>JURÍDICA</option>' in data["modal_html"]
-    assert 'data-tipo="J"' in data["modal_html"]
-    assert 'data-tipo="F"' in data["modal_html"]
+    assert 'data-grupo="J"' in data["modal_html"]
+    assert 'data-grupo="F"' in data["modal_html"]
     assert 'name="id_pessoa"' not in data["modal_html"]
 
 
