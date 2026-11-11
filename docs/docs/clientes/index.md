@@ -16,7 +16,7 @@ Cadastro da tabela `pessoa` (do Delphi), no padrão de tela de veículos do proj
 
 ## Modal (novo e alterar)
 
-- Centralizado, com 960px e visual `ui-*` (classe `modal-pessoa`, posta pelo `clientes.js`). Os outros modais do sistema não mudam.
+- Centralizado, com 960px e visual `ui-*` (classe `modal-ui`, posta por `uiModalAbre` em [`ui.js`](../core/ui-js.md)). Os modais das telas antigas não mudam.
 - Primeira linha: **Pessoa** (jurídica ou física), **Função** (cliente ou fornecedor) e **Apelido**.
 - Jurídica mostra CNPJ e Inscrição estadual; física mostra CPF e RG.
 - Ao salvar, a lista vai para o filtro da função salva, a busca é limpa e a pessoa salva abre no card de detalhes.
@@ -53,8 +53,7 @@ Todas exigem login. Mensagens em `core/message.py`: `clca0001` (adicionado) e `c
 | `clientes/templates/clientes/index.html` | página |
 | `clientes/templates/clientes/components/pessoas.html` | lista |
 | `clientes/templates/clientes/components/pessoa.html` | card de detalhes |
-| `clientes/templates/clientes/components/campo.html` | um campo do modal |
-| `clientes/templates/clientes/modal_pessoa.html` | formulário do modal |
+| `clientes/templates/clientes/modal_pessoa.html` | formulário do modal (campos com `core/components/campo.html`) |
 | `core/static/core/js/clientes.js` | [comportamento da tela](javascript.md) |
-| `core/static/core/css/clientes.css` | layout, card de detalhes e modal |
+| `core/static/core/css/clientes.css` | selos cliente/fornecedor e contatos (a base vem de [`ui-cadastro.css`](../padrao-visual.md#telas-de-cadastro)) |
 | `clientes/tests/` | testes do form e das views |
