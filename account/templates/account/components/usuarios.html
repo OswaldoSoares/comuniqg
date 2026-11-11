@@ -1,0 +1,48 @@
+<p class="ui-total">
+    {{ total }} usuário{{ total|pluralize }}{% if busca %} encontrado{{ total|pluralize }} para "{{ busca }}"{% endif %}
+</p>
+{% if usuarios %}
+    <div class="ui-tabela-wrap">
+        <table class="ui-tabela ui-tabela-cards">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Situação</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in usuarios %}
+                    <tr class="ui-clicavel js-usuario-selecionar{% if item.pk == id_usuario %} ui-linha-ativa{% endif %}"
+                        data-url="{% url 'usuario_consulta' %}"
+                        data-id_usuario="{{ item.pk }}">
+                        <td data-label="Nome" class="ui-forte">
+                            {{ item.get_full_name|default:"-" }}
+                            {% if item.is_superuser %}<span class="ui-badge usuario-admin">Admin</span>{% endif %}
+                        </td>
+                        <td data-label="E-mail">{{ item.email }}</td>
+                        <td data-label="Situação">
+                            {% if item.is_active %}
+                                <span class="ui-badge usuario-ativo">Ativo</span>
+                            {% else %}
+                                <span class="ui-badge">Inativo</span>
+                            {% endif %}
+                        </td>
+                        <td class="ui-acoes">
+                            <button type="button" class="ui-btn-icone"
+                                    title="Abrir" aria-label="Abrir {{ item.email }}">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="ui-vazio">
+        <i class="bi bi-person-x"></i>
+        <p>Nenhum usuário encontrado.</p>
+    </div>
+{% endif %}

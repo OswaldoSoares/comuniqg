@@ -123,6 +123,13 @@
     color: var(--ui-texto-2);
 }
 
+/* Texto de ajuda abaixo de um campo ou do formulário */
+.ui-ajuda {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: var(--ui-texto-2);
+}
+
 /* Formulário do modal em 12 colunas; uma coluna no celular */
 .ui-form-grid {
     display: grid;
@@ -316,6 +323,13 @@
     border-color: var(--ui-destaque);
     box-shadow: 0 0 0 3px rgba(255, 212, 51, 0.18);
     outline: none;
+}
+
+.modal-ui .ui-form .form-control[disabled] {
+    background-color: #2b2b2b;
+    color: var(--ui-texto-2);
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .modal-ui .ui-form select.form-control option {

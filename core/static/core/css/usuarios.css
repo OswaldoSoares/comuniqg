@@ -1,0 +1,13 @@
+/* Tela de usuários: o que é só desta tela.
+   A base (lista, detalhe, modal) fica em ui-cadastro.css. */
+
+/* Selos: a cor acompanha o texto, nunca sozinha */
+.usuario-ativo {
+    --ui-badge-cor: #199e70;
+}
+
+.usuario-admin {
+    --ui-badge-cor: var(--ui-destaque);
+    margin-left: 6px;
+    font-weight: 400;
+}

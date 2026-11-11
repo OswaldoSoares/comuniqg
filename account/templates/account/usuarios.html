@@ -1,0 +1,64 @@
+{% extends 'core/base_restrito.html' %}
+{% load static %}
+
+{% block main %}
+<link rel="stylesheet" href="{% static 'core/css/usuarios.css' %}">
+<main class="ui-lista-detalhe">
+<div class="ui-coluna">
+    <section class="ui-card js-usuarios"
+             data-url-lista="{% url 'usuarios_lista' %}"
+             data-filtro="{{ filtro }}"
+             data-id_usuario="{{ id_usuario|default:'' }}">
+        {# Token para o POST de ativar/inativar (usuarios.js) #}
+        {% csrf_token %}
+        <header class="ui-card-header">
+            <div>
+                <h2 class="ui-card-titulo">Usuários</h2>
+                <p class="ui-card-subtitulo">Quem pode entrar no sistema</p>
+            </div>
+            <div class="ui-card-acoes">
+                <button type="button" class="ui-btn ui-btn-primario js-usuario-abrir"
+                        data-url="{% url 'usuario_form' %}"
+                        data-title="NOVO USUÁRIO"
+                        data-icone="bi-person-plus">
+                    <i class="bi bi-plus-lg"></i> Novo usuário
+                </button>
+            </div>
+        </header>
+
+        <div class="ui-barra-filtros">
+            <div class="ui-filtros" role="group" aria-label="Filtrar por situação">
+                {% for valor, rotulo in filtros %}
+                    <button type="button"
+                            class="ui-btn ui-btn-secundario js-usuario-filtro{% if valor == filtro %} ui-filtro-ativo{% endif %}"
+                            data-filtro="{{ valor }}"
+                            aria-pressed="{% if valor == filtro %}true{% else %}false{% endif %}">
+                        {{ rotulo }}
+                    </button>
+                {% endfor %}
+            </div>
+            <label class="ui-busca">
+                <i class="bi bi-search"></i>
+                <input type="search" class="form-control js-usuario-busca"
+                       placeholder="Buscar por nome ou e-mail"
+                       value="{{ busca|default:'' }}" autocomplete="off"
+                       aria-label="Buscar usuário">
+            </label>
+        </div>
+
+        <div class="card-usuarios-lista">
+            {% include "account/components/usuarios.html" %}
+        </div>
+    </section>
+</div>
+<div class="ui-coluna">
+    <article class="card-usuario">
+        {% include "account/components/usuario.html" %}
+    </article>
+</div>
+</main>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'core/js/usuarios.js' %}"></script>
+{% endblock %}

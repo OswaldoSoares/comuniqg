@@ -1,0 +1,19 @@
+<form class="ui-form ui-form-grid" method="post" action="{% url 'usuario_form' %}">
+    {% csrf_token %}
+    {% if usuario %}
+        <input type="hidden" name="id_usuario" value="{{ usuario.pk }}">
+    {% endif %}
+    {% include "core/components/campo.html" with campo=form.first_name largura=4 %}
+    {% include "core/components/campo.html" with campo=form.last_name largura=5 %}
+    {% include "core/components/campo.html" with campo=form.is_superuser largura=3 %}
+    {% include "core/components/campo.html" with campo=form.email largura=12 %}
+    {% if form.senha1 %}
+        {% include "core/components/campo.html" with campo=form.senha1 largura=6 %}
+        {% include "core/components/campo.html" with campo=form.senha2 largura=6 %}
+        <p class="ui-campo ui-campo-12 ui-ajuda">
+            Mínimo de 8 caracteres; não pode ser só números, uma senha comum ou parecida com o nome ou o e-mail.
+        </p>
+    {% endif %}
+    {# Permite salvar com Enter; o botão visível fica no rodapé do modal #}
+    <button type="submit" class="ui-submit-oculto" tabindex="-1" aria-hidden="true"></button>
+</form>
